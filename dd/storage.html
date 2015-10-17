@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>stroage事件</title>
+<script>
+    
+    window.onload = function(){
+        var data = {
+            method: "log_search_click", // 这个保持不变
+            click_data:{
+                did: "F0AC4CF2-1988-4583-B480-E720073342F2",
+                search:[
+                   {
+                     query:"葡萄酒",
+                     from:"hotQueries",
+                     click:[
+                        {
+                            url:"http://tastespirit.com/p/9205.html",
+                            pos:1
+                        },
+                        {
+                            url:"http://tastespirit.com/p/25809.html",
+                            pos:5
+                        }
+                     ]
+                   },
+                   {
+                    query:"毛衣",
+                    from:"searchResult",
+                    click:[
+                        {
+                            url:"http://dongxi.douban.com/article/1006214/",
+                            pos:4
+                        },
+                        {
+                            url:"http://c.diaox2.com/view/app/?m=show&id=3124",
+                            pos:7
+                        }
+                    ]
+                   }
+                ]
+            }
+        }
+        var oBtn = document.getElementById('btn')
+        var oIn = document.getElementById('in')
+        var pos = 0
+        oBtn.onclick = function(e){
+            // alert(data.click_data.did)
+            var searchArr = data.click_data.search;
+            var val = oIn.value;
+            var storage = sessionStorage;
+            if(val){
+                // var clickEle = {}
+                // clickEle.url = val;
+                // clickEle.pos = pos++;
+                // searchArr.push(clickEle);
+                storage.setItem('statisticsData',JSON.stringify(data));
+                console.log(storage.getItem('statisticsData'));
+            }
+            oIn.value = ''
+        }
+
+
+    }
+
+</script>
+</head>
+<body>
+    <input type="text" id="in"><br>
+    <input type="button" id="btn" value="点击我">
+</body>
+</html>

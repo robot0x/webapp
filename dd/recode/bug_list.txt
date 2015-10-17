@@ -1,0 +1,9 @@
+1、IE89下获取点赞收藏数跨域问题              更改后端接口，前端使用jsonp
+2、placeholder windows chrome 居中问题    更改样式（所有都要更新）
+3、
+http://115.28.38.122/pc/images/bottombar.png             正确
+http://115.28.38.122/pc/article/images/bottombar.png     错误
+
+http://115.28.38.122/pc/article/3289.html      
+
+../images/bottombar.png          

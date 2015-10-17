@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+
+<script>
+    var oBody = document.body;
+    oBody.onunload = function(){
+        console.log('onunload')
+    }
+    oBody.onload = function(){
+        console.log('onload')
+    }
+    oBody.onbeforeunload = function(){
+        console.log('onbeforeunload')
+    }
+</script>    
+</body>
+</html>

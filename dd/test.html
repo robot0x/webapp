@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="renderer" content="webkit|ie-stand">
+<title>测试</title>
+<style>
+      .box{
+        height: 200px;
+        width: 200px;
+        background: #eee;
+
+        display: -ms-box;
+        display: -webkit-box;
+        display: box;
+        
+        -ms-box-align:center;
+        -webkit-box-align:center;
+        box-align:center;
+        
+        -webkit-box-pack:center;
+        -ms-box-pack:center;
+        box-pack:center;
+    }
+    .flex{
+        display: -webkit-flex;
+        display: -ms-flex;
+        display: flex;
+
+        width: 200px;
+        height: 200px;
+        background: #efefef;
+        margin-top: 20px;
+
+        -webkit-align-items:center;
+        -ms-align-items:center;
+        align-items:center;
+
+        -webkit-justify-content:center;
+        -ms-justify-content:center;
+        justify-content:center;
+    }
+  .a{
+    width: 200px;
+    overflow: hidden;
+    background:#369;
+    color:#e60012;
+    display: table-cell;
+    vertical-align: middle;
+    height: 32px;
+    text-align: center;
+}
+.a div{
+    max-height: 32px;
+    overflow: hidden;
+}
+@media screen\0 {.a div { background: green; }}
+</style></head><body>
+ <div class="a">
+     <div>
+         一行文字一行文字一  
+         一行文字一行文字一  
+     </div>
+ </div>
+ <div class="box" id="box">
+     一行文字box
+ </div>
+ <div class="flex">
+     一行文字flex
+ </div>
+ <script type="text/javascript" src="js/jquery.js"></script>
+ <script type="text/javascript" src="js/DDAjax.js"></script>
+ <script type="text/javascript" src="js/GetNum.js"></script>
+ <script>
+   // window.onload = function(){
+   //    var box = document.getElementById('box');
+   //    /*
+   //     利用IE浏览器能识别注释节点中的元素节点的特性并结合IE的官方HACK，来判断浏览器是否是IE，且能判断版本
+   //     注意：只能判断低版本浏览器，如 IE5 IE6 IE7 IE8 IE9
+   //          IE10 IE11 Edge浏览器无法获得正确结果。
+   //     判断是否是IE浏览器：直接调用方法即可
+   //     判断是否是某个版本的IE浏览器：调用方法并把版本号传入.
+   //                              例如判断是否是IE8:isIE(8)
+   //                              判断是否是IE9:isIE(9)
+   //    */
+   //    var isIE = function(ver){
+   //      var b = document.createElement("b");
+   //      b.innerHTML = "<!--[if IE "+ver+"]><i></i><![end if]-->"
+   //      return b.getElementsByTagName('i').length === 1;
+   //    }
+   //    box.onclick = function(){
+   //         console.log("isIE11:"+isIE(11));
+   //         console.log("isIE10:"+isIE(10));
+   //         console.log("isIE9:"+isIE(9));
+   //         console.log("isIE8:"+isIE(8));
+   //         console.log("isIE7:"+isIE(7));
+   //         console.log("isIE5:"+isIE(5));
+   //         console.log("isIE:"+isIE());
+   //    }
+   // }
+
+    // function test(){
+    //     // console.log(test.caller);
+    //     // console.log(arguments.callee)
+    //     function test2(){
+    //       console.log(test2.caller);
+    //       // console.log(typeof test2.caller);
+    //     }
+    //     test2();
+    // }
+    // test();
+    // setTimeout(function(){
+    //     console.log(arguments.callee);
+    //     setTimeout(arguments.callee,4000);
+    // },4000)
+// function* genFunc () {
+//     console.log('step 1')
+//     yield 1
+//     console.log('step 2')
+//     yield 2
+//     console.log('step 3')
+//     return 3
+// }
+// var gen = genFunc();
+// var ret = gen.next() // 输出: 'step 1'
+// console.log(ret.value) // 1
+// console.log(ret.done) // false
+// console.log("\n")
+
+// ret = gen.next();
+// console.log(ret.value);
+// console.log(ret.done);
+// console.log("\n")
+
+// ret = gen.next();
+// console.log(ret.value);
+// console.log(ret.done);
+// 发送的ajax都需要使用 encodeURIComponent() 编码，因为参数可能含有函数
+new GetNum({
+    className:"unknown",
+    // http://api.diaox2.com/v1/stat/all?cb=cb&data=%7B%22aids%22%3A%5B13640816135272%5D%7D
+    url:"http://api.diaox2.com/v1/stat/all"
+    // 13640816135272
+},function(){
+  console.log("success");
+}).getStat();
+ </script>
+</body>
+</html>

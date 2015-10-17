@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name=viewport content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>判断设备</title>
+<script>
+window.onload = function(){
+    var UA = navigator.userAgent
+    console.log(UA)
+    try{
+var b = a + a ;
+    }catch(e){
+        console.log(e)
+    }
+    
+    var eleFrag = document.createDocumentFragment()
+    if( /iphone|mobile|phone/i.test(UA) ){
+        var p = document.createElement('p')
+        var p2 = document.createElement('p')
+        var p3 = document.createElement('p')
+        var p4 = document.createElement('p')
+        var p5 = document.createElement('p')
+        var p6 = document.createElement('p')
+        p.innerHTML = UA
+        p2.innerHTML = 'devicePixelRatio:'+window.devicePixelRatio
+        p3.innerHTML = 'document.documentElement.clientWidth:'+document.documentElement.clientWidth
+        p4.innerHTML = 'document.documentElement.offsetWidth:'+document.documentElement.offsetWidth
+        p5.innerHTML = 'window.innerWidth:'+window.innerWidth
+        p6.innerHTML ='移动设备！'
+        eleFrag.appendChild(p)
+        eleFrag.appendChild(p2)
+        eleFrag.appendChild(p3)
+        eleFrag.appendChild(p4)
+        eleFrag.appendChild(p5)
+        eleFrag.appendChild(p6)
+    } else if(/android/i.test(UA)){
+        // android
+        var p = document.createElement('p')
+        var p2 = document.createElement('p')
+        var p3 = document.createElement('p')
+        var p4 = document.createElement('p')
+        var p5 = document.createElement('p')
+        var p6 = document.createElement('p')
+        p.innerHTML = UA
+        p2.innerHTML = 'devicePixelRatio:'+window.devicePixelRatio
+        p3.innerHTML = 'document.documentElement.clientWidth:'+document.documentElement.clientWidth
+        p4.innerHTML = 'document.documentElement.offsetWidth:'+document.documentElement.offsetWidth
+        p5.innerHTML = 'window.innerWidth:'+window.innerWidth
+        p6.innerHTML ='安卓移动设备！'
+        eleFrag.appendChild(p)
+        eleFrag.appendChild(p2)
+        eleFrag.appendChild(p3)
+        eleFrag.appendChild(p4)
+        eleFrag.appendChild(p5)
+        eleFrag.appendChild(p6)
+    }else if(/pad/i.test(UA)){
+        // android
+        var p = document.createElement('p')
+        var p2 = document.createElement('p')
+        var p3 = document.createElement('p')
+        var p4 = document.createElement('p')
+        var p5 = document.createElement('p')
+        var p6 = document.createElement('p')
+        p.innerHTML = UA
+        p2.innerHTML = 'devicePixelRatio:'+window.devicePixelRatio
+        p3.innerHTML = 'document.documentElement.clientWidth:'+document.documentElement.clientWidth
+        p4.innerHTML = 'document.documentElement.offsetWidth:'+document.documentElement.offsetWidth
+        p5.innerHTML = 'window.innerWidth:'+window.innerWidth
+        p6.innerHTML ='平板移动设备！'
+        eleFrag.appendChild(p)
+        eleFrag.appendChild(p2)
+        eleFrag.appendChild(p3)
+        eleFrag.appendChild(p4)
+        eleFrag.appendChild(p5)
+        eleFrag.appendChild(p6)
+    }else{
+        // android
+        var p = document.createElement('p')
+        var p2 = document.createElement('p')
+        var p3 = document.createElement('p')
+        var p4 = document.createElement('p')
+        var p5 = document.createElement('p')
+        var p6 = document.createElement('p')
+        p.innerHTML = UA
+        p2.innerHTML = 'devicePixelRatio:'+window.devicePixelRatio
+        p3.innerHTML = 'document.documentElement.clientWidth:'+document.documentElement.clientWidth
+        p4.innerHTML = 'document.documentElement.offsetWidth:'+document.documentElement.offsetWidth
+        p5.innerHTML = 'window.innerWidth:'+window.innerWidth
+        p6.innerHTML ='PC设备！'
+        eleFrag.appendChild(p)
+        eleFrag.appendChild(p2)
+        eleFrag.appendChild(p3)
+        eleFrag.appendChild(p4)
+        eleFrag.appendChild(p5)
+        eleFrag.appendChild(p6)
+    }
+    document.body.appendChild(eleFrag)
+
+    var isWirelessDev = /iphone|mobile|phone|android|pad/i.test(UA);
+    // 如果是小屏移动设备，那么就跳转到share页
+    // 大屏移动设备及pc，比如ipad、androidPad、pc还是用pc页
+    if(isWirelessDev && window.innerWidth < 600){
+         window.location.href = 'http://c.diaox2.com/share/'+document.body.id+'.html';
+    }
+  var storage = window.sessionStorage;
+        console.log(storage)
+        storage.setItem('name','liyanfeng')
+        window.addEventListener('storage',function(e){
+            console.log('storage changed ..')
+        })
+        storage.setItem('skill','node')
+}
+</script>
+</head>
+<body>
+ <form method="POST" action="http://data.zz.baidu.com/urls">
+     <input type="hidden" name="token" value="o7u8WYBDw10IHO7p">
+     <input type="text" value="">
+     <input type="submit" value="提交">
+ </form>
+</body>
+</html>

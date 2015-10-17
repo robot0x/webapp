@@ -1,0 +1,37 @@
+1、IE9-不支持addEventListener
+2、IE8-不支持localStorage 和 sessionStorage
+3、IE8-不支持JSON对象
+4、meta 标签的作用
+  meta标签只有4个属性值，name、http-equiv、charset、content
+  其中name、http-equiv是参数名
+  content是参数值
+  meta标签用于告诉浏览器一些有关页面的元信息
+
+  charset是HTML5中的新属性，替换了
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  仍然允许使用http-equiv属性来规定字符集，但是使用新方法可以减少代码量
+  若是charset和http-equiv同时出现，听charset的，若没有charset属性才听http-equiv的
+  在服务器下，模板或服务器会自定义header头，此时定义在页面上的http-equiv可能不起作用了。
+
+  http-equiv的值：
+    content-type
+    expires
+    refresh
+    set-cookie
+
+  name的值：
+    author
+    description
+    keywords
+    generator
+    revised
+    others
+  
+  charset的值：
+    各种编码
+ 在文档中一定要指定charset或http-equiv的值为一个编码，否则的话可能会出现乱码，比如chrome，若文档没有指定编码的话会默认以GBK打开（当然不同浏览器，不同国家这个默认值肯定是不一样的），
+ 若你的html文件编码格式是utf-8的话，就会出现乱码了！
+
+ 乱码出现的本质原因：解码字符集与编码字符集不一致
+ 一个html文档的编码如果是utf-8的话，传输过来的就是以utf-8编码的二进制流，在浏览器端，也要以utf-8来解码这个二进制流，否则会出现乱码
+

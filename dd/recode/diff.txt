@@ -1,0 +1,69 @@
+1、顶部bar的hover效果底下有一点儿没覆盖到，且效果和其他页面不一样。影响所有css。
+  li.current-page:hover{
+     background-color: #363c41;
+     height: 48px;
+     @include transition(all .2s ease-in-out);
+  }
+  .index:hover,.category:hover,.down-app:hover,.login:hover{
+         background-color: #363c41;
+         height: 50px;
+         @include transition(all .2s ease-in-out);
+  }
+2、搜索框中的文字没有居中。影响所有css
+input::-webkit-input-placeholder {
+font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+　　line-height: 16px\9;
+}
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+　　line-height: 16px\9; /* for ie */  
+}
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+　　line-height: 16px\9; /* for ie */  
+}
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+　　line-height: 16px\9; /* for ie */  
+}
+input::placeholder{ //for new
+  font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+　　line-height: 16px\9; /* for ie */  
+}
+input:placeholder{ // for new
+  font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+　　line-height: 16px\9; /* for ie */  
+}
+3、搜索结果标题字号加大2px 影响s-result.css
+4、热搜 改成 大家都在搜 影响 s-result.html
+5、价格的颜色不对 影响s-result.css
+6、热搜效果的hover是反的 影响 s-reslt.css
+7、分类卡片的标题加大2px 影响category.css
+8、点赞、收藏、文章的文字提示 影响 author.html
+
+更新的图片:zc.png，sc.png，share-white.png，bg.jpg，arrow-w.png，arrow.png
+更新的样式:category.css
+
+明天的工作：
+1、index.css 使得搜索放大镜变成pointer        ok
+2、s-result.css 取消keywords的pointer效果    ok
+3、zk.css 卡片标题的 ... 效果                 ok
+   zk.css  zs-box下的项目小手变箭头           ok
+   zk.html 锚点问题                          ok
+4、article.css ul列表右侧没有与其他内容对其      ok
+  article.css zs-box下的项目小手变成 箭头       ok
+  article.html 点击二维码跳转到下载页（_blank）   ok
+5、所有页面的deleteAll去掉                     ok
+6、文章页的两种lift的问题        
+7、category icon的hover特效取消，pointer变箭头，不可点击  category.css category.js     ok   
+8、category菜单奇怪的效果
+9、url的替换问题
+10、scene.css  icon cursor 小手变箭头    ok
+11、所有页面都留一个60px的底部空白 所有css   ok
+12、article，s-result.html 二维码变成样式  影响 markup ，更新css
+13、搜索结果页的url替换   ok
+
+
+
+
+

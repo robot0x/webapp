@@ -1,0 +1,165 @@
+@charset "UTF-8";
+$commonColor:#e60012;
+$fontFamily:"Hiragino Sans GB", "Helvetica Neue", Helvetica, "Microsoft Yahei", heiti, Arial, sans-serif;
+@mixin opacity($value:0){
+	filter:alpha(opacity=$value*100);opacity: $value;
+}
+@mixin marginCenter($value:0){
+	margin:$value auto;
+}
+@mixin border-radius($value:50%){
+  -webkit-border-radius:$value;
+  -moz-border-radius:$value;
+  -ms-border-radius:$value;
+  -o-border-radius:$value;
+  border-radius:$value;
+}
+@mixin transition($value){
+  -webkit-transition: $value;
+  -moz-transition: $value;
+  -ms-transition: $value;
+  -o-transition: $value;
+  transition: $value;
+}
+@mixin transform($value){
+  -webkit-transform: $value;
+  -moz-transform: $value;
+  -ms-transform: $value;
+  -o-transform: $value;
+  transform: $value;
+}
+body{font: 16px/1.5 $fontFamily;color: #14191e;
+// 为了防止登录框弹出遮罩层的高度没有占据100%，让mask相对于body定位
+  position:relative;}
+body,div,p,ul,li,form,input,h1,h2,h3,h4,h5,h6,table,dl,dd,textarea,ol{margin:0;padding:0;}
+ul,li{list-style:none;}
+img{vertical-align: middle;border:none;display:inline-block;}
+a{text-decoration: none;border: none;}
+input{outline:none;border:none;}
+input::-webkit-input-placeholder { /* WebKit browsers */
+font-size:16px;font-family: $fontFamily;line-height: 20px; /* for non-ie */  
+}
+// ok
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+font-size:16px;font-family: $fontFamily;line-height: 19px; /* for non-ie */  
+}
+// ok
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+font-size:16px;font-family: $fontFamily;line-height: 19px; /* for non-ie */  
+}
+// ok
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+}
+// input::placeholder{ //for new
+//   font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+// }
+// input:placeholder{ // for new
+//   font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+// }
+.clearfix:after{content: "";display: table;clear: both;} 
+.f-l{float:left;}
+.f-r{float:right;}
+.disnone{display:none;}
+.disblk{display:block;}
+@media (min-width:0px){
+.loading{position:relative;}
+.loading:after{
+  content: "";
+  position: absolute;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border:2px #ccc solid;
+  border-left: 2px red solid;
+  left: 50%;
+  top: 50%;
+  margin:-12px 0 0 -12px;
+  border-radius: 50%;
+  z-index: -1;
+  -webkit-animation:loading .7s linear infinite;
+  -moz-animation:loading .7s linear infinite;
+  -ms-animation:loading .7s linear infinite;
+  -o-animation:loading .7s linear infinite;
+  animation:loading .7s linear infinite;
+  // for IE9
+  display: none\9\0;
+}
+}
+@-webkit-keyframes loading{from{-webkit-transform:rotate(0);}to{-webkit-transform:rotate(359deg);}}
+@-moz-keyframes loading{from{-moz-transform:rotate(0);}to{-moz-transform:rotate(359deg);}}
+@-ms-keyframes loading{from{-ms-transform:rotate(0);}to{-ms-transform:rotate(359deg);}}
+@-o-keyframes loading{from{-o-transform:rotate(0);}to{-o-transform:rotate(359deg);}}
+@keyframes loading{from{transform:rotate(0);}to{transform:rotate(359deg);}}
+
+// 登录框，所有页面都要使用到
+.mask{
+  background: #000;
+  filter:alpha(opacity=50);
+  opacity: .5;
+  position: absolute;
+  z-index: 9999999;
+  width: 100%;
+  min-height: 100%;
+  left: 0;
+  top: 0;
+}
+.login-box{
+  position: absolute;
+  border-radius: 3px;
+  width: 800px;
+  background: #fff;
+  z-index: 10000000;
+  left: 50%;
+  top: -401px;
+  margin-left: -400px;
+  height: 400px;
+}
+.login-title-p{
+  text-align: center;
+  border-bottom: 1px solid #eee;;
+  line-height: 60px;
+  height: 60px;
+  font-size: 16px;
+}
+.login-close{
+  position: absolute;
+  height: 24px;
+  width:24px;
+  background: url(../images/close.png) center center no-repeat;
+  top:24px;
+  right: 30px;
+  transition:.3s;
+}
+.login-method-container{
+  height: 340px;
+  background: #fff;
+  position: absolute;
+  width: 100%;
+}
+.login-close:hover{
+  transform:rotate(180deg);
+}
+.login-method-list{
+}
+.login-method{
+  position: absolute;
+  top:40px;
+}
+.left{
+  left: 125px;
+}
+.right{
+  right: 125px;
+}
+.login-method p{
+  margin-top: 20px;
+  text-align: center;
+  color:#999;
+}
+::-moz-selection{background:#ff0014;color:#fff;}
+::-webkit-selection{background:#ff0014;color:#fff;}
+::selection{background:#ff0014;color:#fff;}
+.header-box ul.login{
+  // visibility: hidden;
+}

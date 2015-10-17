@@ -1,0 +1,325 @@
+ctrl + d : 选中一个单词 按多次會有神奇的效果
+ctrl + l : 选中一行
+ctrl + shift + m : 选中括号内的所有内容
+shift + R : 按选择器查看
+ctrl + G : 快速跳转到某行
+
+st3 一次选中多行操作
+ 1、按住 shift 然后点击鼠标
+ 2、ctrl + shift + g 选中所有相同文本
+
+ 笔记：
+
+  _name     IE6
+  +name     IE7
+  *name     IE67
+  value\9\0 IE9 10
+  value\9   all IE
+
+
+  IE8 hack
+
+  selector{
+    name:IE8value;
+  }
+  
+  @media (min-width: 0px){selector{name:W3Cvalue;}}
+
+  1、hover 特效要注意间隙hover闪烁问题（因为有小间隙，在鼠标移动时，在小间隙中失去hover）
+
+  2、left top 配合 margin-left、margin-top水平垂直居中要注意，要按照内部盒子的盒子
+  宽高，而不是按照content宽高
+
+  3、IE8下，jq无法劫持img的oerror，所以需要在IE8下使用原生js
+
+  4、IE8、9下，设置defer，可能会导致js顺序不正确。故设置一个defer即可。若互相不依赖可设置多个
+
+  5、在firefox中，图片加载失败会导致图片的容器高度宽度塌陷，有两种解决办法，第一给父容器设置宽度和高度，第二，给img的display设置成inline-block
+
+  6、img的display默认是inline，给img设置成inline-block并不能防止底部间隙
+
+  7、IE9支持圆角、毛玻璃、rgba、阴影、transform(需加ms)。不支持animation和transition，带ms也不行
+
+  8、在IE8中使用 after 和 before 伪元素 必须声明 <!DOCTYPE>
+
+  9、一个绝对定位的元素可以同时设置left、right、top、bottom来让浏览器根据他的containint block来自动计算宽和高(absolute的爆裂天使技能)
+
+  10、明天要图的时候，要的图该多大就是多大，这样能保证最好的兼容性（因为IE8不支持background-size）
+
+  11、IE9不支持运动，就要用gif了
+
+  12、媒体查询 分为页面可视窗口（vp）查询 max-width、min-width 和 设备查询 max-device-width、min-device-width。前者只要改变可视窗口大小包括在pc上退拽浏览器，都会起作用。而设备查询，在pc上拖拽窗口不起作用，只要设备大小满足条件，就会执行里面的布局，而不管可是窗口。
+
+  13、媒体查询的范围是一个闭区间
+
+  14、媒体查询中的and 不能和查询条件 () 的包围括号连写。中间要有空格
+
+  15、针对多个媒体类型的CSS规则，可以用逗号来隔开.
+
+      例如：
+      @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2), 
+      only screen and (max-device-width: 1280px),
+      only screen and (-webkit-min-device-pixel-ratio: 3) and (max-width:1028px)
+  
+  16、only：指定某种特定的媒体类型，可以用来排除不支持媒体查询的浏览器：
+
+  17、IE9 支持 nth-child.
+
+  18、想让图片上的白色文字显示清楚，可以在图片上加一个0.1透明度的黑色蒙层，这样文字
+
+  19、img+span 中间会有间隙（空格引起的），第一种给父元素的font-size:0,然后给span设置font-size，然后设置span的verital-align:middle即可
+
+  20、document.documentElement.clientWidth/document.documentElmenent.clientHeight
+
+      求出的确实是可视区的宽度和高度，虽然document.documentElement.nodeName是HTML
+      
+      求可视区的宽高（IE7+都没问题）
+
+  21、line-height并不能使内部的block块垂直居中。若内部宽的高度是确定的，可用margi-top来垂直居中（但注意：可能需要父元素成为BFC）。
+
+  22、cssText根本没有兼容性问题嘛，360那个面试官是胡说。亲测在IE5下都可以。唯一有问题的是cssText会覆盖掉原来的行内样式，可用cssText+=str来解决，在IE下最后一个;号会被删除，为了最好的兼容性可以使用 cssText+=";"+str
+
+
+  23、\9\0 只有 IE9\IE10 支持
+
+  24、IE8 hack
+
+      a、在普通样式里设置IE8专有样式
+         在如下设置除了IE8以外所有的标准浏览器（包括IE9）
+         @media (min-width:0px){ selector{ } }
+
+      b、在普通样式里设置标准浏览器的样式（包括IE9）
+         在 内设置IE8浏览器的样式@media \0screen\,screen\9{ selector{ } }
+
+  25、IE8/9/10是支持 localStorage 和 sessionStorage的，在本地不支持，需要把网页部署到服务器之后才支持。
+
+  26、405 not allowed 不允许向静态资源发送post请求，常见于使用ajax请求某项静态资源时，指定method为post，改成get即可。
+      406 是指浏览器不接受服务器传过来的MIME类型
+
+  27、跨域专题
+
+      1、目前IE10+的浏览器是支持普通方式的跨域的（即发送一个外域请求，跟发送一个本域请求在代码上没有任何区别），此时，浏览器的request header里包含一个orgin，把本域的域名传过去，服务器若是允许本域跨域，会发送一个access-control-allow-origin，值就是本域（若值为*号，说明了允许所有域跨域）。
+
+      所以在高级浏览器下跨域，需要服务器端进行配置即可。
+      但是在IE9-，你服务器配置的再好，然并卵，因为他们内部的XMLHttpRequest对象发现你请求的是外域的地址，直接就不发送了。
+
+      所以服务器端配置形式的跨域可用在移动端
+
+      在PC端若是不支持IE9-，也可使用服务器端配置形式的跨域
+
+      若是想支持所有浏览器的跨域，就只能用jsonp了。
+
+
+      2、
+
+        同一域名||同一域名不同文件夹                 没有跨域问题
+
+        统一域名不同端口号                           不允许跨域
+
+        同一域名不同协议                             不允许跨域
+
+        一个使用域名一个使用ip即使两者一样           不允许跨域
+
+        主域与子域                                   不允许跨域
+
+        两个子域之间                                 不允许跨域
+
+        不同域名                                     不允许跨域
+
+  28、
+      IE7+已经支持ActiveXObject('Microsoft.XMLHTTP');
+      
+      IE9+就不在支持ActiveXObject对象了
+
+  29、IE8中已经支持JSON.parse和JSON.stringify。需要制定doctype或制定X-UA-Compatible
+
+  30、关于图片加载失败的塌陷问题：
+      a、在chrome和IE下，若加载失败，并且img标签本身没有设置width和height或没有通过css设置其width和height，图片加载失败就会塌陷。解决办法是设置width和height，能解决在IE和chrome下的塌陷问题。
+
+      b、在ff下，若加载失败，不管你有没有设置width和height，都会塌陷。解决办法是设置img的display为inline-block
+
+      c、解决在所有浏览器下图片加载失败的塌陷问题：1、设置width和height；2、设置display:inline-block;
+
+  31、若3个box，无法按百分比平分父元素的宽度，可设置每个的宽度为 33.3333%即可平分
+
+  32、hover过渡时，可以把transition写在hover中。写在hover中时，要注意，当鼠标移除时，可能导致不能运动。
+
+  33、IE8不支持 nextElementSibling，支持nextSibling
+
+  34、@-moz-document url-prefix() FireFox专属HACK
+
+  35、文本溢出省略号
+
+      a、单行文本
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          font-size: 12px;
+
+      b、多行文本（webkit下或移动端）
+         overflow : hidden;
+         display: -webkit-box;
+         -webkit-box-orient: vertical;
+         -webkit-line-clamp: 5; //超过5行，显示省略号
+      
+      c、多行文本（非webkit）
+         p {
+            position:relative;
+            line-height:1.4em;
+            /* 3 times the line-height to show 3 lines */
+            height:4.2em;
+            overflow:hidden;
+        }
+        p::after {
+            content:"...";
+            font-weight:bold;
+            position:absolute;
+            bottom:0;
+            right:0;
+            padding:0 20px 1px 45px;
+            background:url(http://css88.b0.upaiyun.com/css88/2014/09/ellipsis_bg.png) repeat-y;
+        }
+  36、
+      使用ajax进行跨域，有4点必须要注意：
+      1、dataType 必须指定为 jsonp
+      2、jsonp 属性必须有值
+      3、jsonpCallback 属性必须有值
+      4、jsonpCallback 属性值必须与返回过来的padding函数一致
+      jq发送的ajax的格式如下：
+       http://d.diaox2/view/test/lyf/goodthing_feed_list.json?cb=cback&_=1440232632929
+
+  37、设置选中文本的颜色 IE9+支持
+
+      .icon-item::-moz-selection{background:#fff;}
+      .icon-item::-webkit-selection{background:#fff;}
+      .icon-item::selection{background:#fff;}
+
+      .icon-item span::-moz-selection{background:#fff;}
+      .icon-item span::-webkit-selection{background:#fff;}
+      .icon-item span::selection{background:#fff;}
+
+  38、display:table-cell和display:inline-block IE8+支持
+  39、max、min-width、height IE7+支持
+  40、支持rem单位的浏览器是 IE9+
+  41、img标签的width和height的问题
+      a、设置宽高时，只能是数字（或后面跟一个%），且单位是px，若你设置了  
+              3rem，其实是会忽略后面的
+              rem的，真正展现在网页上的大小就是3px。
+      b、也可以带%。
+
+  42、各种宽度和高度
+
+      a、可视区的真实宽度和高度
+          document.documentElement.clientWidth 
+          document.documentElement.clientHeight
+
+          都去掉滚动条的大小（一般是17像素），比如我的dell笔记本在chrome下，
+          正常的可视区（即无滚动条）大小是1366*663，加入水平和垂直方向都有滚动条的话，这两个值
+          的大小为 1349 * 646
+      b、
+         document.documentElement.offsetWidth   无滚动条 1366  有滚动条 1349
+         document.documentElement.offsetHeight  根据实际的html元素被撑开的大小
+
+      c、window.innerWidth / window.innerHeight 
+           （1）有滚动条 a + 17
+           （2）无滚动条 a 
+  
+  43、占视窗100%
+
+       html{height:100%}  使html标签的高度与视口高度一致
+       body{height:100%}  使body标签的高度与html高度一致
+  
+  44、页面没被撑开，footer在窗口底部
+      页面被撑开，footer在页面底部
+      html{height:100%;}
+      body{min-height:100%;position:relative;}
+      .wrapper{
+        width:100%;
+        padding-bottom:20px;
+      }
+      .footer-area{
+        width:100%;
+        position: absolute;
+        bottom: 0;
+      }
+
+  45、min-height\max-height，
+
+      当使用百分比时，父元素必须没有设置min-height，
+      子元素在设置min-height是不起作用的
+
+  46、元素绝对定位是以border左上定点开始的，没有border定padding，
+      没有padding定content
+
+  47、margin-top和margin-left会和top、left叠加
+  48、获取图片原始的大小，有两种方法
+     a、
+     var img = new Image();
+     img.src = "adas/xx.png";
+     img.onload = function(){
+        console.log(this.width);
+        console.log(this.height);
+     }
+     这种方法，不能用 img.width 和 img.width方法来指定图片的大小，这样的话，就不能通过onload获取原始大小了
+     b、
+     img标签法
+     var img = document.getElementById('img');
+     img.onload = function(){
+        console.log(this.width);
+        console.log(this.height);
+     }
+     img标签法，不要在img标签上加height和width属性，否则获取的width和height就不是原始的大小了，就是你写的大小了。
+  
+  49、一个奇怪的问题：
+     我写了一个adjustimg.js，这个js的是用来按照比例调整img的大小的。使用了img.onload，在内部取出img的原始宽高
+     ，然后按照比例进行处理，在本地是没有问题的。放到了服务器上会有问题，绝大多数时候，是调整不了img的大小的，及个别情况下会成功。
+     原因：在行外用onload给img注册加载事件是不稳定的，因为不知道img的onload和domready的时机，我放到服务器上执行不了的原因是，在执行到给img注册onload函数时，img其实已经onload了，此时在注册就没有用了。
+     解决办法：把onload写在行内，在head标签中，写一个script，里面写onload的回调。
+ 
+  50、如果一个页面有多个jsonp的话，
+      jsonp: 'cb',
+      jsonpCallback: "cb3"
+      jsonpCallback的值一定要不一致，不然会相互干扰，会有一定机率某个jsonp取数据失败
+
+  51、defer脚本，就是延迟脚本，告诉浏览器立即下载，但是延迟执行，延迟到那步呢？延迟到浏览器解析到</html>的时候 ，所以在deger脚本里其实是可以不用domready或onlaod就可以操作dom了
+      defer总会在最后执行（晚于非defer外部脚本和内部脚本），所以非defer外部脚本和内部脚本不能依赖defer脚本
+
+
+bugs:
+
+5+ 必须马上修复   （影响用户正常使用的严重bug）
+4+ 需要尽快修复   （影响用户便捷使用的bug）
+3+ 有时间可以修复 （可称之为bug，需要修复）
+2+ 可以修复    （时间不允许，或有更重要的任务，不修复也行。但是有时间需要修复）
+1+ 可不修复       （不修复也行）
+   
+   
+   bug描述                                   等级   解决方案
+  
+   1、IE8下的背景图片没有铺满                ++     使用img代替背景图
+   2、IE8 icon显示问题                       +++    使用大小合适的icon图
+   3、IE9下搜索框的内容不能清空              ++++   ？
+   4、IE9下的loading图无法运动               +++    ？
+   5、登录下拉菜单中的上箭头显示成了正方体   +      ？
+
+   50、IE9不支持 box 和 flex
+       所有IE都不支持box
+       IE10、IE11支持不带前缀的flex
+
+       Edge浏览器，支持box（webkit前缀，奇怪么？） 和 flex（不带前缀）
+
+
+遇到的css的奇怪问题其实都是自己css基础不够扎实所致，所以业余时间一定要注意夯实基础~~~~
+
+遇到的奇怪问题：
+
+1：body很高，里面有一个遮罩层，设置了absolute，之后width，height都为100%，为什么遮罩层没有占据body的高度的100%？而是占据视口的100%？
+
+2：header外层的width是100%，内层width:1200px，margin:0 auto，为什么设置了内层的高度之后，body，html的宽度不是100%？
+
+3：为什么给ul下的li设置了高度之后，ul的父元素的height要比ul和li的高度大呢？
+
+
+
+
+

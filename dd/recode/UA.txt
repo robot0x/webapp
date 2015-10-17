@@ -1,0 +1,215 @@
+ http://t.diaox2.com/view/app/search.php?query=test_norm_search  测试query
+ http://115.28.38.122/share/AndroidMarkupFix.html                android测试
+
+
+ UAs:
+
+ 串1:
+ 
+ ipadMINI 1024x768 pr:1
+
+ Mozilla/5.0 (iPad; CPU OS 4_3_5 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8L1 Safari/6533.18.5
+
+ ipad 1024x768 pr:2
+
+ Mozilla/5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53
+
+ iphone4 320X480 pr:2
+
+ Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_2_1 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8C148 Safari/6533.18.5
+
+ iphone5 320x568 pr:2
+
+ Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53
+ 
+ iphone6 375x667 pr:2
+ 
+ Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4
+
+ iphone6p 414x736 pr:3
+
+ Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4
+
+ 三星Node3 360x640 pr:3
+
+ Mozilla/5.0 (Linux; U; Android 4.3; en-us; SM-N900T Build/JSS15J) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+
+ 三星Node2 360x640
+
+ Mozilla/5.0 (Linux; U; Android 4.1; en-us; GT-N7100 Build/JRO03C) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+
+ 三星S4 360x640
+
+ Mozilla/5.0 (Linux; Android 4.4.2; GT-I9505 Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Version/1.5 Chrome/28.0.1500.94 Mobile Safari/537.36
+
+ 三星S3 360x640
+ Mozilla/5.0 (Linux; U; Android 4.0; en-us; GT-I9300 Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+
+ Nexus5 360x640
+
+ Mozilla/5.0 (Linux; Android 4.4.4; en-us; Nexus 5 Build/JOP40D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2307.2 Mobile Safari/537.36
+
+ Nexus4 384x640
+
+ Mozilla/5.0 (Linux; Android 4.4.4; en-us; Nexus 4 Build/JOP40D) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2307.2 Mobile Safari/537.36
+
+ MX4 Pro 384 pr:4
+
+ Mozilla/5.0 (Linux; Android 5.0.1; MZ-MX4 Pro Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/40.0.2214.114 Mobile Safari/537.36
+
+ 三星Note4 360 pr:4
+
+ Mozilla/5.0 (Linux; U; Android 5.0.1; zh-cn; SM-N9100 Build/LRX22C) AppleWebKit/533.1 (KHTML, like Gecko)Version/4.0 MQQBrowser/5.4 TBS/025442 Mobile Safari/533.1 V1_AND_SQ_5.7.2_260_YYB_D QQ/5.7.2.2490 NetType/WIFI WebP/0.3.0
+
+ iphone5 Wx
+
+ Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12F70 MicroMessenger/6.2.4 NetType/WIFI Language/zh_CN
+
+ iphone5 QQ
+
+ Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12F70 QQ/5.7.0.469 NetType/WIFI Mem/95
+ 
+ iphone5 weibo
+ 
+ Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12F70 Weibo (iPhone5,2__weibo__5.4.0__iphone__os8.3)
+
+ MX4Pro QQ
+
+ Mozilla/5.0 (Linux; U; Android 5.0.1; zh-cn; MX4 Pro Build/LRX22C) AppleWebKit/533.1 (KHTML, like Gecko)Version/4.0 MQQBrowser/5.4 TBS/025459 Mobile Safari/533.1 V1_AND_SQ_5.8.0_264_YYB_D QQ/5.8.0.2505 NetType/WIFI WebP/0.3.0
+
+ iphone5 baidu
+
+ Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12F70 baiduboxapp/0_1.0.7.6_enohpi_6311_046/3.8_2C2%255enohPi/1099a/AF6531286CBF6D5FC717513FA083D4605709694DBFGLSDFLJFO/1
+
+ MotoX Pro 480 1440 pr:3.5 太搞笑了。
+ 
+ Mozilla/5.0 (Linux;U;Android 5.0.2;zh-cn;Moto X Pro Build/LXG22.67-7.1) AppleWebkit/533.1 (KHTML,like Gecko)Version/4.0 MQQBrowser/5.4 TBS/025440 Mobile Safari/533.1 MicroMessenger 6.2.4.53_r843fb8e.600 NetType/WIFI Language/zh_CN
+
+ Nokia N9
+
+ Mozilla/5.0 (MeeGo; NokiaN9) AppleWebKit/534.13 (KHTML, like Gecko) NokiaBrowser/8.5.0 Mobile Safari/534.13
+
+Nokia Lumia 520
+
+Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; NOKIA; Lumia 520)
+
+谷歌Nexus4 384x567
+
+Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.122 Mobile Safari/537.36
+
+谷歌Nexus5 360x567
+
+Mozilla/5.0 (Linux; Android 4.4.4; Nexus 5 Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.114 Mobile Safari/537.36
+
+谷歌Nexus6 412x659
+
+Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.20 Mobile Safari/537.36
+
+谷歌Nexus7 600x960 （平板）
+
+Mozilla/5.0 (Linux; Android 4.3; Nexus 7 Build/JSS15Q) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2307.2 Safari/537.36
+
+ 安卓系统dpi：
+
+ 1、XHDPI 超高密度
+ 2、HDPI  高密度
+ 3、MDPI  中密度
+ 4、LDPI  低密度
+
+
+ 1 inch = 2.54cm = 25.4mm
+
+ 4吋屏对角线长度为4吋，即10.16CM
+ 4.7吋屏对角线长度为4.7吋，即11.938CM
+ 5.5吋屏对角线长度为5.5吋，即13.97CM
+
+ 960×640分辨率加上3.5英寸的显示屏 苹果CEO史蒂夫·乔布斯(Steve Jobs)在苹果全球开发者大会上表示，新款iPhone4将使用一种名为Retina(视网膜)屏幕的显示技术，与此前iPhone产品相比，观看屏幕近景消除了颗粒感。之后据苹果官方解释，Retina屏幕是一种具备超高像素密度的液晶屏，它可以将960×640的分辨率压缩到一个3.5英寸的显示屏内。也就是说，该屏幕的像素密度达到326像素/英寸(ppi)，像素点相互间隔仅为78微米，肉眼根本辨不出明显的独立像素点。其显示精度是iPhone3GS的4倍，对比度高达800:1，是迄今为止iPhone系列中最高精细的屏幕。 所以只要你的视频转换分辨率不要高于940*480就行
+ 
+
+
+ 记一次完整的解决bug过程
+
+
+ 1、出现问题的机型：MX4 Pro、Samsung Note4、MotoX Pro
+
+    他们的screen.width分别是 1536、1440、1440，pr分别是 4、4、3.5，
+    可视区大小分别为384、360、480
+
+ 2、出现问题的原因：
+
+       PC布局的Media Query 是 @media only screen and (min-device-width: 1280px)
+
+       由于这三者的device-width都要大于1280，所以走的PC布局，但其实屏幕的物理宽度到不到他们的设备宽度，所以出现水平滚动条
+
+ 3、解决方案：
+
+       在移动布局的Media Query 加上
+
+       only screen and (-webkit-min-device-pixel-ratio: 3) and (max-width:1028px)
+
+       即让pr大于3的，可视区窗口小于1028的，都走移动布局，就能把这3种机型兜住。
+
+ 4、总结：
+
+      我以为按照pr和device-width来进行布局是不稳定的。以为pr和device-width千差万别
+
+      而按照视口大小
+
+     （max-width、min-width）来布局是靠谱的，因为有viewport的meta标签来兜底。
+ 
+
+手机及平板常见的屏幕宽度
+ 320
+ 360
+ 375
+ 384
+ 400
+ 412
+ 414
+ 424
+ 480
+ 600
+ 720
+ 768
+ 800
+ 900
+ 960
+ 955
+ 966
+ 1024 ipad3
+
+chrome 45.0.2454.93 (64-bit)
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36
+
+opera 32.0.1948.69
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36 OPR/32.0.1948.69 
+
+safari 9
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11) AppleWebKit/601.1.56 (KHTML, like Gecko) Version/9.0 Safari/601.1.56
+
+firefox 41.0.1
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:41.0) Gecko/20100101 Firefox/41.0
+
+EDGE
+Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10240
+
+IE11
+Mozilla/5.0 (Windows NT 10.0; Trident/7.0; .NET4.0C; .NET4.0E; rv:11.0) like Gecko
+
+IE10
+Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 10.0; Trident/8.0; .NET4.0C; .NET4.0E)
+
+IE9
+Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 10.0; Trident/8.0; .NET4.0C; .NET4.0E)
+
+IE8
+Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 10.0; Trident/8.0; .NET4.0C; .NET4.0E)
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="renderer" content="webkit|ie-stand">
+<link rel="icon" href="http://a.diaox2.com/cms/diaodiao/assets/favicon.ico" type="image/x-icon">
+<meta name=description content="「调调」每天讲述精致的生活方式，推荐那些真正高品质的好东西，帮你低价买到优质海淘商品。拥有调调，拥有生活。">
+<link rel="stylesheet" type="text/css" href="css/s-result.css">
+<title>搜索结果</title>
+<script>
+function adjust(img){
+    var imgContainer = img.parentNode,
+        width = imgContainer.offsetWidth,
+        height = imgContainer.offsetHeight,
+        scale = (width / height).toFixed(2),
+        ratio = (img.width / img.height).toFixed(2);
+    if(Math.abs(scale - ratio) < 0.02){
+      img.width = width;
+      img.height = height;
+    }else if(scale > ratio){
+      img.width = width;
+      img.height = img.width / ratio;
+         // 图片上移
+      img.style.marginTop = -(img.height - height)/2 + "px" ;
+    }else{
+      img.height = height;
+      img.width = img.height * ratio;
+         // 图片右移
+      img.style.marginLeft = -(img.width - width)/2 + "px";
+    }
+}
+</script>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+ 	<div class="header-box">
+ 		<ul class="f-l">
+ 			<li class="logo f-l"><a href="index.html">
+ 			<img src="images/logo-top.png" alt="" width="70" height="40"></a></li>			
+ 			<li class="index f-l" style="margin-left:30px;"><a href="index.html">首页</a></li>			
+ 			<li class="category f-l"><a href="category.html">分类</a></li>	
+ 			<li class="down-app f-l">
+ 			<i class="header-app-icon"></i>
+ 			<a href="http://www.diaox2.com" target="_blank">下载APP</a></li>	
+ 		</ul>
+ 	    <ul class="login f-r">
+ 			<li class="login-title f-l"><a href="#">登录</a></li>
+ 			<li class="face f-l"><a href="#"></a></li>
+ 			<div class="person-state-list-container">
+ 			  <ul class="person-state-list">
+ 				<li><a href="collect.html">我的收藏</a></li>
+ 				<li><a href="javascript:;">退出</a></li>
+ 			  </ul>
+ 			</div>
+ 		</ul>
+ 	</div>
+ </div><!-- 顶部导航 -->
+<div class="content-area">
+	<div class="content-box clearfix">
+        <!-- 左侧内容区 -->
+		<div class="main-content f-l">
+		  <div class="search-wrapper">
+ 			<div class="search-content">
+ 				<form action="s-result.html" class="search-form" name="search">
+				<input placeholder="你想要的，都在这里" type="text" id="search-input" class="search-input" name="q" maxlength="100" autocomplete="off">
+ 				<input type="submit" id="sub" class="btn" value="">
+ 				</form>
+ 			</div>
+ 		 </div>
+ 		 <div class="hot-search clearfix">
+ 		 	<h1 class="hot-title f-l">大家都在搜：</h1>
+ 		 	<ul class="hot-search-word-list f-l clearfix"></ul>
+ 		 </div>
+         <!-- 礼物问答机代码 start-->
+         <div class="present-area" style="display:none"> 
+            <!-- 礼物筛选器 -->
+            <div class="present-filter">
+                <div class="present-type clearfix">
+                    <h2>场景</h2>
+                    <ul>
+                        <li class="cur-select">情人节</li><li>告白</li>
+                        <li>生日</li><li>纪念日</li>
+                        <li>新婚</li><li>乔迁</li>
+                        <li>感恩节</li><li>圣诞节</li>
+                    </ul>
+                </div>
+                <div class="present-type clearfix">
+                    <h2>关系</h2>
+                    <ul>
+                        <li>爸爸</li><li>妈妈</li>
+                        <li>老公男友</li><li>老婆女友</li>
+                        <li>基友</li><li>闺蜜</li>
+                        <li>朋友同事</li><li>老板</li>
+                    </ul>
+                </div>
+                <div class="present-type clearfix">
+                    <h2>性格</h2>
+                    <ul>
+                        <li>二次元</li><li>小清新</li>
+                        <li>萌萌哒</li><li>GEEK</li>
+                        <li>潮人</li><li>文艺范</li>
+                        <li>搞怪</li><li>成熟</li>
+                    </ul>
+                </div>
+                <div class="present-type clearfix">
+                    <h2>价格</h2>
+                    <ul>
+                        <li>0-200</li><li>200-500</li>
+                        <li>500-800</li><li>800+</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 卡片 -->
+            <div class="present-result">
+              <ul class="goodthing-list clearfix">
+                  <li class="goodthing">
+                    <a href="" target="_blank">
+                        <div class="img-container">
+                            <img src="http://a.diaox2.com/cms/sites/default/files/20150603/goodthing/cov.jpg" alt="" onload="adjust(this)" width="380" height="310">
+                        </div>  
+                        <div class="goodthing-highlight">
+                            <h2>
+                                <div>一人是，也要美美的啊一人是，也要美美的啊一人是的的的的是是是的的是是是一人是，也要美美的啊一人是，也要美美的啊一人是的的的的是是是的的是是是</div>
+                            </h2>
+                            <ul class="icon-list clearfix">
+                                <li class="icon-item f-l">
+                                    <i class="icon icon-s"></i>
+                                    <span>123</span>
+                                </li>
+                                <li class="icon-item f-r">
+                                    <i class="icon icon-s"></i>
+                                    <span>123</span>
+                                </li>
+                                <li class="icon-item f-r">
+                                    <i class="icon icon-z"></i>
+                                    <span>123</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </a>
+                  </li>
+              </ul>
+            </div>
+        </div>
+        <!-- 礼物问答机代码 end-->
+        <div class="no-result clearfix disnone">
+                <i class="no-result-face f-l"></i>
+                <p class="f-l">
+                    找不到<span class="target-word"></span>，换个关键词试试
+                </p>
+        </div>
+ 		 <div class="search-result-list">
+ 		 	<ul class="result-list"></ul>
+ 		 </div>
+		</div>
+		<!-- 左侧热门区 -->
+		<div class="hot-topics-area f-l">
+			<h2 class="hot-topics">
+				<img src="images/hot-topics.png">
+				热门专题
+			</h2>
+			<ul class="special">
+				 <!-- <li class="loading">
+					<a href="#">
+                    <img src="http://a.diaox2.com/cms/sites/default/files/20150914/zk/fm.jpg" alt="" width="277" height="180">
+                    <p>女朋友生气了？调调帮你哄！</p>
+                    <span>7个招数</span>
+                    <div class="black-musk"></div>
+                    </a>
+				</li>-->
+             </ul>
+             <a target="_blank" href="http://diaox2.com/downloads" class="erweima">
+                <span>更多精彩<br>下载APP</span>
+                <img src="images/download_96.jpg" width="96" height="96" alt="扫码下载调调">
+            </a>
+		</div>
+	</div>
+</div>
+</div>
+<div class="mask disnone"></div>
+<div class="login-box disnone">
+<p class="login-title-p">登录<i class="login-close"></i></p>
+<div class="login-method-container">
+<ul class="login-method-list">
+<li class="login-method left">
+<a href="#"><img src="images/wb.png"></a><p>微博账号登录</p>
+</li>
+<li class="login-method right">
+<a href="#"><img src="images/wx.png"></a><p>微信登录</p>
+</li>
+</ul>
+</div>
+</div>
+<script src="js/jquery.js"></script>
+<!-- <script src="js/DDAjax.js"></script> -->
+<script src="js/result.js" defer='defer'></script>
+<script src="js/login.js" defer='defer'></script>
+</script>
+</body>
+</html>
