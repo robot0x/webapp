@@ -102,7 +102,7 @@ $(function() {
   });
   function specSearchSuccess(data){
     // alert('specSearchSuccess!')
-    
+        
   }
   function normalSearchSuccess(data) {
       console.log("查询接口的jsonp执行成功！！");
