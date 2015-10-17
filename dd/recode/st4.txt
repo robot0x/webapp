@@ -35,3 +35,28 @@
  乱码出现的本质原因：解码字符集与编码字符集不一致
  一个html文档的编码如果是utf-8的话，传输过来的就是以utf-8编码的二进制流，在浏览器端，也要以utf-8来解码这个二进制流，否则会出现乱码
 
+一个jsonp请求：
+ $.ajax({
+    url: "http://s.diaox2.com/ddsearch/q",
+    dataType: 'jsonp',
+    jsonp: 'cb',
+    jsonpCallback: "cb2",
+    cache:true,// 防止 jquery 发送ajax请求时在后面带上时间戳，导致过不了cdn
+    timeout: 20000,
+    data: {
+      data: JSON.stringify({
+        "query": q,
+        "from": "pc"
+      })
+    },
+    // type:"POST",
+    // dataType:"json",
+    // contentType: 'application/json',//若是没有这个属性的话，就不会发送options请求
+    // data:JSON.stringify({"query":q,"from":"pc"}),
+    error: function(e) {
+      console.log("搜索接口的jsonp执行失败！！" + " " + e);
+    },
+    success: normalSearchSuccess
+});
+
+

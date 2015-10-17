@@ -58,6 +58,10 @@ module.exports = function (grunt) {
       sass: {
         files: ['<%= config.app %>/sass/{,*/}*.{scss,sass}'],
         tasks: ['sass', 'postcss']
+      },
+      jsmin: {
+        files:['<%= config.app %>/js/{,*}*.js'],
+        tasks:['uglify']
       }
       // styles: {
       //   files: ['<%= config.app %>/css/{,*/}*.css'],

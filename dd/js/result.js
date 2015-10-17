@@ -34,7 +34,7 @@ $(function() {
     reg2 = /\/cms\/diaodiao\/articles\/(?:goodthing|firstpage|experience|weekend)\/\d+_(\d+)?\.html/i,
     toReplaceStr = "article/$1.html",
     param = $.getParam(),
-    isSpecSearch = q === '礼物',
+    isSpecSearch = q.indexOf('礼物')!==-1,
     randArray = function(hotWordArr, len) {
       hotWordArr.sort(function() {
         return Math.random() - 0.5;
@@ -49,7 +49,6 @@ $(function() {
   if(!isSpecSearch){
       $('.hot-search').show();
       $('.present-area').css('display','none');
-
       // 获取热搜词
         $.ajax({
           url: "http://api.diaox2.com/v2/app/config",
@@ -62,7 +61,6 @@ $(function() {
             console.log("热搜词接口的jsonp执行失败！！");
             console.log(e);
           },
-          // contentType: 'application/json',//若是没有这个属性的话，就不会发送options请求
           success: function(data) {
             console.log("热搜词接口的jsonp执行成功！！");
             hotWordArr = data.res.search.hot_slide_search_word;
@@ -72,37 +70,107 @@ $(function() {
             });
           }
         });
+        $.ajax({
+            url: "http://s.diaox2.com/ddsearch/q",
+            dataType: 'jsonp',
+            jsonp: 'cb',
+            jsonpCallback: "cb2",
+            cache:true,
+            timeout: 20000,
+            data: {
+              data: JSON.stringify({
+                "query": q,
+                "from": "pc"
+              })
+            },
+            error: function(e) {
+              console.log("搜索接口的jsonp执行失败！！" + " " + e);
+            },
+            success: normalSearchSuccess
+          });
   }else{
     $('.hot-search').hide();
     $('.present-area').css('display','block');
-  }
-  
-  $.ajax({
-    url: "http://s.diaox2.com/ddsearch/q",
-    dataType: 'jsonp',
-    jsonp: 'cb',
-    jsonpCallback: "cb2",
-    cache:true,// 防止 jquery 发送ajax请求时在后面带上时间戳，导致过不了cdn
-    timeout: 20000,
-    data: {
-      data: JSON.stringify({
-        "query": q,
-        "from": "pc"
-      })
-    },
-    // type:"POST",
-    // dataType:"json",
-    // contentType: 'application/json',//若是没有这个属性的话，就不会发送options请求
-    // data:JSON.stringify({"query":q,"from":"pc"}),
-    error: function(e) {
-      console.log("搜索接口的jsonp执行失败！！" + " " + e);
-    },
-    success: !isSpecSearch?normalSearchSuccess:specSearchSuccess
-    // success: !isSpecSearch?normalSearchSuccess(data):specSearchSuccess(data)
+    $.ajax({
+      url: "http://s.diaox2.com/view/app/gift_supply.php",
+      dataType: 'jsonp',
+      jsonp: 'cb',
+      jsonpCallback: "cb4",
+      cache:true,
+      timeout: 80000,
+      error: function(e) {
+        console.log("搜索接口的jsonp执行失败！！" + " " + e);
+      },
+      success: specSearchSuccess
   });
+      // 当前选中效果的切换
+      var hasSelectedEle,$this;
+      // // alert(queryArray);
+      var presentKeywordsContainer = $('.present-type li');
+      var presentKeywords = [];
+      presentKeywordsContainer.each(function(index,item){
+          var parent = $(item.parentNode.parentNode);
+          var text = item.innerHTML;
+          var $item = $(item);
+          if(q.indexOf(text) !== -1){
+            if(parent.hasClass('scene') || parent.hasClass('relation')){
+              if($parent.hasClass('has')){
+                 return;
+              }else{
+                 $parent.addClass('has');
+                 $item.addClass('cur-select');
+              }
+            }else{
+              $item.addClass('cur-select');
+            }
+          }
+      })
+
+      // $(document).on('click','.present-type li',function(){
+          // $this = $(this);
+          // $this.toggleClass('cur-select');
+          //  告白 老公男友 小清新 Geek 潮人 礼物 文艺范 200-500 500-800 
+          // 区分4种
+          // var parent = $this.parent().parent();
+          // if(parent.hasClass('scene')){
+          //   alert('场景');
+          // }else if(parent.hasClass('relation')){
+          //   alert('关系')
+          // }else if(parent.hasClass('character')){
+          //   alert('性格')
+          // }else {
+          //   alert('价格')
+          // }
+      // })
+
+    }
   function specSearchSuccess(data){
-    // alert('specSearchSuccess!')
-        
+    var meta_infos = data.meta_infos,goodthingList = $('.goodthing-list'),
+        attr ,each ,imgUrl ,rendered_title,url,price;
+    for(attr in meta_infos){
+       everyMeta = meta_infos[attr];
+       imgUrl = everyMeta.cover_image_url;
+       rendered_title = everyMeta.rendered_title;
+       price = everyMeta.price;
+       if (everyMeta.has_buylink === false || everyMeta.price === "N/A") {
+         price = "&nbsp";
+       }
+       url = everyMeta.url;
+          match = url.match(reg);
+          if (match && match.length) {
+            url = match[0].replace(reg, toReplaceStr);
+          } else {
+            match = url.match(reg2);
+            if (match && match.length) {
+              url = match[0].replace(reg2, toReplaceStr);
+            }
+        }
+       if (imgUrl.indexOf("http") == -1) {
+            imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
+       }
+       // 发布去除 http://www.diaox2.com/
+       $('<li class="goodthing"><a href="http://www.diaox2.com/'+url+'" target="_blank"><div class="img-container"><img src="'+imgUrl+'" alt="'+rendered_title+'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>'+rendered_title+'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>'+price+'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>'+132+'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>'+123+'</span></li></ul></div></a></li>').appendTo(goodthingList);
+    }
   }
   function normalSearchSuccess(data) {
       console.log("查询接口的jsonp执行成功！！");
@@ -116,7 +184,8 @@ $(function() {
           rendered_title,
           authorSrc,
           url, match,
-          imgUrl;
+          imgUrl,
+          $resultList = $('.result-list');
         $.each(aids, function(index, every) {
           everyMeta = meta_infos[every];
           //清空keyword串，保证每条文章的keyword串都是全新的
@@ -153,42 +222,16 @@ $(function() {
             }
           }
           var price = everyMeta.price;
-          // console.log(price);
           if (everyMeta.has_buylink === false || everyMeta.price === "N/A") {
             price = "&nbsp";
           }
-          $('<li class="result-item" data-pos='+(index+1)+'>' +
-            '<a target="_blank" href="' + url + '" class="imglink f-l">' +
-            '<div class="result-item-img-container loading">' +
-            '<img src="' + imgUrl + '" alt="'+rendered_keywords+'" width="188" height="188">' +
-            '</div>' +
-            '</a>' +
-            '<div class="result-item-detail f-l">' +
-            '<h2 class="detail-title"><a target="_blank" href="' + url + '">' + rendered_title + '</a></h2>' +
-            '<ul class="detail-keywords clearfix">' + keywords_str +
-            '</ul>' +
-            '<div class="detail-author clearfix">' +
-            '<a class="detail f-l">' + price + '</a>' +
-            // '<a class="detail f-l">'+(everyMeta.price == "N/A"?"&nbsp":everyMeta.price)+'</a>'+
-            '<div class="author f-l clearfix">' +
-            '<ul class="clearfix">' +
-            '<li class="author-face f-l">' +
-            '<a target="_blank" href="' + authorSrc + '"><span class="author-face-container"><img src="http://c.diaox2.com/cms/diaodiao/' + everyMeta.author.pic + '" width="20" height="20"></span></a>' +
-            '</li>' +
-            '<li class="author-name f-l">' +
-            '<a target="_blank" href="' + authorSrc + '">' + everyMeta.author.name + '</a>' +
-            '</li>' +
-            '</ul>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</li>').appendTo($('.result-list'));
+          // 发布去除 http://www.diaox2.com/
+          $('<li class="result-item" data-pos='+(index+1)+'><a target="_blank" href="http://www.diaox2.com/' + url + '" class="imglink f-l"><div class="result-item-img-container loading"><img src="' + imgUrl + '" alt="'+rendered_keywords+'" width="188" height="188"></div></a><div class="result-item-detail f-l"><h2 class="detail-title"><a target="_blank" href="' + url + '">' + rendered_title + '</a></h2><ul class="detail-keywords clearfix">' + keywords_str +'</ul><div class="detail-author clearfix"><a class="detail f-l">' + price + '</a><div class="author f-l clearfix"><ul class="clearfix"><li class="author-face f-l"><a target="_blank" href="' + authorSrc + '"><span class="author-face-container"><img src="http://c.diaox2.com/cms/diaodiao/' + everyMeta.author.pic + '" width="20" height="20"></span></a></li><li class="author-name f-l"><a target="_blank" href="' + authorSrc + '">' + everyMeta.author.name + '</a></li></ul></div></div></div></li>').appendTo($resultList);
         })
       } else {
         $(".no-result").find(".target-word").html("“" + (q == undefined ? "" : q) + "”");
         $(".no-result").addClass("disblk");
       }
-
       // 最后给每条搜索结果加上点击事件，用以统计点击
       var resultItem = $('.result-item');
       var pos = resultItem.attr('data-pos');
