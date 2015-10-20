@@ -113,28 +113,16 @@ $(function() {
           // 告白 老公男友 小清新 Geek 潮人 礼物 文艺范 200-500 500-800 
           // 区分4种
           $this = $(this);
-          var dataGroup = this.getAttribute('data-group');
-          if(dataGroup === 'scene'){
-            if(scenePrev){
-              scenePrev.removeClass('cur-select');
-              if(scenePrev.attr('data-title') === $this.attr('data-title')){
-                scenePrev = undefined;
-                return;
-              }
-            }
+          parent = $this.parent().parent();
+          if(parent.hasClass('scene')){
+            scenePrev&&scenePrev.removeClass('cur-select');
             $this.addClass('cur-select');
             scenePrev = $this;
-          }else if(dataGroup === 'relation'){
-            if(relationPrev){
-              relationPrev.removeClass('cur-select');
-              if(relationPrev.attr('data-title') === $this.attr('data-title')){
-                relationPrev = undefined;
-                return;
-              }
-            }
+          }else if(parent.hasClass('relation')){
+            relationPrev&&relationPrev.removeClass('cur-select');
             $this.addClass('cur-select');
             relationPrev = $this;
-          }else if(dataGroup === 'character' || dataGroup === 'price'){
+          }else if(parent.hasClass('character') || parent.hasClass('price')){
             $this.toggleClass('cur-select');
           }
           renderDOMByIntersect();
@@ -145,61 +133,25 @@ $(function() {
     var interList = intersect(),//得到交集
         meta_infos = jsonDataFormServe.meta_infos,
         meta_infos_arr = [];
-    // interList.forEach(function(item){
-    //   meta_infos_arr.push(meta_infos[item]);
-    // })
-    // renderDOM(meta_infos_arr);
+    interList.forEach(function(item){
+      meta_infos_arr.push(meta_infos[item]);
+    })
+    renderDOM(meta_infos_arr);
   }
 
-  // 求并集（同一组）与交集并排序
+  // 求交集
   function intersect(){
-    var 
-        curSelect = $('.scene .cur-select,.relation .cur-select,.character .cur-select'),
-        priceEleArr = $('.price .cur-select'),
-        metaResult,// 没有根据价格过滤，且没有排序的数组。
-        result,// 最终return的结果
-        price = [],// 价格
-        selectedKeywords =[], // 被选中的关键字
-        characterArr = [],// 同一组的关键字
-        notCharacterArr = [], // 不同组的关键字
-        characterArrList = [],// 属于一个data-group的关键字的二维数组。类似于aidsArray。求并集。
-        aidsArray = [],// 二维数组，用来放置关键字对应的文章id数组。求交集。
-        newArray = [];// 临时数组
+    var selectedKeywords =[];
+    var curSelect = $('.scene .cur-select,.relation .cur-select,.character .cur-select');
     curSelect.each(function(index,item){
-      if(item.getAttribute('data-group') === 'character'){
-        characterArr.push(item.getAttribute('data-title'));
-      }else{
-        notCharacterArr.push(item.getAttribute('data-title'));
-      }
+      selectedKeywords.push(item.innerHTML)
     })
-    // 求并集。先连接数组，再去重
-    if(characterArr.length){
-      characterArrList = [];
-      characterArr.forEach(function(item){
-        characterArrList.push(tagList[item]);
-      })
-      // 去重方法
-      Array.prototype.unique = function(){
-        var n = {},r=[],i = 0,l = this.length; //n为hash表，r为临时数组
-        for(; i < l; i++){ //遍历当前数组
-          if (!n[this[i]]) {//如果hash表中没有当前项
-            n[this[i]] = true; //存入hash表
-            r.push(this[i]); //把当前数组的当前项push到临时数组里面
-          }
-        }
-        return r;
-      }
-      aidsArray.push(characterArrList.reduce(function(prev,next){
-        return prev.concat(next);
-      }).unique());//放入数组中。供下面求交集
+    var aidsArray = [];
+    for(var attr in tagList){
+      aidsArray.push(tagList[attr]);
     }
-    // 求交集
-    notCharacterArr.forEach(function(item){
-      aidsArray.push(tagList[item]);
-    })
-    newArray = [];
-    if(aidsArray.length){
-      metaResult = aidsArray.reduce(function(prev,next){
+    var newArray = [];
+    var result =  aidsArray.reduce(function(prev,next){
       newArray.length = 0;//清空数组
       prev.forEach(function(item){
         next.forEach(function(item2){
@@ -210,23 +162,8 @@ $(function() {
       })
       return newArray;
     })
-    }
-    // 根据价格范围，再次筛选一遍
-    if(priceEleArr.length){
-      priceEleArr.each(function(index,item){
-        price.push(item.getAttribute('data-title'));
-      })
-    }
-    // 根据价格区间获取数据
-    var aids = getAidsByPrice(price);
-    // 再一次metaResult与价格选出的好物的交集 TODO
-    metaResult.forEach(function(item){
-
-    })
-    return metaResult;
-  }
-  function getAidsByPrice(price){
-   // TODO 解析价格数组，变成价格区间
+    console.log(result);
+    return result;
   }
   function renderDOM(meta_infos){
     var goodthingList = $('.goodthing-list'),
@@ -263,7 +200,9 @@ $(function() {
     //从服务器端拿到的数据赋值给这个全局变量
     jsonDataFormServe = data;
     var gift_tag_index = data.gift_tag_index;
+    console.log(data);
     $.extend(tagList,gift_tag_index.scene,gift_tag_index.relation,gift_tag_index.character);
+    console.log(tagList);
     //如果搜索词不是礼物，而是含有礼物的话（比如：礼物 生日），就不需要直接更新dom，需要先求交集再更新dom
     if(q !== '礼物'){
       return;

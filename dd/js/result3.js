@@ -113,94 +113,37 @@ $(function() {
           // 告白 老公男友 小清新 Geek 潮人 礼物 文艺范 200-500 500-800 
           // 区分4种
           $this = $(this);
-          var dataGroup = this.getAttribute('data-group');
-          if(dataGroup === 'scene'){
-            if(scenePrev){
-              scenePrev.removeClass('cur-select');
-              if(scenePrev.attr('data-title') === $this.attr('data-title')){
-                scenePrev = undefined;
-                return;
-              }
-            }
+          parent = $this.parent().parent();
+          if(parent.hasClass('scene')){
+            scenePrev&&scenePrev.removeClass('cur-select');
             $this.addClass('cur-select');
             scenePrev = $this;
-          }else if(dataGroup === 'relation'){
-            if(relationPrev){
-              relationPrev.removeClass('cur-select');
-              if(relationPrev.attr('data-title') === $this.attr('data-title')){
-                relationPrev = undefined;
-                return;
-              }
-            }
+          }else if(parent.hasClass('relation')){
+            relationPrev&&relationPrev.removeClass('cur-select');
             $this.addClass('cur-select');
             relationPrev = $this;
-          }else if(dataGroup === 'character' || dataGroup === 'price'){
+          }else if(parent.hasClass('character') || parent.hasClass('price')){
             $this.toggleClass('cur-select');
           }
-          renderDOMByIntersect();
+          intersect();
       })
     }
-
-  function renderDOMByIntersect(){
-    var interList = intersect(),//得到交集
-        meta_infos = jsonDataFormServe.meta_infos,
-        meta_infos_arr = [];
-    // interList.forEach(function(item){
-    //   meta_infos_arr.push(meta_infos[item]);
-    // })
-    // renderDOM(meta_infos_arr);
-  }
-
-  // 求并集（同一组）与交集并排序
+  // 求交集
   function intersect(){
-    var 
-        curSelect = $('.scene .cur-select,.relation .cur-select,.character .cur-select'),
-        priceEleArr = $('.price .cur-select'),
-        metaResult,// 没有根据价格过滤，且没有排序的数组。
-        result,// 最终return的结果
-        price = [],// 价格
-        selectedKeywords =[], // 被选中的关键字
-        characterArr = [],// 同一组的关键字
-        notCharacterArr = [], // 不同组的关键字
-        characterArrList = [],// 属于一个data-group的关键字的二维数组。类似于aidsArray。求并集。
-        aidsArray = [],// 二维数组，用来放置关键字对应的文章id数组。求交集。
-        newArray = [];// 临时数组
+    var selectedKeywords =[];
+    var curSelect = $('.scene .cur-select,.relation .cur-select,.character .cur-select');
     curSelect.each(function(index,item){
-      if(item.getAttribute('data-group') === 'character'){
-        characterArr.push(item.getAttribute('data-title'));
-      }else{
-        notCharacterArr.push(item.getAttribute('data-title'));
-      }
+      selectedKeywords.push(item.innerHTML)
     })
-    // 求并集。先连接数组，再去重
-    if(characterArr.length){
-      characterArrList = [];
-      characterArr.forEach(function(item){
-        characterArrList.push(tagList[item]);
-      })
-      // 去重方法
-      Array.prototype.unique = function(){
-        var n = {},r=[],i = 0,l = this.length; //n为hash表，r为临时数组
-        for(; i < l; i++){ //遍历当前数组
-          if (!n[this[i]]) {//如果hash表中没有当前项
-            n[this[i]] = true; //存入hash表
-            r.push(this[i]); //把当前数组的当前项push到临时数组里面
-          }
-        }
-        return r;
-      }
-      aidsArray.push(characterArrList.reduce(function(prev,next){
-        return prev.concat(next);
-      }).unique());//放入数组中。供下面求交集
+    console.log(selectedKeywords);
+    var i = 0 , l = selectedKeywords.length;
+    var aidsArray = [];
+    while(i<l){
+      aidsArray.push(tagList[selectedKeywords[i++]]);
     }
-    // 求交集
-    notCharacterArr.forEach(function(item){
-      aidsArray.push(tagList[item]);
-    })
-    newArray = [];
-    if(aidsArray.length){
-      metaResult = aidsArray.reduce(function(prev,next){
-      newArray.length = 0;//清空数组
+    console.log(aidsArray);
+    var newArray=[];
+    var inter = aidsArray.reduce(function(prev,next){
       prev.forEach(function(item){
         next.forEach(function(item2){
           if(item === item2){
@@ -210,67 +153,47 @@ $(function() {
       })
       return newArray;
     })
-    }
-    // 根据价格范围，再次筛选一遍
-    if(priceEleArr.length){
-      priceEleArr.each(function(index,item){
-        price.push(item.getAttribute('data-title'));
-      })
-    }
-    // 根据价格区间获取数据
-    var aids = getAidsByPrice(price);
-    // 再一次metaResult与价格选出的好物的交集 TODO
-    metaResult.forEach(function(item){
-
-    })
-    return metaResult;
-  }
-  function getAidsByPrice(price){
-   // TODO 解析价格数组，变成价格区间
-  }
-  function renderDOM(meta_infos){
-    var goodthingList = $('.goodthing-list'),
-        attr ,imgUrl ,rendered_title,url,price,
-        gift_tag_index = data.gift_tag_index;
-    for(attr in meta_infos){
-         everyMeta = meta_infos[attr];
-         imgUrl = everyMeta.cover_image_url;
-         rendered_title = everyMeta.rendered_title;
-         price = everyMeta.price;
-         if (everyMeta.has_buylink === false || everyMeta.price === "N/A") {
-           price = "&nbsp";
-         }
-         url = everyMeta.url;
-            match = url.match(reg);
-            if (match && match.length) {
-              url = match[0].replace(reg, toReplaceStr);
-            } else {
-              match = url.match(reg2);
-              if (match && match.length) {
-                url = match[0].replace(reg2, toReplaceStr);
-              }
-          }
-         if (imgUrl.indexOf("http") == -1) {
-              imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
-         }
-         // 发布去除 http://www.diaox2.com/
-         $('<li class="goodthing"><a href="http://www.diaox2.com/'+url+'" target="_blank"><div class="img-container"><img src="'+imgUrl+'" alt="'+rendered_title+'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>'+rendered_title+'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>'+price+'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>'+132+'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>'+123+'</span></li></ul></div></a></li>').appendTo(goodthingList);
-      }
+    console.log(inter);
 
   }
    // 特殊query的success回调（搜索词中含有“礼物”，即认为是特殊query）
   function specSearchSuccess(data){
     //从服务器端拿到的数据赋值给这个全局变量
     jsonDataFormServe = data;
-    var gift_tag_index = data.gift_tag_index;
+    var meta_infos = data.meta_infos,goodthingList = $('.goodthing-list'),
+        attr ,each ,imgUrl ,rendered_title,url,price,
+        gift_tag_index = data.gift_tag_index;
     $.extend(tagList,gift_tag_index.scene,gift_tag_index.relation,gift_tag_index.character);
     //如果搜索词不是礼物，而是含有礼物的话（比如：礼物 生日），就不需要直接更新dom，需要先求交集再更新dom
     if(q !== '礼物'){
       return;
     }
     return;//加快调试速度，开发时，暂不更新dom
-      renderDOM(data.meta_infos);
+      for(attr in meta_infos){
+       everyMeta = meta_infos[attr];
+       imgUrl = everyMeta.cover_image_url;
+       rendered_title = everyMeta.rendered_title;
+       price = everyMeta.price;
+       if (everyMeta.has_buylink === false || everyMeta.price === "N/A") {
+         price = "&nbsp";
+       }
+       url = everyMeta.url;
+          match = url.match(reg);
+          if (match && match.length) {
+            url = match[0].replace(reg, toReplaceStr);
+          } else {
+            match = url.match(reg2);
+            if (match && match.length) {
+              url = match[0].replace(reg2, toReplaceStr);
+            }
+        }
+       if (imgUrl.indexOf("http") == -1) {
+            imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
+       }
+       // 发布去除 http://www.diaox2.com/
+       $('<li class="goodthing"><a href="http://www.diaox2.com/'+url+'" target="_blank"><div class="img-container"><img src="'+imgUrl+'" alt="'+rendered_title+'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>'+rendered_title+'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>'+price+'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>'+132+'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>'+123+'</span></li></ul></div></a></li>').appendTo(goodthingList);
     }
+  }
   // 一般query的success回调
   function normalSearchSuccess(data) {
       console.log("查询接口的jsonp执行成功！！");
