@@ -119,6 +119,7 @@ $(function() {
               scenePrev.removeClass('cur-select');
               if(scenePrev.attr('data-title') === $this.attr('data-title')){
                 scenePrev = undefined;
+                renderDOMByIntersect();
                 return;
               }
             }
@@ -129,6 +130,7 @@ $(function() {
               relationPrev.removeClass('cur-select');
               if(relationPrev.attr('data-title') === $this.attr('data-title')){
                 relationPrev = undefined;
+                renderDOMByIntersect();
                 return;
               }
             }
@@ -145,17 +147,56 @@ $(function() {
     var interList = intersect(),//得到交集
         meta_infos = jsonDataFormServe.meta_infos,
         meta_infos_arr = [];
-    // interList.forEach(function(item){
-    //   meta_infos_arr.push(meta_infos[item]);
-    // })
-    // renderDOM(meta_infos_arr);
+        console.log(interList);
+    if(interList && interList.length){
+      interList.forEach(function(item){
+        meta_infos_arr.push(meta_infos[item]);
+      })
+     // renderDOM(meta_infos_arr);
+    }else{
+      // renderDOM(meta_infos);
+    }
   }
+  /********** 工具方法区 start ************/
+  // 去重方法
+  Array.prototype.unique = function(){
+    var n = {},r=[],i = 0,l = this.length; //n为hash表，r为临时数组
+    for(; i < l; i++){ //遍历当前数组
+      if (!n[this[i]]) {//如果hash表中没有当前项
+        n[this[i]] = true; //存入hash表
+        r.push(this[i]); //把当前数组的当前项push到临时数组里面
+      }
+    }
+    return r;
+  }
+  // 数组遍历方法
+  if(!Array.prototype.forEach){
+    Array.prototype.forEach = function(fn){
 
+    }
+  }
+  // 数组归并方法
+  if(!Array.prototype.reduce){
+    Array.prototype.reduce = function(fn){
+
+    }
+  }
+  /********** 工具方法区 end ************/
+  /*
+   TODO
+    1、缓存。提高性能
+    2、分页。提高性能
+    3、代码review。榨取性能。
+    4、搜索点亮功能
+    4、test
+  */
   // 求并集（同一组）与交集并排序
   function intersect(){
+    console.time('intersect');
     var 
         curSelect = $('.scene .cur-select,.relation .cur-select,.character .cur-select'),
         priceEleArr = $('.price .cur-select'),
+        aids,
         metaResult,// 没有根据价格过滤，且没有排序的数组。
         result,// 最终return的结果
         price = [],// 价格
@@ -178,26 +219,28 @@ $(function() {
       characterArr.forEach(function(item){
         characterArrList.push(tagList[item]);
       })
-      // 去重方法
-      Array.prototype.unique = function(){
-        var n = {},r=[],i = 0,l = this.length; //n为hash表，r为临时数组
-        for(; i < l; i++){ //遍历当前数组
-          if (!n[this[i]]) {//如果hash表中没有当前项
-            n[this[i]] = true; //存入hash表
-            r.push(this[i]); //把当前数组的当前项push到临时数组里面
-          }
-        }
-        return r;
-      }
       aidsArray.push(characterArrList.reduce(function(prev,next){
         return prev.concat(next);
       }).unique());//放入数组中。供下面求交集
     }
-    // 求交集
+
+    // 根据价格区间筛选出符合条件的好物
+    if(priceEleArr.length){
+      priceEleArr.each(function(index,item){
+        price.push(item.getAttribute('data-title'));
+      })
+    }
+    // 根据价格区间获取数据
+    if(price.length){
+      aids = getAidsByPrice(price);
+      // 放入数组中供下面求交集
+      aidsArray.push(aids);
+    }
+    // 把选定的keywords对应的文章id放入数组中，和上面2个并集求交集
     notCharacterArr.forEach(function(item){
       aidsArray.push(tagList[item]);
     })
-    newArray = [];
+    // 求交集
     if(aidsArray.length){
       metaResult = aidsArray.reduce(function(prev,next){
       newArray.length = 0;//清空数组
@@ -211,37 +254,95 @@ $(function() {
       return newArray;
     })
     }
-    // 根据价格范围，再次筛选一遍
-    if(priceEleArr.length){
-      priceEleArr.each(function(index,item){
-        price.push(item.getAttribute('data-title'));
-      })
-    }
-    // 根据价格区间获取数据
-    var aids = getAidsByPrice(price);
-    // 再一次metaResult与价格选出的好物的交集 TODO
-    metaResult.forEach(function(item){
-
-    })
+    console.timeEnd('intersect');
     return metaResult;
   }
+  function isNullObject(obj){
+     if(obj == null){
+      return true;
+     }
+     for(var attr in obj){
+      return false;
+     }
+     return true;
+  }
+  // TODO 为了提高性能需要做缓存（根据价格区间筛选出来的好物，没必要再次筛选一次）!
+  // var cacheForPrice = {}
   function getAidsByPrice(price){
    // TODO 解析价格数组，变成价格区间
+   // 组装筛选条件
+   console.time('getAidsByPrice');
+   var 
+      priceRange,has_buylink,attr,each,reg = /\d+(\.\d+)?/g,eachPrice,result = [],
+      // cacheResult=[],
+      meta_infos = jsonDataFormServe.meta_infos;
+   price.forEach(function(item){
+      if(!isNullObject(cacheForPrice) && item in cacheForPrice){
+          result.concat(cacheForPrice[item]);
+          // break;
+      }
+      cacheResult.length = 0;
+      priceRange = item.split('-');
+        for(attr in meta_infos){
+          attr = +attr;
+          each = meta_infos[attr];
+          has_buylink = each.has_buylink;
+          eachPrice = each.price;
+          // 过滤没有购买链接和没有价格的
+          if(!has_buylink || !eachPrice){
+            continue;
+          }
+          eachPrice = eachPrice.match(reg);
+          if(eachPrice && eachPrice.length){
+            eachPrice = parseFloat(eachPrice[0]);
+          }
+          if(eachPrice >= priceRange[0]){
+            if(priceRange[1]){
+              if(eachPrice < priceRange[1]){
+                  // cacheResult.push(attr);
+                  if(result.indexOf(attr) === -1){
+                    result.push(attr)
+                  }
+              }
+            }else{
+                // cacheResult.push(attr);
+                if(result.indexOf(attr) === -1){
+                  result.push(attr)
+                }
+              }
+          }
+        }
+        // debugger;
+        // cacheForPrice[item] = cacheResult;//更新缓存
+   })
+   console.log(cacheForPrice);
+   console.timeEnd('getAidsByPrice');
+   return result;
   }
-  function renderDOM(meta_infos){
-    var goodthingList = $('.goodthing-list'),
-        attr ,imgUrl ,rendered_title,url,price,
+  function renderDOM(meta_infos,flag){
+    console.time('renderDOM');
+    var 
+        goodthingList = document.getElementById('goodthing-list'), //使用原生dom方法，提高性能
+        // goodthingList = $('.goodthing-list'),
+        attr ,imgUrl ,rendered_title,url,price,html='',
         gift_tag_index = data.gift_tag_index;
-    for(attr in meta_infos){
+        goodthingList.innerHTML = ''; // 清空
+        var count = 0;
+        for(attr in meta_infos){
+         count++;
+         if(count > 10) {
+          // break;
+         }
          everyMeta = meta_infos[attr];
          imgUrl = everyMeta.cover_image_url;
          rendered_title = everyMeta.rendered_title;
          price = everyMeta.price;
-         if (everyMeta.has_buylink === false || everyMeta.price === "N/A") {
+         if (!everyMeta.has_buylink || price == null || price === "N/A") {
            price = "&nbsp";
          }
          url = everyMeta.url;
-            match = url.match(reg);
+         if(url){
+          match = url.match(reg);
             if (match && match.length) {
               url = match[0].replace(reg, toReplaceStr);
             } else {
@@ -250,27 +351,29 @@ $(function() {
                 url = match[0].replace(reg2, toReplaceStr);
               }
           }
-         if (imgUrl.indexOf("http") == -1) {
+         }
+         if (imgUrl&&imgUrl.indexOf("http") == -1) {
               imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
          }
          // 发布去除 http://www.diaox2.com/
-         $('<li class="goodthing"><a href="http://www.diaox2.com/'+url+'" target="_blank"><div class="img-container"><img src="'+imgUrl+'" alt="'+rendered_title+'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>'+rendered_title+'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>'+price+'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>'+132+'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>'+123+'</span></li></ul></div></a></li>').appendTo(goodthingList);
+         html += '<li class="goodthing"><a href="http://www.diaox2.com/'+url+'" target="_blank"><div class="img-container"><img src="'+imgUrl+'" alt="'+rendered_title+'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>'+rendered_title+'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>'+price+'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>'+132+'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>'+123+'</span></li></ul></div></a></li>';
       }
-
+        goodthingList.innerHTML = html;
+        console.timeEnd('renderDOM');
   }
    // 特殊query的success回调（搜索词中含有“礼物”，即认为是特殊query）
   function specSearchSuccess(data){
     //从服务器端拿到的数据赋值给这个全局变量
     jsonDataFormServe = data;
     var gift_tag_index = data.gift_tag_index;
-    $.extend(tagList,gift_tag_index.scene,gift_tag_index.relation,gift_tag_index.character);
+    $.extend(tagList, gift_tag_index.scene, gift_tag_index.relation, gift_tag_index.character);
     //如果搜索词不是礼物，而是含有礼物的话（比如：礼物 生日），就不需要直接更新dom，需要先求交集再更新dom
     if(q !== '礼物'){
       return;
     }
-    return;//加快调试速度，开发时，暂不更新dom
-      renderDOM(data.meta_infos);
-    }
+    // return;//加快调试速度，开发时，暂不更新dom
+      // renderDOM(data.meta_infos);
+  }
   // 一般query的success回调
   function normalSearchSuccess(data) {
       console.log("查询接口的jsonp执行成功！！");
@@ -404,7 +507,6 @@ $(function() {
             url = match[0].replace(reg2, toReplaceStr);
           }
         }
-        // console.log(item.title.length);
         var title = item.title,
           i = 0,
           len = item.title.length,
@@ -414,7 +516,6 @@ $(function() {
           titleStr2 = title[1];
         } else {
           for (; i < len - 1; i++) {
-            // console.log(title[i]);
             titleStr = titleStr + title[i] + "<br>";
           }
           titleStr2 = title[len - 1];
@@ -457,25 +558,25 @@ $(function() {
   search.push(newSearch);
   storage.setItem('statisticsData',JSON.stringify(data));
   var postData = storage.getItem('statisticsData');
-  window.onbeforeunload = function(){
-    // 页面关闭或刷新往服务器推送数据！注意：一定要使用同步的方式发送，这样可以阻塞一会儿线程保证在关闭之前能推送出去
-    if(postData){
-        $.ajax({
-          url: "http://api.diaox2.com/v2/ubs",
-          type:"POST",
-          async:false,
-          contentType:'application/json',//若是没有这个属性的话，就不会发送options请求
-          data:postData,
-          success:function(data){
-            localStorage.clear();
-            localStorage.setItem('word:'+q,JSON.stringify(data));
-          },
-          error:function(xhr,t){
-            localStorage.setItem('error_info',t);
-            localStorage.setItem('error_info_status',xhr.status);
-          }
-      })
-    }
-  }
+  // window.onbeforeunload = function(){
+  //   // 页面关闭或刷新往服务器推送数据！注意：一定要使用同步的方式发送，这样可以阻塞一会儿线程保证在关闭之前能推送出去
+  //   if(postData){
+  //       $.ajax({
+  //         url: "http://api.diaox2.com/v2/ubs",
+  //         type:"POST",
+  //         async:false,
+  //         contentType:'application/json',//若是没有这个属性的话，就不会发送options请求
+  //         data:postData,
+  //         success:function(data){
+  //           localStorage.clear();
+  //           localStorage.setItem('word:'+q,JSON.stringify(data));
+  //         },
+  //         error:function(xhr,t){
+  //           localStorage.setItem('error_info',t);
+  //           localStorage.setItem('error_info_status',xhr.status);
+  //         }
+  //     })
+  //   }
+  // }
   document.getElementById("search-input").value = document.getElementById('search-input').value.replace(/\+/g, " ");
 })
