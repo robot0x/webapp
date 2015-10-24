@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-<meta http-equiv="content-type" content="text/html;charset=UTF-8">
 <meta name="renderer" content="webkit|ie-stand">
 <meta name="description" content="「调调」每天讲述精致的生活方式，推荐那些真正高品质的好东西，帮你低价买到优质海淘商品。拥有调调，拥有生活。">
 <meta name="MobileOptimized" content="320">
@@ -19,52 +18,45 @@
 <body>
 <div class="wrapper">
 <section class="sect1">
-<img src="images/index-b1.png" alt="">
-<a href="javascript:;" class="btn">立即分享 免费领取</a>
-<a href="javascript:;" class="link">直接购买>></a>   
+<div class="mask"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>
+<img src="images/index-b1.jpg" alt="" width="6.4rem" height="10.88rem">
+<a href="javascript:;" class="btn">立即分享 获取优惠券</a>
+<a href="javascript:;" class="link">直接购买</a>   
 </section>
 <section>
-<img src="images/index-b2.png" alt="">
+<img src="images/index-b2.jpg" alt="" width="6.4rem" height="11.36rem">
 </section>
 <section>
-<img src="images/index-b3.png" alt="">   
+<img src="images/index-b3.jpg" alt="" width="6.4rem" height="3.55rem">   
 </section>
 </div>
 <script>
 // 分享成功
 function success(url){
-    var section1 = document.querySelector('.sect1');
-    var img = section1.querySelector('img');
-    var btn = section1.querySelector('.btn');
-    img.src = 'images/share-succ-b1.png';
+    var section1 = document.querySelector('.sect1'),
+        img = section1.querySelector('img'),
+        btn = section1.querySelector('.btn');
+    img.src = 'images/share-succ-b1.jpg';
     btn.href = url;
-}
-// 分享
-function share(){
-    var section1 = document.querySelector('.sect1');
-    var img = section1.querySelector('img');
-    var btn = section1.querySelector('.btn');
-    img.src = 'images/share-b1.png';
-    btn.innerHTML = '下载调调，立即领取';
-    btn.href = "http://www.diaox2.com/wapdown.php"
-    section1.removeChild(section1.querySelector('.link'));
+    btn.className += ' btn-sf';
+    section1.querySelector('.link').className += ' link-sf';
 }
 // 分享失败
 function fail(){
-    var section1 = document.querySelector('.sect1');
-    var img = section1.querySelector('img');
-    var btn = section1.querySelector('.btn');
-    img.src = 'images/share-fail-b1.png';
-    // btn.href = url;
+    var section1 = document.querySelector('.sect1'),
+        img = section1.querySelector('img');
+    img.src = 'images/share-fail-b1.jpg';
+    section1.querySelector('.btn').className += ' btn-sf';
+    section1.querySelector('.link').className += ' link-sf';
 }
 // 活动结束
 function end(){
     var section1 = document.querySelector('.sect1');
-    var img = section1.querySelector('img');
-    var btn = section1.querySelector('.btn');
-    img.src = 'images/share-end-b1.png';
-    // btn.href = url;
+    section1.querySelector('img').src='images/end-b1.jpg';
+    section1.removeChild(section1.querySelector('.btn'));
+    section1.removeChild(section1.querySelector('.link'));
+}
+window.onload = function(){
+    document.querySelector('.mask').style.display = "none";
 }
 </script>
-</body>
-</html>

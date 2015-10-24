@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style type="text/css">
+h1{font-family:隶书;text-align:center}
+h2{font-family:隶书;text-align:center}
+p{font-family:宋体;font-size:18px;text-align:center;}
+</style>
+</head>
+<body>
+<script language="javascript" type="text/javascript">
+function a(){
+    var sum=0;
+    for(var i=1;i<=10;i++)
+    {
+        sum=sum+i;
+    }
+    document.getElementById("sum").value=sum;
+    }
+function b(){
+    var i = 1,sum = 0,initVal = document.querySelector('h2').innerHTML,
+    timer = setInterval(function(){
+        if(i === 10){
+            clearInterval(timer);
+        }
+        sum = sum + i++;
+        document.querySelector('h2').innerHTML = initVal+"："+sum;
+    },300)
+}
+// function b(){
+//     var i=1,sum=0;
+//     while(i<=10){
+//         sum=sum+i++;
+//         document.write(sum+"<br/>");
+//     }
+// }
+</script>
+<h1>求1-10的和</h1>
+<p>1-10的和等于：<input type="text" name="sum" id="sum"/><br /><br />
+<input type="button" name="运行" value="运行" onclick="a()"/></p><br /><br /><br />
+<h2>1-10相加的分解之每步所得之和</h2>
+<p><input type="button" name="运行分解" value="运行分解" onclick="b()" /></p>
+</body>
+</html>

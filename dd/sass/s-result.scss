@@ -343,6 +343,9 @@ body{background:#f7f7f7;padding-bottom:60px;}
 	font-size:16px;
 	color:rgb(51,51,51);
 }
+.hot-topics img{
+    margin-right: 8px;
+}
 .special{
 	margin-top:10px;
 }
@@ -567,3 +570,52 @@ body{background:#f7f7f7;padding-bottom:60px;}
    vertical-align: middle;
    margin-left: 10px;
 }
+// 分页loading 效果
+.rectangle-bounce {
+    text-align: center;
+    height:50px;
+}
+.rectangle-bounce div {
+    height: 100%;
+    width: 10px;
+    margin: 0 3px 0 0;
+    background-color: #e60012;
+    display: inline-block;
+    -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+    animation: stretchdelay 1.2s infinite ease-in-out
+}
+.rectangle-bounce .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s
+}
+.rectangle-bounce .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s
+}
+.rectangle-bounce .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s
+}
+.rectangle-bounce .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s
+}
+@-webkit-keyframes stretchdelay {
+    0%, 40%, 100% {
+        -webkit-transform: scaleY(0.4)
+    }
+    20% {
+        -webkit-transform: scaleY(1)
+    }
+}
+@keyframes stretchdelay {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4)
+    }
+    20% {
+        transform: scaleY(1);
+        -webkit-transform: scaleY(1)
+    }
+}
+// 分页loading效果 end

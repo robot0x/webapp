@@ -11,50 +11,47 @@ $(function() {
         isWirelessDev = /iphone|mobile|phone|android|pad/i.test(UA);
         // 如果是小屏移动设备，那么就跳转到share页
         // 大屏移动设备及pc，比如ipad、androidPad、pc还是用pc页
-        console.log('isWirelessDev %s',isWirelessDev)
-        console.log('window.innerWidth < 600:%s',window.innerWidth < 600)
-        console.log('isWirelessDev && window.innerWidth < 600:%s',isWirelessDev && window.innerWidth < 600)
         try{
-            if(isWirelessDev && window.innerWidth < 600){
-                window.location.href = 'http://c.diaox2.com/share/'+document.body.id+'.html';
-             }
+        if(isWirelessDev && document.documentElement.offsetWidth < 600){
+        window.location.href = 'http://c.diaox2.com/share/'+document.body.id+'.html';
+        }
         }catch(e){
-            console.log(e);
+        console.log(e);
         }
         if (bannerContainer !== null) {
-        var
-        bannerList = bannerContainer.querySelector('.banner-list'),
-        bannerListLi = bannerList.querySelectorAll('li'),
-        len = bannerListLi.length,
-        // 开关变量。若轮播的图片为一张，就不需要轮播效果，且左右两边也不需要切换按钮
-        isOne = len === 1,
-        index = 0,
-        timer, flag = true,
-        zIndex = maxZindex = len - 1,
-        curLi,
-        $bannerList = $(bannerList),
-        $bannerContainer = $(bannerContainer),
-        // 上一张
-        $prevBtn = $bannerContainer.prev(),
-        // 下一张
-        $nextBtn = $bannerContainer.next(),
-        // banner宽度
-        bannerWidth = $bannerContainer.width();
-if (!isOne) {
-    $(bannerListLi).each(function(index, every) {
-            every.style.zIndex = zIndex--;
-            });
-    $prevBtn.on('click', function() {
-            if (--index === -1) {
-            index = len - 1;
-            }
-            curLi = bannerListLi[index];
-            curLi.style.left = -bannerWidth + "px";
-            curLi.style.zIndex = ++maxZindex;
-            $(curLi).animate({
+            var
+                bannerList = bannerContainer.querySelector('.banner-list'),
+                           bannerListLi = bannerList.querySelectorAll('li'),
+                           len = bannerListLi.length,
+                           // 开关变量。若轮播的图片为一张，就不需要轮播效果，且左右两边也不需要切换按钮
+                           isOne = len === 1,
+                           index = 0,
+                           timer, flag = true,
+                           zIndex = maxZindex = len - 1,
+                           curLi,
+                           $bannerList = $(bannerList),
+                           $bannerContainer = $(bannerContainer),
+                           // 上一张
+                           $prevBtn = $bannerContainer.prev(),
+                           // 下一张
+                           $nextBtn = $bannerContainer.next(),
+                           // banner宽度
+                           bannerWidth = $bannerContainer.width();
+            if (!isOne) {
+                $(bannerListLi).each(function(index, every) {
+                        every.style.zIndex = zIndex--;
+                        });
+                $prevBtn.on('click', function() {
+                        if (--index === -1) {
+                        index = len - 1;
+                        }
+                        curLi = bannerListLi[index];
+                        curLi.style.left = -bannerWidth + "px";
+                        curLi.style.zIndex = ++maxZindex;
+                        $(curLi).animate({
 left: 0
 });
-            })
+                        })
 $nextBtn.on('click', function() {
         if (++index === len) {
         index = 0;
@@ -293,15 +290,15 @@ function get_stat() {
 }
 
 $(function(){
-        var uid = $.cookie('DDuid');
-        if(uid == undefined)
-        uid = -1;
-        logpage({"user": uid}); 
+    var uid = $.cookie('DDuid');
+    if(uid == undefined)
+    uid = -1;
+    logpage({"user": uid}); 
 
     $("img.lazy").each(function(){
         var tmp = $(this).attr('data-src');
         $(this).attr('src', tmp);
         });
 
-        get_stat();
+    get_stat();
 });

@@ -10,6 +10,7 @@
 <title>搜索结果</title>
 <script>
 function adjust(img){
+  // console.log(img);
     var imgContainer = img.parentNode,
         width = imgContainer.offsetWidth,
         height = imgContainer.offsetHeight,
@@ -74,14 +75,8 @@ function adjust(img){
  		 	<h1 class="hot-title f-l">大家都在搜：</h1>
  		 	<ul class="hot-search-word-list f-l clearfix"></ul>
  		 </div>
-         <div class="no-result clearfix disnone">
-         	<i class="no-result-face f-l"></i>
-         	<p class="f-l">
-         		找不到<span class="target-word">“礼物”</span>，换个关键词试试
-         	</p>
-         </div>
- 		 <div class="search-result-list">
- 		 	<ul class="result-list"></ul>
+    <div class="search-result-list">
+ 		 	<ul class="result-list" id="result-list"></ul>
  		 </div>
         <!-- 礼物问答机代码 start-->
          <div class="present-area" style="display:none"> 
@@ -91,7 +86,7 @@ function adjust(img){
                     <h2>场景</h2>
                     <ul>
                         <li data-group="scene" data-title="七夕情人节">情人节</li>
-                        <li data-group="scene" data-title="告白">告白</li>
+                        <li data-group="scene" data-title="告白" id="test">告白</li>
                         <li data-group="scene" data-title="生日">生日</li>
                         <li data-group="scene" data-title="纪念日">纪念日</li>
                         <li data-group="scene" data-title="新婚">新婚</li>
@@ -109,7 +104,7 @@ function adjust(img){
                         <li data-group="relation" data-title="老婆女友">老婆女友</li>
                         <li data-group="relation" data-title="基友">基友</li>
                         <li data-group="relation" data-title="闺密">闺蜜</li>
-                        <li data-group="relation" data-title="同事朋友">朋友同事</li>
+                        <li data-group="relation" data-title="朋友同事">朋友同事</li>
                         <li data-group="relation" data-title="老板">老板</li>
                     </ul>
                 </div>
@@ -139,14 +134,21 @@ function adjust(img){
             <!-- 卡片 -->
             <div class="present-result">
             <ul class="goodthing-list clearfix" id="goodthing-list"></ul>
+            <div style="display:none;" class="rectangle-bounce"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>
             </div>
         </div>
         <!-- 礼物问答机代码 end-->
+        <div class="no-result clearfix disnone">
+          <i class="no-result-face f-l"></i>
+          <p class="f-l">
+            找不到<span class="target-word"></span>，换个关键词试试
+          </p>
+         </div>
 		</div>
 		<!-- 左侧热门区 -->
 		<div class="hot-topics-area f-l">
 			<h2 class="hot-topics"><img src="images/hot-topics.png">热门专题</h2>
-			<ul class="special"></ul>
+			<ul class="special" id="special"></ul>
       <a target="_blank" href="http://diaox2.com/downloads" class="erweima">
         <span>更多精彩<br>下载APP</span>
         <img src="images/download_96.jpg" width="96" height="96" alt="扫码下载调调">

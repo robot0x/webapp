@@ -41,7 +41,6 @@ $(function() {
       });
       return hotWordArr.slice(0, len);
     }
-
   if (param && param.q) {
     document.title = param.q + "_" + document.title;
     $('#search-input').val(param.q);
@@ -56,13 +55,7 @@ $(function() {
           type: "GET",
           jsonp: 'cb',
           jsonpCallback: "cb3",
-          // timeout:20000,
-          error: function(e) {
-            console.log("热搜词接口的jsonp执行失败！！");
-            console.log(e);
-          },
           success: function(data) {
-            console.log("热搜词接口的jsonp执行成功！！");
             hotWordArr = data.res.search.hot_slide_search_word;
             hotWordArr = randArray(hotWordArr, 5);
             $.each(hotWordArr, function(index, every) {
@@ -83,9 +76,6 @@ $(function() {
                 "from": "pc"
               })
             },
-            error: function(e) {
-              console.log("搜索接口的jsonp执行失败！！" + " " + e);
-            },
             success: normalSearchSuccess
           });
   }else{
@@ -97,10 +87,7 @@ $(function() {
       jsonp: 'cb',
       jsonpCallback: "cb4",
       cache:true,
-      timeout: 80000,
-      error: function(e) {
-        console.log("搜索接口的jsonp执行失败！！" + " " + e);
-      },
+      timeout: 100000,//数据很大，设置的过期时间要长一些
       success: specSearchSuccess
   });
       // 当前选中效果的切换
@@ -109,7 +96,7 @@ $(function() {
       // 不同的tag数组，格式为 {生日: Array[519], 圣诞节平安夜: Array[424], 新生儿: Array[2], 乔迁: Array[203], 新年: Array[444]…}
       tagList = {};
       // 礼物筛选器的点击处理
-      $(document).on('click','.present-type li',function(){
+      function handler(){
           // 告白 老公男友 小清新 Geek 潮人 礼物 文艺范 200-500 500-800 
           // 区分4种
           $this = $(this);
@@ -140,21 +127,39 @@ $(function() {
             $this.toggleClass('cur-select');
           }
           renderDOMByIntersect();
-      })
+      }
+      /*
+        函数节流，防止用户疯狂点击
+      */
+      $(document).on('click','.present-type li',function(){
+         throttle(handler,this,300);
+      });
     }
-
   function renderDOMByIntersect(){
     var interList = intersect(),//得到交集
         meta_infos = jsonDataFormServe.meta_infos,
-        meta_infos_arr = [];
-        console.log(interList);
+        meta_infos_obj = {}; // 要转成对象
     if(interList && interList.length){
       interList.forEach(function(item){
-        meta_infos_arr.push(meta_infos[item]);
+        if(meta_infos[item]){
+          meta_infos_obj[item] = meta_infos[item];
+        }
       })
-     // renderDOM(meta_infos_arr);
+    $('.no-result').hide();
+    $('.no-result p.f-l').html('找不到<span class="target-word"></span>，换个关键词试试');
+     renderDOM(meta_infos_obj);
     }else{
-      // renderDOM(meta_infos);
+      var curSelect = document.querySelectorAll('.cur-select');
+      // 两种情况，一种交集是空集，一种是没有选择任何条件
+      if(curSelect.length){
+        document.getElementById('goodthing-list').innerHTML = '';
+        $('.no-result').show();
+        $('.no-result p.f-l').text('没有结果，换个组合试试');
+        toggleLoading('none');
+      }else{
+       // console.dir(meta_infos);
+        renderDOM(meta_infos);
+      }
     }
   }
   /********** 工具方法区 start ************/
@@ -192,7 +197,6 @@ $(function() {
   */
   // 求并集（同一组）与交集并排序
   function intersect(){
-    console.time('intersect');
     var 
         curSelect = $('.scene .cur-select,.relation .cur-select,.character .cur-select'),
         priceEleArr = $('.price .cur-select'),
@@ -223,7 +227,6 @@ $(function() {
         return prev.concat(next);
       }).unique());//放入数组中。供下面求交集
     }
-
     // 根据价格区间筛选出符合条件的好物
     if(priceEleArr.length){
       priceEleArr.each(function(index,item){
@@ -243,18 +246,16 @@ $(function() {
     // 求交集
     if(aidsArray.length){
       metaResult = aidsArray.reduce(function(prev,next){
-      newArray.length = 0;//清空数组
-      prev.forEach(function(item){
-        next.forEach(function(item2){
-          if(item === item2){
-            newArray.push(item);
-          }
-        })
+          prev.forEach(function(item){
+            next.forEach(function(item2){
+              if(item === item2){
+                newArray.push(item);
+              }
+            })
+          })
+          return newArray;
       })
-      return newArray;
-    })
     }
-    console.timeEnd('intersect');
     return metaResult;
   }
   function isNullObject(obj){
@@ -267,21 +268,15 @@ $(function() {
      return true;
   }
   // TODO 为了提高性能需要做缓存（根据价格区间筛选出来的好物，没必要再次筛选一次）!
-  // var cacheForPrice = {}
   function getAidsByPrice(price){
    // TODO 解析价格数组，变成价格区间
    // 组装筛选条件
-   console.time('getAidsByPrice');
    var 
-      priceRange,has_buylink,attr,each,reg = /\d+(\.\d+)?/g,eachPrice,result = [],
-      // cacheResult=[],
+      priceRange,has_buylink,attr,each,
+      // 筛选出类似于 13.4，12,999等格式的价格
+      reg = /\d+((\.|,)\d+)?/g,eachPrice,result = [],
       meta_infos = jsonDataFormServe.meta_infos;
    price.forEach(function(item){
-      if(!isNullObject(cacheForPrice) && item in cacheForPrice){
-          result.concat(cacheForPrice[item]);
-          // break;
-      }
-      cacheResult.length = 0;
       priceRange = item.split('-');
         for(attr in meta_infos){
           attr = +attr;
@@ -294,72 +289,110 @@ $(function() {
           }
           eachPrice = eachPrice.match(reg);
           if(eachPrice && eachPrice.length){
-            eachPrice = parseFloat(eachPrice[0]);
+            eachPrice = eachPrice[0];
+            if(eachPrice.indexOf(',') !== -1){
+              eachPrice = eachPrice.split(',').join('');
+            }
+            eachPrice = parseFloat(eachPrice);
           }
           if(eachPrice >= priceRange[0]){
             if(priceRange[1]){
               if(eachPrice < priceRange[1]){
-                  // cacheResult.push(attr);
                   if(result.indexOf(attr) === -1){
                     result.push(attr)
                   }
               }
             }else{
-                // cacheResult.push(attr);
                 if(result.indexOf(attr) === -1){
                   result.push(attr)
                 }
               }
           }
         }
-        // debugger;
-        // cacheForPrice[item] = cacheResult;//更新缓存
    })
-   console.log(cacheForPrice);
-   console.timeEnd('getAidsByPrice');
    return result;
   }
-  function renderDOM(meta_infos,flag){
-    console.time('renderDOM');
+  // needUpdateMeta 该对象用于分页。每次增加几条，就delete几条的属性，保证下次更新从这个对象中取的数据不重复
+  var needUpdateMeta;
+  function renderDOM(meta_infos){
     var 
-        goodthingList = document.getElementById('goodthing-list'), //使用原生dom方法，提高性能
-        // goodthingList = $('.goodthing-list'),
-        attr ,imgUrl ,rendered_title,url,price,html='',
-        gift_tag_index = data.gift_tag_index;
+        attr ,imgUrl ,rendered_title,url,price,
+        goodthingList = document.getElementById('goodthing-list'),
+        stringBuffer = [];
+        gift_tag_index = data.gift_tag_index,
+        count = 0;
         goodthingList.innerHTML = ''; // 清空
-        var count = 0;
         for(attr in meta_infos){
-         count++;
-         if(count > 10) {
-          // break;
+         if(count++ >= 8){
+          needUpdateMeta = meta_infos;
+          break;
          }
          everyMeta = meta_infos[attr];
-         imgUrl = everyMeta.cover_image_url;
-         rendered_title = everyMeta.rendered_title;
-         price = everyMeta.price;
-         if (!everyMeta.has_buylink || price == null || price === "N/A") {
-           price = "&nbsp";
-         }
-         url = everyMeta.url;
-         if(url){
-          match = url.match(reg);
-            if (match && match.length) {
-              url = match[0].replace(reg, toReplaceStr);
-            } else {
-              match = url.match(reg2);
-              if (match && match.length) {
-                url = match[0].replace(reg2, toReplaceStr);
+         if(everyMeta){
+             imgUrl = everyMeta.cover_image_url;
+             rendered_title = everyMeta.rendered_title;
+             price = everyMeta.price;
+             if (!everyMeta.has_buylink || price == null || price === "N/A") {
+               price = "&nbsp";
+             }
+             url = everyMeta.url;
+             if(url){
+              match = url.match(reg);
+                if (match && match.length) {
+                  url = match[0].replace(reg, toReplaceStr);
+                } else {
+                  match = url.match(reg2);
+                  if (match && match.length) {
+                    url = match[0].replace(reg2, toReplaceStr);
+                  }
               }
-          }
+             }
+             if (imgUrl&&imgUrl.indexOf("http") == -1) {
+                  imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
+             }
+             // 发布去除 http://www.diaox2.com/
+             // 优化。提高字符串拼接速度
+             stringBuffer.push('<li class="goodthing"><a href="http://www.diaox2.com/',url,'" target="_blank"><div class="img-container"><img src="',imgUrl,'" alt="',rendered_title,'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>',rendered_title,'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>',price,'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>...</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>...</span></li></ul></div></a></li>');
+             // stringBuffer.push('<li class="goodthing"><a href="http://www.diaox2.com/',url,'" target="_blank"><div class="img-container"><img src="',imgUrl,'" alt="',rendered_title,'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>',rendered_title,'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>',price,'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>',132,'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>',123,'</span></li></ul></div></a></li>')
+             // html += '<li class="goodthing"><a href="http://www.diaox2.com/'+url+'" target="_blank"><div class="img-container"><img src="'+imgUrl+'" alt="'+rendered_title+'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>'+rendered_title+'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>'+price+'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>'+132+'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>'+123+'</span></li></ul></div></a></li>';
+            delete meta_infos[attr]; // 插入之后就删除。
          }
-         if (imgUrl&&imgUrl.indexOf("http") == -1) {
-              imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
-         }
-         // 发布去除 http://www.diaox2.com/
-         html += '<li class="goodthing"><a href="http://www.diaox2.com/'+url+'" target="_blank"><div class="img-container"><img src="'+imgUrl+'" alt="'+rendered_title+'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>'+rendered_title+'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>'+price+'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>'+132+'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>'+123+'</span></li></ul></div></a></li>';
       }
-        goodthingList.innerHTML = html;
-        console.timeEnd('renderDOM');
+        document.getElementById('goodthing-list').innerHTML = stringBuffer.join('');
+  }
+/*
+  检查两个字符串是否包含有相同的部分
+  如：七夕情人节  给老婆的情人节礼物|给老婆的七夕礼物  返回 true
+*/
+function checkStr(a,b){
+    var i ;
+    for(i=0; i<=a.length-1; i++){
+     if (a.indexOf(b.substr(i,1))!=-1){
+        return true;  
+      }else if (i==a.length-1){
+        return false;
+      }
+  }
+  return false;
+}
+  /*
+    通过对礼物筛选框中的词进行筛选来触发不同keywords的点击事件
+    支持自然语言，例如 给老公的生日礼物
+    则会命中 老公男友 生日
+    TODO
+  */
+  function triggerClickByQueryStatement(){
+    var queryStatement = q.split('+').join(''),liArr = Array.prototype.slice.call(document.querySelectorAll('.present-type li'));
+    /*
+      函数只执行了一次，因为为了防止用户疯狂点击，我使用了函数节流，导致300ms之内不会触发2次点击，
+      但是调用click方法会很快，触发事件的时间间隔一定是小于300ms的，所以导致只能执行第一个。
+      解决办法是：直接调用handler，并把上下文赋值成每个li元素
+    */
+    liArr.forEach(function(item){
+      if(queryStatement.indexOf(item.innerHTML)!== -1){
+        handler.call(item);
+      }
+    })
   }
    // 特殊query的success回调（搜索词中含有“礼物”，即认为是特殊query）
   function specSearchSuccess(data){
@@ -367,16 +400,17 @@ $(function() {
     jsonDataFormServe = data;
     var gift_tag_index = data.gift_tag_index;
     $.extend(tagList, gift_tag_index.scene, gift_tag_index.relation, gift_tag_index.character);
-    //如果搜索词不是礼物，而是含有礼物的话（比如：礼物 生日），就不需要直接更新dom，需要先求交集再更新dom
+    //如果搜索词不是礼物，而是含有礼物的话（比如：礼物 生日），就需要触发点击事件来调用renderDOM，而不是直接调用
     if(q !== '礼物'){
-      return;
+        triggerClickByQueryStatement();
+        return;
     }
     // return;//加快调试速度，开发时，暂不更新dom
-      // renderDOM(data.meta_infos);
+      renderDOM(data.meta_infos);
   }
   // 一般query的success回调
   function normalSearchSuccess(data) {
-      console.log("查询接口的jsonp执行成功！！");
+      // console.log("查询接口的jsonp执行成功！！");
       if (data.count > 0) {
         var
           aids = data.aids,
@@ -387,8 +421,8 @@ $(function() {
           rendered_title,
           authorSrc,
           url, match,
-          imgUrl,
-          $resultList = $('.result-list');
+          stringBuffer = [],
+          imgUrl;
         $.each(aids, function(index, every) {
           everyMeta = meta_infos[every];
           //清空keyword串，保证每条文章的keyword串都是全新的
@@ -429,33 +463,37 @@ $(function() {
             price = "&nbsp";
           }
           // 发布去除 http://www.diaox2.com/
-          $('<li class="result-item" data-pos='+(index+1)+'><a target="_blank" href="http://www.diaox2.com/' + url + '" class="imglink f-l"><div class="result-item-img-container loading"><img src="' + imgUrl + '" alt="'+rendered_keywords+'" width="188" height="188"></div></a><div class="result-item-detail f-l"><h2 class="detail-title"><a target="_blank" href="' + url + '">' + rendered_title + '</a></h2><ul class="detail-keywords clearfix">' + keywords_str +'</ul><div class="detail-author clearfix"><a class="detail f-l">' + price + '</a><div class="author f-l clearfix"><ul class="clearfix"><li class="author-face f-l"><a target="_blank" href="' + authorSrc + '"><span class="author-face-container"><img src="http://c.diaox2.com/cms/diaodiao/' + everyMeta.author.pic + '" width="20" height="20"></span></a></li><li class="author-name f-l"><a target="_blank" href="' + authorSrc + '">' + everyMeta.author.name + '</a></li></ul></div></div></div></li>').appendTo($resultList);
+          // 优化。提高字符串拼接速度
+          stringBuffer.push('<li class="result-item" data-pos=',index+1,'><a target="_blank" href="http://www.diaox2.com/','" class="imglink f-l"><div class="result-item-img-container loading"><img src="',imgUrl,'" alt="',rendered_keywords,'" width="188" height="188"></div></a><div class="result-item-detail f-l"><h2 class="detail-title"><a target="_blank" href="',url,'">',rendered_title,'</a></h2><ul class="detail-keywords clearfix">',keywords_str,'</ul><div class="detail-author clearfix"><a class="detail f-l">',price,'</a><div class="author f-l clearfix"><ul class="clearfix"><li class="author-face f-l"><a target="_blank" href="',authorSrc, '"><span class="author-face-container"><img src="http://c.diaox2.com/cms/diaodiao/',everyMeta.author.pic, '" width="20" height="20"></span></a></li><li class="author-name f-l"><a target="_blank" href="',authorSrc,'">',everyMeta.author.name,'</a></li></ul></div></div></div></li>');
         })
+          document.getElementById('result-list').innerHTML = stringBuffer.join('');
       } else {
         $(".no-result").find(".target-word").html("“" + (q == undefined ? "" : q) + "”");
         $(".no-result").addClass("disblk");
       }
       // 最后给每条搜索结果加上点击事件，用以统计点击
-      var resultItem = $('.result-item');
-      var pos = resultItem.attr('data-pos');
-      var url = resultItem.find('.imglink ').attr('href');
+      var resultItem = $('.result-item'),
+          pos = resultItem.attr('data-pos'),
+          url = resultItem.find('.imglink ').attr('href');
       resultItem.on('click','a.imglink,.detail-title a',function(e){
-         var dom = e.delegateTarget;
-         var href = this.href;
-         var pos = dom.getAttribute('data-pos');
+         var  
+             dom = e.delegateTarget,
+             href = this.href,
+             pos = dom.getAttribute('data-pos'),
 
-         var curUrl = window.location.href;
-         var storage = localStorage;
-         var data = JSON.parse(storage.getItem('statisticsData'));
-         var search = data.click_data.search;
-         var i = 0;
-         var l = search.length;
+             curUrl = window.location.href,
+             storage = localStorage,
+             data = JSON.parse(storage.getItem('statisticsData')),
+             search = data.click_data.search,
+             i = 0,
+             l = search.length,
+             eachSearch,clickArr,newClick;
          if(curUrl.indexOf('&t=h') !== -1){
             for(;i<l;i++){
-              var eachSearch = search[i];
+              eachSearch = search[i];
               if(eachSearch.query === q && eachSearch.from === 'pc_hotQueries'){
-                var clickArr = eachSearch.click;
-                var newClick = {
+                 clickArr = eachSearch.click;
+                 newClick = {
                   url:href,
                   pos:pos
                 }
@@ -464,10 +502,10 @@ $(function() {
             }
          }else{
           for(;i<l;i++){
-              var eachSearch = search[i];
+              eachSearch = search[i];
               if(eachSearch.query === q){
-                var clickArr = eachSearch.click;
-                var newClick = {
+                 clickArr = eachSearch.click;
+                 newClick = {
                   url:href,
                   pos:pos
                 }
@@ -486,15 +524,10 @@ $(function() {
     jsonp: 'cb',
     jsonpCallback: "cb",
     timeout: 20000,
-    error: function(e) {
-      console.log("获取热门专题接口的jsonp执行失败！！");
-      console.log(e);
-    },
     success: function(result) {
-      console.log("获取热门专题接口的jsonp执行成功！！");
       var list = result.goodthing_feed_list,
-        url,
-        special = $(".special");
+        url,stringBuffer = [],
+        stringBuffer;
       $.each(list, function(index, item) {
         if (index > 1) return;
         url = item.url;
@@ -520,22 +553,16 @@ $(function() {
           }
           titleStr2 = title[len - 1];
         }
-        $('<li class="loading">' +
-          '<a target="_blank" href="' + url + '">' +
-          '<img src="' + item.cover_image_url + '" alt="'+titleStr.replace('<br>','')+'" width="277" height="180">' +
-          '<p>' + titleStr + '</p>' +
-          '<span>' + titleStr2 + '</span>' +
-          '<div class="black-musk"></div>' +
-          '</a>' +
-          '</li>').appendTo(special);
+         stringBuffer.push('<li class="loading"><a target="_blank" href="',url,'"><img src="',item.cover_image_url,'" alt="',titleStr.replace('<br>',''),'" width="277" height="180"><p>',titleStr,'</p><span>',titleStr2,'</span><div class="black-musk"></div></a></li>');
       });
+        document.getElementById('special').innerHTML = stringBuffer.join('');
     }
   });
-  var curUrl = window.location.href;
-  var storage = localStorage;
-  var statisticsData = storage.getItem('statisticsData');//取出统计数据
-  var data = statisticsData?JSON.parse(statisticsData):{};
-  var from;
+   var curUrl = window.location.href,
+        storage = localStorage,
+        statisticsData = storage.getItem('statisticsData'),//取出统计数据
+        data = statisticsData?JSON.parse(statisticsData):{},
+        from;
   if (!statisticsData){
       // 没有统计数据，就初始化统计数据
       data.method = 'log_search_click';
@@ -578,5 +605,124 @@ $(function() {
   //     })
   //   }
   // }
+
   document.getElementById("search-input").value = document.getElementById('search-input').value.replace(/\+/g, " ");
+   
+ function isNullObject(obj){
+   if(obj == null){
+    return true;
+   }
+   for(var attr in obj){
+     return false;
+   }
+   return true;
+ }
+  function toggleLoading(display){
+    document.querySelector('.rectangle-bounce').style.display = display;
+  }
+   function updateDOM(){
+    // 如果已经加载完毕，直接返回
+    if(isNullObject(needUpdateMeta)){
+      toggleLoading('none');
+      return;
+    }
+    var 
+        attr ,imgUrl ,rendered_title,url,price,
+        goodthingList = document.getElementById('goodthing-list'),
+        // 新节点的克隆模板
+        goodthing = goodthingList.querySelector('.goodthing'),
+        frag = document.createDocumentFragment(), // 乾坤袋
+        stringBuffer = [],
+        // 新节点（li）的相关dom
+        newNode,a,img,goodthingHighlight,spanPrice,
+        gift_tag_index = data.gift_tag_index,
+        count = 0;
+        for(attr in needUpdateMeta){
+          if(!attr || isNaN(attr) || count++ >= 8){
+            break;
+          }
+         // 深克隆一个节点
+         newNode = goodthing.cloneNode(true);
+         a = newNode.querySelector('a');
+         img = a.querySelector('.img-container img');
+         goodthingHighlight = a.querySelector('.goodthing-highlight h2 div');
+         spanPrice = a.querySelector('.icon-list .f-l span');
+         everyMeta = needUpdateMeta[attr];
+         if(everyMeta) {
+             imgUrl = everyMeta.cover_image_url;
+             rendered_title = everyMeta.rendered_title;
+             price = everyMeta.price;
+             if (!everyMeta.has_buylink || price == null || price === "N/A") {
+               price = "&nbsp";
+             }
+             url = everyMeta.url;
+             if(url){
+              match = url.match(reg);
+                if (match && match.length) {
+                  url = match[0].replace(reg, toReplaceStr);
+                } else {
+                  match = url.match(reg2);
+                  if (match && match.length) {
+                    url = match[0].replace(reg2, toReplaceStr);
+                  }
+              }
+             }
+             if (imgUrl&&imgUrl.indexOf("http") == -1) {
+                  imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
+             }
+             a.url = url;
+             img.src = imgUrl;
+             img.alt = rendered_title;
+             goodthingHighlight.innerHTML = rendered_title;
+             spanPrice.innerHTML = price;
+             frag.appendChild(newNode);
+         }
+         // 插入之后就删除。偷了个懒。
+         delete needUpdateMeta[attr]; 
+      }
+       // 把乾坤袋收集的dom元素插入到页面
+        goodthingList.appendChild(frag);
+    }
+ /*
+   函数节流：
+   防止onscroll满足条件时执行两次
+   可以防止onscroll执行过快
+   可以防止用户点击过快
+  */
+  function throttle(method,context,ms){
+      clearTimeout(method.tId);
+      method.tId=setTimeout(function(){
+          method.call(context);
+      },ms);
+  }
+  /*
+    修复dom0级事件只能绑定一次的问题。
+    解决 惰性加载的onscroll事件回调覆盖回到顶部的onscroll事件回调的问题
+  */
+  function addEvent(obj,type,fn){
+    var initFn = obj['on'+type];
+    if(initFn){
+      obj['on'+type] = function(){
+        initFn();
+        fn();
+      }
+    }else{
+      obj['on'+type] = fn;
+    }
+  }
+  if(isSpecSearch){
+    addEvent(window,'scroll',function(){
+    // 如果没有礼物好物，直接返回
+      if(!document.querySelector('.goodthing')){
+        return;
+      }
+      var pageHeight = document.body.clientHeight,
+          windowHeight = document.documentElement.offsetHeight,
+          scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                if(scrollTop + windowHeight === pageHeight){
+          throttle(updateDOM,window,700);
+          toggleLoading('block');
+        }
+    })
+  }
 })
