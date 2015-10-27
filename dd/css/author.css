@@ -180,6 +180,9 @@ input:-ms-input-placeholder {
   background: #ff0014;
   color: #fff; }
 
+.header-box ul.login {
+  visibility: hidden; }
+
 html {
   height: 100%; }
 

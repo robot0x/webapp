@@ -12,7 +12,7 @@
 <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?debug=true" type="text/javascript" charset="utf-8"></script>
 </head>
 <body id=13640816135272 data-num=123>
-<!-- <body id="13842679598231" class="3223_3223"> -->
+<!--<body id="13842679598231" class="3223_3223">-->
 <div class="wrapper">
   <div class="header">
  	<div class="header-box">
@@ -205,32 +205,26 @@
 </div>
 <!-- 登录弹出框 end-->
 <!-- 分享布局 start -->
-<div class="share-mask disnone"></div>
-<div class="share-area disnone">
-<div class="share-method-container">
-	<div class="share-wb active">分享到新浪微博</div>
-	<div class="share-wx">分享到微信</div>
-	<i class="share-close"></i>
+<div class="share-mask"></div>
+<div class="share-area">
+<i class="share-close"></i>
+<div class="share-method">
+    <h2 class="share-title">分享到</h2>
+    <ul class="share-list clearfix">
+        <li class="share-weixin">
+            <img src="images/weixin.png" alt="分享到微信" width="90" height="90">
+            <h3>微信</h3>
+        </li>
+        <li>
+            <img src="images/weibo.png" alt="分享到微博" width="90" height="90">
+            <h3>微博</h3>
+        </li>
+        <li>
+            <img src="images/qqzone.png" alt="分享到QQ空间" width="90" height="90">
+            <h3>空间</h3>
+        </li>
+    </ul>
 </div>
-<ul class="share-list clearfix">
-	<li class="share-list-wb f-l">
-		<textarea placeholder="这里是默认文案"></textarea>
-        <ul class="share-wb-img-list clearfix">
-        	<li class="f-l"><img src="images/b1.jpg" alt="" width="100" height="100"></li>
-        	<li class="f-l"><img src="images/b2.jpg" alt="" width="100" height="100"></li>
-        </ul>
-        <ul class="share-wb-btn-list f-r">
-        	<li class="f-l cancle"><a href="javascript:;">取消</a></li>
-        	<li class="f-l"><a href="javascript:;">发布</a></li>
-        </ul>
-        <!-- <wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" refer="y" ></wb:publish> -->
-
-	</li>
-	<li class="share-list-wx f-l">
-        <div id="qrcode"></div>
-		<p>请在微信中扫描二维码，然后轻触屏幕右上角...分享给朋友们</p>
-	</li>
-</ul>
 </div>
 <!-- 分享布局 end -->
 <div class="bottombar"><div class="bottom-share" id="sss"></div><div class="line"></div></div>
@@ -238,105 +232,5 @@
 <script src="js/login.js" defer="defer"></script>
 <script src="js/qrcode.min.js" defer="defer"></script>
 <script src="js/article.js" defer="defer"></script>
-<script type="text/javascript">
-var GetNum = function( opts, fnSuccess, fnFail ) {
-    var url = "http://api.diaox2.com/v1/stat/all";
-    // 如果1个参数，那么就是fnSuccess
-    if(arguments.length === 1){
-      this.opts = {url:url};
-      this.fnSuccess = arguments[0];
-    }else if(arguments.length === 2){
-      var arg1 = arguments[0];
-      var arg2 = arguments[1];
-      if(typeof arg1 === "function" && typeof arg2 === "function"){
-        this.opts = {url:url};
-        this.fnSuccess = arg1;
-        this.fnFail = arg2;
-      }else{
-        this.opts = arg1;
-        this.fnSuccess = arg2;
-      }
-    }else{
-      this.opts = opts;
-      this.fnSuccess = fnSuccess;
-      this.fnFail = fnFail;
-    }
-}
-GetNum.prototype = {
-
-    constructor: GetNum,
-
-    getStat: function() {
-        var self = this;
-        var className = self.opts.className || "unknown";
-        var eles = $("." + self.opts.className);
-        // author页 和 category页
-        if (eles && eles.length) {
-            var cids = [],
-                i = 0,
-                l = eles.length,
-                ele;
-            while (i < l) {
-                ele = $(eles[i++]);
-                if (isNaN(eles.attr('data-id'))) {
-                    continue; 
-                }
-                cids.push(+eles.attr('data-id'));
-            }
-            (function(input) {
-                (function() {
-                    var pack = input.slice(0, 100);
-                    input = input.slice(100);
-                    if (pack.length > 0) {
-                        self.doUpdate(pack);
-                        setTimeout(arguments.callee, 2000); //2秒后调用下一波
-                    } else {
-                        console.log("timer is off, callback time");
-                    }
-                })()
-            })(cids)
-
-        } else { // article 页
-            self.doUpdate( [ +$("body").attr('id') ] );
-        }
-
-    },
-    doUpdate: function(cids) {
-        var self = this;
-        var jsonstr = JSON.stringify({
-            "aids": cids
-        });
-        var fnFail = self.fnFail || function(x, t, e) {
-                console.log("update failed, with error " + e);
-            };
-        jQuery.support.cors = true;
-        $.ajax({
-            dataType: "jsonp",
-            crossDomain:true,
-            cache:true,
-            jsonp:'cb',
-            jsonpCallback: 'cb',
-            url: self.opts.url+"?data="+decodeURIComponent(jsonstr),
-            success: self.fnSuccess,
-            timeout: 8000,
-            error: self.fnFail
-        });
-    }
-}
-var getNum = new GetNum(function(data){
-   if (data.result != "SUCCESS") {
-        console.log('update invoked but server fail.');
-        console.log(data);
-        return false;
-    } else {
-        var elements = $(".zs-box");
-        var aid = $('body').attr('id');
-        elements.find('.a-fav').text(data.res[aid].fav);
-        elements.find('.a-up').text(data.res[aid].up);
-    }
-    return true;
-});
-getNum.getStat();
-</script>
 </body>
 </html>

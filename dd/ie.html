@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style type="text/css"></style>
+<title></title>
+</head>
+<body>
+<input type="text" value="哈哈" id="in">
+<img id='img' src="http://a.diaox2.com/cms/sites/default/files/20150103/experience/sp596_0.jpg">
+<textarea name="text" id="txt">爱上大时代敖德萨</textarea>
+<select name="text" id="sel">
+    <option value="a">a</option>
+    <option value="a">b</option>
+    <option value="c">c</option>
+</select>
+<object data="" type="" id="obj"></object>
+<script>
+window.onload = function(){
+    var input = document.getElementById('in');
+    var img = document.getElementById('img');
+    var textarea = document.getElementById('txt');
+    var select = document.getElementById('sel');
+    var object = document.getElementById('obj');
+    console.log("input:"+getComputedStyle(input,null).display); 
+    console.log("img:"+getComputedStyle(img,null).display); 
+    console.log("textarea:"+getComputedStyle(textarea,null).display); 
+    console.log("select:"+getComputedStyle(select,null).display); 
+    console.log("object:"+getComputedStyle(object,null).display); 
+}
+</script>
+</body>
+</html>

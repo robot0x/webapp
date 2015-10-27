@@ -28,6 +28,8 @@ $(function() {
     $hotSearchList = $(hotSearchList),
     hotWord, hotWordArr, form,
     q = $.getParam().q,
+    // devprefix = "http://www.diaox2.com/",
+    devprefix = "",
     // 第一种文章url 形如 http://c.diaox2.com/view/app/?m=show&id=1234(&ch=goodthing)
     reg = /\/view\/app\/\?m=(?:show|zk|scene)&id=(\d+)?(&ch=goodthing)?/i,
     // 第二中文章url 形如 http://c.diaox2.com/cms/diaodiao/articles/goodthing/893_893.html
@@ -40,7 +42,7 @@ $(function() {
         return Math.random() - 0.5;
       });
       return hotWordArr.slice(0, len);
-    }
+    };
   if (param && param.q) {
     document.title = param.q + "_" + document.title;
     $('#search-input').val(param.q);
@@ -55,6 +57,7 @@ $(function() {
           type: "GET",
           jsonp: 'cb',
           jsonpCallback: "cb3",
+          cache:true,
           success: function(data) {
             hotWordArr = data.res.search.hot_slide_search_word;
             hotWordArr = randArray(hotWordArr, 5);
@@ -79,6 +82,66 @@ $(function() {
             success: normalSearchSuccess
           });
   }else{
+     /********** 工具方法区 start ************/
+  // 去重方法
+  Array.prototype.unique = function(){
+    var n = {},r=[],i = 0,l = this.length; //n为hash表，r为临时数组
+    for(; i < l; i++){ //遍历当前数组
+      if (!n[this[i]]) {//如果hash表中没有当前项
+        n[this[i]] = true; //存入hash表
+        r.push(this[i]); //把当前数组的当前项push到临时数组里面
+      }
+    }
+    return r;
+  }
+  // 数组遍历方法
+  if(typeof Array.prototype.forEach != "function"){
+    Array.prototype.forEach = function(fn){
+      var i = 0,l = this.length;
+      while(i<l){
+          fn(this[i],i++);
+      }
+    }
+  }
+  // 数组归并方法
+if (typeof Array.prototype.reduce !== "function") {
+  Array.prototype.reduce = function (callback, initialValue ) {
+     var previous = initialValue, k = 0, length = this.length;
+     if (typeof initialValue === "undefined") {
+        previous = this[0];
+        k = 1;
+     }
+    if (typeof callback === "function") {
+      for (k; k < length; k++) {
+         this.hasOwnProperty(k) && (previous = callback(previous, this[k], k, this));
+      }
+    }
+    return previous;
+  };
+}
+
+if(typeof Array.prototype.indexOf != "function"){
+  Array.prototype.indexOf = function(item){
+    for(var i = 0,l = this.length;i < l && item !== this[i];i++);
+    return i === l?-1:i;
+  }
+}
+// 判断IE版本
+function isIE(ver){
+  var b = document.createElement("b");
+  b.innerHTML = "<!--[if IE "+ver+"]><i></i><![end if]-->"
+  return b.getElementsByTagName('i').length === 1;
+}
+/********** 工具方法区 end ************/
+    // IE9不支持 css3 animation 删除loading效果，简单的以文字提示用户正在加载
+    if(isIE(9)){
+      var parent = document.querySelector('.present-result'),
+          div = document.createElement('div');
+      parent.removeChild(parent.querySelector('.rectangle-bounce'));
+      div.innerHTML = '正在加载...';
+      div.className = 'IE9LOADING'
+      parent.appendChild(div);
+    }
     $('.hot-search').hide();
     $('.present-area').css('display','block');
     $.ajax({
@@ -92,6 +155,7 @@ $(function() {
   });
       // 当前选中效果的切换
       var scenePrev,relationPrev,parent,$this,
+      LOAD_COUNT = 20,//常数。每次加载20条
       jsonDataFormServe,//全局变量，存储从服务器端拿到的json数据，在ajax的success回调中赋值
       // 不同的tag数组，格式为 {生日: Array[519], 圣诞节平安夜: Array[424], 新生儿: Array[2], 乔迁: Array[203], 新年: Array[444]…}
       tagList = {};
@@ -124,6 +188,7 @@ $(function() {
             $this.addClass('cur-select');
             relationPrev = $this;
           }else if(dataGroup === 'character' || dataGroup === 'price'){
+            // alert(dataGroup);
             $this.toggleClass('cur-select');
           }
           renderDOMByIntersect();
@@ -162,32 +227,7 @@ $(function() {
       }
     }
   }
-  /********** 工具方法区 start ************/
-  // 去重方法
-  Array.prototype.unique = function(){
-    var n = {},r=[],i = 0,l = this.length; //n为hash表，r为临时数组
-    for(; i < l; i++){ //遍历当前数组
-      if (!n[this[i]]) {//如果hash表中没有当前项
-        n[this[i]] = true; //存入hash表
-        r.push(this[i]); //把当前数组的当前项push到临时数组里面
-      }
-    }
-    return r;
-  }
-  // 数组遍历方法
-  if(!Array.prototype.forEach){
-    Array.prototype.forEach = function(fn){
-
-    }
-  }
-  // 数组归并方法
-  if(!Array.prototype.reduce){
-    Array.prototype.reduce = function(fn){
-
-    }
-  }
-  /********** 工具方法区 end ************/
-  /*
+   /*
    TODO
     1、缓存。提高性能
     2、分页。提高性能
@@ -223,10 +263,15 @@ $(function() {
       characterArr.forEach(function(item){
         characterArrList.push(tagList[item]);
       })
-      aidsArray.push(characterArrList.reduce(function(prev,next){
-        return prev.concat(next);
-      }).unique());//放入数组中。供下面求交集
+      if(characterArrList.length === 1){
+        aidsArray.push(characterArrList[0]);
+      }else{
+        aidsArray.push(characterArrList.reduce(function(prev,next){
+           return prev.concat(next);
+        }).unique());//放入数组中。供下面求交集
+      }
     }
+
     // 根据价格区间筛选出符合条件的好物
     if(priceEleArr.length){
       priceEleArr.each(function(index,item){
@@ -256,6 +301,8 @@ $(function() {
           return newArray;
       })
     }
+    console.log('238:'+metaResult.indexOf(238));
+    console.log('321:'+metaResult.indexOf(321));
     return metaResult;
   }
   function isNullObject(obj){
@@ -296,23 +343,29 @@ $(function() {
             eachPrice = parseFloat(eachPrice);
           }
           if(eachPrice >= priceRange[0]){
-            if(priceRange[1]){
-              if(eachPrice < priceRange[1]){
+              if(priceRange[1]){
+                if(eachPrice < priceRange[1]){
+                    if(result.indexOf(attr) === -1){
+                      result.push(attr)
+                    }
+                }
+              }else{
                   if(result.indexOf(attr) === -1){
                     result.push(attr)
                   }
-              }
-            }else{
-                if(result.indexOf(attr) === -1){
-                  result.push(attr)
-                }
-              }
+             }
           }
         }
    })
    return result;
   }
-  // needUpdateMeta 该对象用于分页。每次增加几条，就delete几条的属性，保证下次更新从这个对象中取的数据不重复
+  /* 
+    needUpdateMeta 该对象用于分页。每次增加几条，就delete几条的属性，保证下次更新从这个对象中取的数据不重复
+    在renderDOM中赋值，在updateDOM中使用
+    调用时机：
+    1、第一次加载全部时调用renderDOM
+    2、求交集之后第一次加载调用的是renderDOM，以后加载就调用updateDOM方法了
+  */
   var needUpdateMeta;
   function renderDOM(meta_infos){
     var 
@@ -320,12 +373,28 @@ $(function() {
         goodthingList = document.getElementById('goodthing-list'),
         stringBuffer = [];
         gift_tag_index = data.gift_tag_index,
-        count = 0;
-        goodthingList.innerHTML = ''; // 清空
+        count = ccccc = 0,
+        dataPos = 1;
+        goodthingList.innerHTML = ''; // 清空 
+        console.log(meta_infos);
         for(attr in meta_infos){
-         if(count++ >= 8){
-          needUpdateMeta = meta_infos;
+         attr = +attr;
+         if(attr === 321 || attr === 238){
+          // alert(attr);
+          console.log(attr);
+         }
+         /*
+            bug1
+            筛选出来的好物，可能小于20条，例如 文艺范 和 500-800 交集只有18条好物，
+            那么needUpdataMeta 就赋不了值
+         */
+         if(count++ === LOAD_COUNT){
+          // needUpdateMeta = meta_infos;
           break;
+         }
+         // 第一次（加载所有）赋值。
+         if(!needUpdateMeta){
+          needUpdateMeta = meta_infos;
          }
          everyMeta = meta_infos[attr];
          if(everyMeta){
@@ -352,14 +421,122 @@ $(function() {
              }
              // 发布去除 http://www.diaox2.com/
              // 优化。提高字符串拼接速度
-             stringBuffer.push('<li class="goodthing"><a href="http://www.diaox2.com/',url,'" target="_blank"><div class="img-container"><img src="',imgUrl,'" alt="',rendered_title,'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>',rendered_title,'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>',price,'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>...</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>...</span></li></ul></div></a></li>');
+             stringBuffer.push('<li class="goodthing" data-pos='+(dataPos++)+'><a href="',devprefix,url,'" target="_blank"><div class="img-container"><img src="',imgUrl,'" alt="',rendered_title,'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>',rendered_title,'</div></h2><ul class="icon-list clearfix unknown" data-id=',Math.pow(2,32)*attr + attr,'><li class="icon-item f-l"><span>',price,'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span class="a-fav">...</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span class="a-up">...</span></li></ul></div></a></li>');
              // stringBuffer.push('<li class="goodthing"><a href="http://www.diaox2.com/',url,'" target="_blank"><div class="img-container"><img src="',imgUrl,'" alt="',rendered_title,'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>',rendered_title,'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>',price,'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>',132,'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>',123,'</span></li></ul></div></a></li>')
              // html += '<li class="goodthing"><a href="http://www.diaox2.com/'+url+'" target="_blank"><div class="img-container"><img src="'+imgUrl+'" alt="'+rendered_title+'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>'+rendered_title+'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>'+price+'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>'+132+'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>'+123+'</span></li></ul></div></a></li>';
             delete meta_infos[attr]; // 插入之后就删除。
          }
       }
+        // 解决bug1 不管如何 都更新delete之后的meta_infos，保证needUpdateMeta最新
+        needUpdateMeta = meta_infos;
         document.getElementById('goodthing-list').innerHTML = stringBuffer.join('');
+        get_stat();
+        // 添加统计
+        // 委托到ul中，因为li一次加载不完
+        $(goodthingList).on('click','li a',function(){
+          var  
+             dom = this.parentNode,
+             href = this.href,
+             pos = dom.getAttribute('data-pos'),
+             curUrl = window.location.href,
+             storage = localStorage,
+             data = JSON.parse(storage.getItem('statisticsData')),
+             search = data.click_data.search,
+             i = 0,
+             l = search.length,
+             eachSearch,clickArr,newClick;
+             console.log(dom);
+             if(curUrl.indexOf('&t=h') !== -1){
+                for(;i<l;i++){
+                  eachSearch = search[i];
+                  if(eachSearch.query === q && eachSearch.from === 'pc_hotQueries'){
+                     clickArr = eachSearch.click;
+                     newClick = {
+                      url:href,
+                      pos:pos
+                    }
+                    clickArr.push(newClick);
+                  }
+                }
+             }else{
+              for(;i<l;i++){
+                  eachSearch = search[i];
+                  if(eachSearch.query === q){
+                     clickArr = eachSearch.click;
+                     newClick = {
+                      url:href,
+                      pos:pos
+                    }
+                    clickArr.push(newClick);
+                  }
+                }
+             }
+             storage.setItem('statisticsData',JSON.stringify(data));
+        })
   }
+  /*****************获取点赞收藏数********************/
+  function doupdate(cids) {
+    jQuery.support.cors = true;
+    //if IE89, then jsonp else json
+    $.ajax({
+        url: "http://api.diaox2.com/v1/stat/all",
+        data: {data: JSON.stringify({"aids": cids})},
+        dataType: 'jsonp',
+        type: "GET",
+        jsonp: 'cb',
+        jsonpCallback: "cb5",
+        cache:true,
+        timeout: 8000,
+        success: update_success,
+        error: function(x,t,e) {console.log("update failed, with error " + e);}    
+    });
+}
+function update_success(data) {
+    if(data.result != "SUCCESS") {
+        console.log('update invoked but server fail.');
+        return false;
+    } else {
+        var elements = $(".unknown"),i,j,l = elements.elements,ele,res;
+        for(i in data.res) {
+            for(j=0; j<elements.length; j++) {
+                ele = $(elements[j]);
+                if(i == ele.attr('data-id')) {
+                    res = data.res[i];
+                    ele.find('.a-fav').text(res.fav);
+                    ele.find('.a-up').text(res.up);
+                    ele.addClass('known').removeClass('unknown');
+                }
+            }
+        }
+    }
+    return true;
+}
+function get_stat() {
+    var eles = $(".unknown"),
+        cids = [],i = 0,l = eles.length,ele,longId;
+    while(i<l) {
+        ele = $(eles[i++]);
+        longId = ele.attr('data-id');
+        if(isNaN(longId)){
+            continue;   
+        }
+        cids.push(+longId);
+    }
+    (function(input){
+      (function(){
+        var pack = input.slice(0, LOAD_COUNT);
+            input = input.slice(LOAD_COUNT);
+            if(pack.length > 0) {
+                doupdate(pack);
+                setTimeout(arguments.callee, 2000);    //2秒后调用下一波
+            } else {
+                return true;
+            }
+      })()
+    })(cids)
+    return true;
+}
+  /*****************获取点赞收藏数end********************/
 /*
   检查两个字符串是否包含有相同的部分
   如：七夕情人节  给老婆的情人节礼物|给老婆的七夕礼物  返回 true
@@ -464,7 +641,7 @@ function checkStr(a,b){
           }
           // 发布去除 http://www.diaox2.com/
           // 优化。提高字符串拼接速度
-          stringBuffer.push('<li class="result-item" data-pos=',index+1,'><a target="_blank" href="http://www.diaox2.com/','" class="imglink f-l"><div class="result-item-img-container loading"><img src="',imgUrl,'" alt="',rendered_keywords,'" width="188" height="188"></div></a><div class="result-item-detail f-l"><h2 class="detail-title"><a target="_blank" href="',url,'">',rendered_title,'</a></h2><ul class="detail-keywords clearfix">',keywords_str,'</ul><div class="detail-author clearfix"><a class="detail f-l">',price,'</a><div class="author f-l clearfix"><ul class="clearfix"><li class="author-face f-l"><a target="_blank" href="',authorSrc, '"><span class="author-face-container"><img src="http://c.diaox2.com/cms/diaodiao/',everyMeta.author.pic, '" width="20" height="20"></span></a></li><li class="author-name f-l"><a target="_blank" href="',authorSrc,'">',everyMeta.author.name,'</a></li></ul></div></div></div></li>');
+          stringBuffer.push('<li class="result-item" data-pos=',index+1,'><a target="_blank" href="',devprefix,url,'" class="imglink f-l"><div class="result-item-img-container loading"><img src="',imgUrl,'" alt="',rendered_keywords,'" width="188" height="188"></div></a><div class="result-item-detail f-l"><h2 class="detail-title"><a target="_blank" href="',url,'">',rendered_title,'</a></h2><ul class="detail-keywords clearfix">',keywords_str,'</ul><div class="detail-author clearfix"><a class="detail f-l">',price,'</a><div class="author f-l clearfix"><ul class="clearfix"><li class="author-face f-l"><a target="_blank" href="',authorSrc, '"><span class="author-face-container"><img src="http://c.diaox2.com/cms/diaodiao/',everyMeta.author.pic, '" width="20" height="20"></span></a></li><li class="author-name f-l"><a target="_blank" href="',authorSrc,'">',everyMeta.author.name,'</a></li></ul></div></div></div></li>');
         })
           document.getElementById('result-list').innerHTML = stringBuffer.join('');
       } else {
@@ -475,12 +652,11 @@ function checkStr(a,b){
       var resultItem = $('.result-item'),
           pos = resultItem.attr('data-pos'),
           url = resultItem.find('.imglink ').attr('href');
-      resultItem.on('click','a.imglink,.detail-title a',function(e){
+            resultItem.on('click','a.imglink,.detail-title a',function(e){
          var  
              dom = e.delegateTarget,
              href = this.href,
              pos = dom.getAttribute('data-pos'),
-
              curUrl = window.location.href,
              storage = localStorage,
              data = JSON.parse(storage.getItem('statisticsData')),
@@ -488,33 +664,34 @@ function checkStr(a,b){
              i = 0,
              l = search.length,
              eachSearch,clickArr,newClick;
-         if(curUrl.indexOf('&t=h') !== -1){
-            for(;i<l;i++){
-              eachSearch = search[i];
-              if(eachSearch.query === q && eachSearch.from === 'pc_hotQueries'){
-                 clickArr = eachSearch.click;
-                 newClick = {
-                  url:href,
-                  pos:pos
+             console.log(dom);
+             if(curUrl.indexOf('&t=h') !== -1){
+                for(;i<l;i++){
+                  eachSearch = search[i];
+                  if(eachSearch.query === q && eachSearch.from === 'pc_hotQueries'){
+                     clickArr = eachSearch.click;
+                     newClick = {
+                      url:href,
+                      pos:pos
+                    }
+                    clickArr.push(newClick);
+                  }
                 }
-                clickArr.push(newClick);
-              }
-            }
-         }else{
-          for(;i<l;i++){
-              eachSearch = search[i];
-              if(eachSearch.query === q){
-                 clickArr = eachSearch.click;
-                 newClick = {
-                  url:href,
-                  pos:pos
+             }else{
+              for(;i<l;i++){
+                  eachSearch = search[i];
+                  if(eachSearch.query === q){
+                     clickArr = eachSearch.click;
+                     newClick = {
+                      url:href,
+                      pos:pos
+                    }
+                    clickArr.push(newClick);
+                  }
                 }
-                clickArr.push(newClick);
-              }
-            }
-         }
-         storage.setItem('statisticsData',JSON.stringify(data));
-      })
+             }
+             storage.setItem('statisticsData',JSON.stringify(data));
+      });
     }
   // 获取热门专题
   $.ajax({
@@ -523,6 +700,7 @@ function checkStr(a,b){
     dataType: 'jsonp',
     jsonp: 'cb',
     jsonpCallback: "cb",
+    cache:true,
     timeout: 20000,
     success: function(result) {
       var list = result.goodthing_feed_list,
@@ -585,41 +763,36 @@ function checkStr(a,b){
   search.push(newSearch);
   storage.setItem('statisticsData',JSON.stringify(data));
   var postData = storage.getItem('statisticsData');
-  // window.onbeforeunload = function(){
-  //   // 页面关闭或刷新往服务器推送数据！注意：一定要使用同步的方式发送，这样可以阻塞一会儿线程保证在关闭之前能推送出去
-  //   if(postData){
-  //       $.ajax({
-  //         url: "http://api.diaox2.com/v2/ubs",
-  //         type:"POST",
-  //         async:false,
-  //         contentType:'application/json',//若是没有这个属性的话，就不会发送options请求
-  //         data:postData,
-  //         success:function(data){
-  //           localStorage.clear();
-  //           localStorage.setItem('word:'+q,JSON.stringify(data));
-  //         },
-  //         error:function(xhr,t){
-  //           localStorage.setItem('error_info',t);
-  //           localStorage.setItem('error_info_status',xhr.status);
-  //         }
-  //     })
-  //   }
-  // }
-
-  document.getElementById("search-input").value = document.getElementById('search-input').value.replace(/\+/g, " ");
-   
- function isNullObject(obj){
-   if(obj == null){
-    return true;
-   }
-   for(var attr in obj){
-     return false;
-   }
-   return true;
- }
-  function toggleLoading(display){
-    document.querySelector('.rectangle-bounce').style.display = display;
+  window.onbeforeunload = function(){
+    // 页面关闭或刷新往服务器推送数据！注意：一定要使用同步的方式发送，这样可以阻塞一会儿线程保证在关闭之前能推送出去
+    if(postData){
+        $.ajax({
+          url: "http://api.diaox2.com/v2/ubs",
+          type:"POST",
+          async:false,
+          contentType:'application/json',//若是没有这个属性的话，就不会发送options请求
+          data:postData,
+          success:function(data){
+            localStorage.clear();
+            localStorage.setItem('word:'+q,JSON.stringify(data));
+          },
+          error:function(xhr,t){
+            localStorage.setItem('error_info',t);
+            localStorage.setItem('error_info_status',xhr.status);
+          }
+      })
+    }
   }
+  document.getElementById("search-input").value = document.getElementById('search-input').value.replace(/\+/g, " ");
+  function toggleLoading(display){
+    var loading =  document.querySelector('.rectangle-bounce');
+    if(loading){
+      loading.style.display = display;
+    }
+  }
+  /*
+    懒加载更新dom，在 onscroll 事件中调用
+  */
    function updateDOM(){
     // 如果已经加载完毕，直接返回
     if(isNullObject(needUpdateMeta)){
@@ -634,11 +807,11 @@ function checkStr(a,b){
         frag = document.createDocumentFragment(), // 乾坤袋
         stringBuffer = [],
         // 新节点（li）的相关dom
-        newNode,a,img,goodthingHighlight,spanPrice,
+        newNode,a,img,goodthingHighlight,spanPrice,iconList,
         gift_tag_index = data.gift_tag_index,
         count = 0;
         for(attr in needUpdateMeta){
-          if(!attr || isNaN(attr) || count++ >= 8){
+          if(!attr || isNaN(attr) || count++ >= LOAD_COUNT){
             break;
           }
          // 深克隆一个节点
@@ -646,7 +819,8 @@ function checkStr(a,b){
          a = newNode.querySelector('a');
          img = a.querySelector('.img-container img');
          goodthingHighlight = a.querySelector('.goodthing-highlight h2 div');
-         spanPrice = a.querySelector('.icon-list .f-l span');
+         iconList = a.querySelector('.icon-list');
+         spanPrice = iconList.querySelector('.f-l span');
          everyMeta = needUpdateMeta[attr];
          if(everyMeta) {
              imgUrl = everyMeta.cover_image_url;
@@ -670,9 +844,17 @@ function checkStr(a,b){
              if (imgUrl&&imgUrl.indexOf("http") == -1) {
                   imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
              }
-             a.url = url;
+             // 删除经过处理加上的属性，防止后续加载的图片变形
+             img.removeAttribute('width');
+             img.removeAttribute('height');
+             img.removeAttribute('style');
+             newNode.setAttribute('data-pos',dataPos++);
+             // 发布取出 www.diaox2.com
+             a.href = devprefix+url;
              img.src = imgUrl;
              img.alt = rendered_title;
+             iconList.className = 'icon-list clearfix unknown';
+             iconList.setAttribute('data-id',Math.pow(2,32) * attr + (+attr));
              goodthingHighlight.innerHTML = rendered_title;
              spanPrice.innerHTML = price;
              frag.appendChild(newNode);
@@ -682,6 +864,7 @@ function checkStr(a,b){
       }
        // 把乾坤袋收集的dom元素插入到页面
         goodthingList.appendChild(frag);
+        get_stat();
     }
  /*
    函数节流：
@@ -718,8 +901,15 @@ function checkStr(a,b){
       }
       var pageHeight = document.body.clientHeight,
           windowHeight = document.documentElement.offsetHeight,
-          scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                if(scrollTop + windowHeight === pageHeight){
+          scrollTop = document.documentElement.scrollTop || document.body.scrollTop,
+          plus = scrollTop + windowHeight;
+        if(isIE(9) || isIE(8)){
+          // 对于IE8 距离底部还有150px就认为滚动到底了，因为 plus 永远不等与 pageHeight
+          // 对于IE9 因为没有loading效果，所以距离底部还有150px也认为滚动到底了
+          if(Math.abs(plus - pageHeight) <= 150){
+            throttle(updateDOM,window,700);
+          }
+        }else if(scrollTop + windowHeight === pageHeight){
           throttle(updateDOM,window,700);
           toggleLoading('block');
         }

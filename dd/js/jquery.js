@@ -104,26 +104,6 @@ $(".search-form").on("submit",function(e){
                 search:[]
             }
         }
-        // if(curUrl.indexOf('&t=h') !== -1){
-        //     from = 'pc_hotQueries'
-        // }else{
-        //     from = 'pc_searchResult'
-        // }
-        // var search = data.click_data.search;
-        // var i = 0 ;
-        // var l = search.length;
-        // for(;i<l;i++){
-        //     var each = search[i].query;
-        //     if(each === q){
-        //         return;
-        //     }
-        // }
-        // var newSearch = {
-        //     query:q,
-        //     from:from,
-        //     click:[]
-        // };
-        // search.push(newSearch);
         storage.setItem('statisticsData',JSON.stringify(data));
      }
 })

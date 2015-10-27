@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>float</title>
+<style>
+/*
+ 1、块级高度的计算规则是默认占据父元素的100%
+ 2、高度的计算规则，撑开
+*/
+body{
+    margin: 0;
+}
+.left,.right{
+    color:#fff;
+    /*width: 50%;*/
+    /*width: 200px;*/
+}
+.left{
+    background: #333;
+    float: left;
+}
+.right{
+    background: #e60012;
+}
+.d1,.d2{
+    display: inline-block;
+}
+.container{
+    font-size: 0;
+}
+.d1{
+    background: red;
+    font-size: 16px;
+}
+.d2{
+    background: blue;
+    font-size: 16px;
+}
+</style>
+</head>
+<body>
+<!-- left 和 right 有包裹性 -->
+<!-- <div class="left">
+leftleftleftleftleftleftleftleftleftleftleftleftleftleftleftleftleftleftleftleftleftleftleftleftleftlef
+</div>
+ -->
+<div class="container">
+     <div class="d1">div1</div>
+     <div class="d2">div2</div>   
+</div>
+asdasda
+</body>
+</html>

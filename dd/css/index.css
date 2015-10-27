@@ -180,6 +180,9 @@ input:-ms-input-placeholder {
   background: #ff0014;
   color: #fff; }
 
+.header-box ul.login {
+  visibility: hidden; }
+
 body {
   background: url(../images/bg.jpeg) center center repeat fixed; }
 
@@ -488,7 +491,8 @@ li.current-page:hover {
     display: block;
     height: 100%;
     width: 100%;
-    position: relative; }
+    position: relative;
+    color: #333; }
     .banner-show li a p {
       color: #fff;
       position: absolute;

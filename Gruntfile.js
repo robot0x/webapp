@@ -60,7 +60,7 @@ module.exports = function (grunt) {
         tasks: ['sass', 'postcss']
       },
       jsmin: {
-        files:['<%= config.app %>/js/{,*}*.js'],
+        files:['<%= config.dist %>/js/{,*}*.js'],
         tasks:['uglify']
       }
       // styles: {
@@ -311,9 +311,10 @@ module.exports = function (grunt) {
       dist: {
         options: {
           collapseBooleanAttributes: true,
+          removeComments: true,
           collapseWhitespace: true,
           conservativeCollapse: true,
-          removeAttributeQuotes: true,
+          removeAttributeQuotes: false,
           removeCommentsFromCDATA: true,
           removeEmptyAttributes: true,
           removeOptionalTags: true,

@@ -180,6 +180,9 @@ input:-ms-input-placeholder {
   background: #ff0014;
   color: #fff; }
 
+.header-box ul.login {
+  visibility: hidden; }
+
 html {
   height: 100%; }
 
@@ -406,7 +409,8 @@ body {
 
 .special li a {
   display: block;
-  position: relative; }
+  position: relative;
+  color: #333; }
 
 .special li a p {
   position: absolute;
@@ -722,7 +726,7 @@ body {
   width: 380px;
   height: 310px;
   overflow: hidden;
-  color: #fff; }
+  color: #333; }
 
 .icon-item {
   font-size: 13px;
@@ -752,7 +756,11 @@ body {
 .icon-item span {
   font-size: 13px;
   vertical-align: middle;
-  margin-left: 10px; }
+  margin-left: 10px;
+  color: #a9a9a9; }
+
+.icon-list .f-l span {
+  margin-left: 0; }
 
 .rectangle-bounce {
   text-align: center;
@@ -796,3 +804,7 @@ body {
   20% {
     transform: scaleY(1);
     -webkit-transform: scaleY(1); } }
+
+.IE9LOADING {
+  text-align: center;
+  color: #e60012; }

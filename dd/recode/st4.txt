@@ -120,6 +120,39 @@
 
 8、a标签的onclick
 
+9、
+/*
+       利用IE浏览器能识别注释节点中的元素节点的特性并结合IE的官方HACK，来判断浏览器是否是IE，且能判断版本
+       注意（亲自测试得出的结论）：只能判断低版本浏览器，如 IE5 IE6 IE7 IE8 IE9
+       IE10 IE11 Edge浏览器无法获得正确结果。
+       判断是否是IE浏览器：直接调用方法即可
+       判断是否是某个版本的IE浏览器：调用方法并把版本号传入.
+       例如判断是否是IE8:isIE(8)
+       判断是否是IE9:isIE(9)
+     */
+    var isIE = function(ver){
+        var b = document.createElement("b");
+        b.innerHTML = "<!--[if IE "+ver+"]><i></i><![end if]-->"
+            return b.getElementsByTagName('i').length === 1;
+    };
+
+10、替换元素和非替换元素
+
+    替换元素：替换元素是浏览器根据其标签和属性来显示内容的元素，常见的替换元素
+            <img>、<input>、<textarea>、<select>、<object>
+
+11、一个完整的ie html hack
+
+<!--[if lt IE 8]>
+<div class="ie-mask">
+     <p>
+         您的浏览器版本过低，暂不支持。请下载<a href="http://www.google.cn/chrome/browser/desktop/index.html" target="_blank">chrome</a>浏览器或其他高级（非IE7/IE8）浏览器查看页面
+     </p>
+ </div>
+<![endif]-->
+
+    
+
 
 
 

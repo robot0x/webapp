@@ -212,6 +212,7 @@ body{background:#f7f7f7;padding-bottom:60px;}
 .special li a{
     display: block;
     position:relative;
+    color:#333;
 }
 .special li a p{
     position:absolute;
@@ -538,7 +539,7 @@ body{background:#f7f7f7;padding-bottom:60px;}
     width:380px;
     height:310px;
     overflow: hidden;
-    color: #fff;
+    color: #333;
 }
 .icon-item{
     font-size:13px;
@@ -569,6 +570,10 @@ body{background:#f7f7f7;padding-bottom:60px;}
    font-size: 13px;
    vertical-align: middle;
    margin-left: 10px;
+   color:#a9a9a9;
+}
+.icon-list .f-l span{
+    margin-left: 0;
 }
 // 分页loading 效果
 .rectangle-bounce {
@@ -617,5 +622,9 @@ body{background:#f7f7f7;padding-bottom:60px;}
         transform: scaleY(1);
         -webkit-transform: scaleY(1)
     }
+}
+.IE9LOADING{
+    text-align:center;
+    color:#e60012;
 }
 // 分页loading效果 end
