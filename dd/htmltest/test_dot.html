@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>测试dotdotdotjs</title>
+<style>
+    #test-dot{
+        font-size: 16px;
+        line-height: 20px;
+        color: #4d4d4d;
+        height: 20px;
+    }
+    /*#test-dot a{
+        font-size: 16px;
+        line-height: 20px;
+        color: #4d4d4d;
+        color: #D91C5C;
+        text-decoration: none;
+    }
+*/</style>
+</head>
+<body>
+<!-- <p id="test-dot">
+    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived
+    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived
+    <a class="readmore" href="http://www.baidu.com">阅读全文</a>
+</p>
+ -->
+<p id="test-dot">
+    以上是一段无病呻吟，以试图纪念一下荏苒的学生年代。上学那会儿穷，还想谈恋爱，总琢磨着送妹子什么礼物，但送什么都不能让对面的女孩看过来……除了长得丑之外，主要还是我的学生时代没有调调啊
+    <a class="readmore" href="http://www.baidu.com">阅读全文</a>
+</p>
+
+ <script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/jquery.dotdotdot.js"></script>
+<script type="text/javascript">
+$(function(){
+    $("#test-dot").dotdotdot({
+        after: "a.readmore",
+        wrap : 'letter',
+        ellipsis: '......'
+    });
+})
+</script>
+</body>
+</html>

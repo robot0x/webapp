@@ -19,11 +19,18 @@ st3 一次选中多行操作
 
   IE8 hack
 
+  第一种方式：
   selector{
     name:IE8value;
   }
   
   @media (min-width: 0px){selector{name:W3Cvalue;}}
+
+  第二种方式（IE678）：
+  @media \0screen\,screen\9 {
+    .selector {  property: value; }
+  }
+
 
   1、hover 特效要注意间隙hover闪烁问题（因为有小间隙，在鼠标移动时，在小间隙中失去hover）
 

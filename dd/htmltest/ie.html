@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<!--[if lt IE 8]>
+<!--[if lte IE 9]>
 <div class="ie-mask">
      <p>
          您的浏览器版本过低，暂不支持。请下载<a href="http://www.google.cn/chrome/browser/desktop/index.html" target="_blank">chrome</a>浏览器或其他高级（非IE7/IE8）浏览器查看页面
@@ -56,8 +56,8 @@
     window.onload = function(){
         var d = document.getElementById('d');
         // alert(getStyle(d,'line-height'));
-        alert(d.offsetWidth)
-        alert(d.clientWidth)
+        // alert(d.offsetWidth)
+        // alert(d.clientWidth)
     }
     function getStyle(obj,style){
         if(obj.currentStyle){

@@ -112,33 +112,6 @@ li.current-page:hover{
 	display:block;
 	@include opacity(1);
 }
-// todo:hover间隙问题
-.person-state-list-container{
-	position:absolute;
-	top: 50px;
-    left: 0;
-    background-color: #363c41;
-	width:110px;
-    height: 60px;
-    display: none;
-}
-.person-state-list{
-    position: absolute;
-    z-index: 3;
-    height: 100%;
-    width: 100%;
-    line-height: 30px;
-    font-size: 12px;
-    @include opacity;
-    @include transition(all .4s ease-in-out);
-    li{
-	  text-align: center;
-	  height: 30px;
-    }
-    li:hover a{
-    	background: rgb(0,0,0);
-    }
-}
 .search-form{
 	height:50px;
 	width:280px;
@@ -194,14 +167,6 @@ li.current-page:hover{
     display: block;
     font-weight: normal;
 }
-// .menu-list-item h2 {
-//     color: #666;
-//     font-weight: normal;
-//     font-size: 16px;
-//     padding-left: 20px;
-//     height: 40px;
-//     line-height: 40px;
-// }
 .icon-arrow{
    position: absolute;
    top: 0;

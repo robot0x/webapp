@@ -95,7 +95,7 @@ $(function() {
     return r;
   }
   // 数组遍历方法
-  if(typeof Array.prototype.forEach != "function"){
+  if(typeof Array.prototype.forEach !== "function"){
     Array.prototype.forEach = function(fn){
       var i = 0,l = this.length;
       while(i<l){
@@ -120,7 +120,7 @@ if (typeof Array.prototype.reduce !== "function") {
   };
 }
 
-if(typeof Array.prototype.indexOf != "function"){
+if(typeof Array.prototype.indexOf !== "function"){
   Array.prototype.indexOf = function(item){
     for(var i = 0,l = this.length;i < l && item !== this[i];i++);
     return i === l?-1:i;
@@ -133,6 +133,7 @@ function isIE(ver){
   return b.getElementsByTagName('i').length === 1;
 }
 /********** 工具方法区 end ************/
+    $('.present').addClass('current-page');
     // IE9不支持 css3 animation 删除loading效果，简单的以文字提示用户正在加载
     if(isIE(9)){
       var parent = document.querySelector('.present-result'),
@@ -373,7 +374,7 @@ function isIE(ver){
         goodthingList = document.getElementById('goodthing-list'),
         stringBuffer = [];
         gift_tag_index = data.gift_tag_index,
-        count = ccccc = 0,
+        count = 0,
         dataPos = 1;
         goodthingList.innerHTML = ''; // 清空 
         console.log(meta_infos);
@@ -811,7 +812,7 @@ function checkStr(a,b){
         gift_tag_index = data.gift_tag_index,
         count = 0;
         for(attr in needUpdateMeta){
-          if(!attr || isNaN(attr) || count++ >= LOAD_COUNT){
+          if(!attr || isNaN(attr) || count++ === LOAD_COUNT){
             break;
           }
          // 深克隆一个节点
@@ -894,6 +895,7 @@ function checkStr(a,b){
     }
   }
   if(isSpecSearch){
+
     addEvent(window,'scroll',function(){
     // 如果没有礼物好物，直接返回
       if(!document.querySelector('.goodthing')){
@@ -909,7 +911,7 @@ function checkStr(a,b){
           if(Math.abs(plus - pageHeight) <= 150){
             throttle(updateDOM,window,700);
           }
-        }else if(scrollTop + windowHeight === pageHeight){
+        }else if(plus === pageHeight){
           throttle(updateDOM,window,700);
           toggleLoading('block');
         }

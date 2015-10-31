@@ -403,6 +403,9 @@ li.current-page:hover{
 	background:#e60012;
 	color:#fff;
 }
+.share-box a:hover span{
+  color:#fff;
+}
 .share-box a:hover .share-img{
 	background:url(../images/share-white.png) center center no-repeat;
 }
@@ -539,9 +542,9 @@ li.current-page:hover{
   width: 40px;
   transition:all 1s ease-in-out;
 }
-.share-weixin:hover{
-  transform: rotateX(180deg) translateY(47px);;
-}
+// .share-weixin:hover{
+//   transform: rotateX(180deg) translateY(47px);;
+// }
 // .share-area{
 //   position: absolute;
 //   border-radius: 3px;

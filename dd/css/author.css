@@ -457,7 +457,8 @@ li.current-page:hover {
   border-bottom: 1px solid #e3e3e3;
   padding-bottom: 4px;
   margin-top: 10px;
-  -webkit-transition: all 200ms; }
+  -webkit-transition: all 200ms;
+  transition: all 200ms; }
 
 .article a {
   display: inline-block;

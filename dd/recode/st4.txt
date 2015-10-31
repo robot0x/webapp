@@ -151,7 +151,66 @@
  </div>
 <![endif]-->
 
-    
+注意：在模拟下，比如我的win7，ie版本是10，模拟ie89，一定要设置“浏览器模式”为ie89，否则不起作用！！！！
+在win10下，选择ie89，一下子改了两个模式：浏览器模式、文档模式！！！
+
+12、Math.random [0,1)
+
+13、除了真正的在IE8下运行，
+  在其他模拟器下运行IE8，报错或布局混乱或失败在真正的IE8下会有问题
+  未出现一场情况不代表在真正的IE8下没有问题！！
+  也就是说，模拟的IE8不能代表真正的IE8
+
+14、真正的IE8不支持console.log，所以除了在error回调中使用console.log，在其他任何地方不要使用！！！！切记，切记
+    这是在董旭的IE8下的报错：
+    消息: 'console' 未定义
+    行: 347
+    字符: 9
+    代码: 0
+    URI: http://121.42.141.74/view/test/lyf/dd/js/zdm.js
+
+15、在IE8- Array.prototype.slice.call(nodeList) 不能使用
+    报错：
+    消息: 缺少 JScript 对象
+    行: 311
+    字符: 13
+    代码: 0
+    URI: http://121.42.141.74/view/test/lyf/dd/js/zdm.js
+    相关解答：
+    http://stackoverflow.com/questions/17396271/ie8-array-prototype-slice-this-is-not-a-javascript-object
+
+16、想直接循环nodeList 可以这样
+    var nodeList = document.querySelector('.result-item');
+    Array.prototype.forEach.call(nodeList,function(item){
+       // do something...
+    })
+
+17、在IE8下，
+    扩展Array.prototype
+    并不成功。
+    例如:
+    if(typeof Array.prototype.forEach !=='function'){
+      Array.prototype.forEach = function(fn){
+          var i = 0,l = this.length;
+          while(i<l){
+              fn(this[i],i++);
+          }
+      }
+    }
+  在IE8中使用：
+  var arr = [1,2,3,4,5,6,7];
+  // 会报错
+  arr.forEach(function(item){
+    // do something
+  })
+
+  在IE8中这样使用，当然在其他浏览器下也是没有问题的：
+
+  var arr = [1,2,3,4,5,6,7];
+  Array.prototype.forEach.call(arr,function(item){
+    // do something
+  })
+  
 
 
 
