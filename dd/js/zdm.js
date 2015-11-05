@@ -29,7 +29,6 @@ if(isIE8 || isIE9){
       parent.appendChild(div);
 }
 /***预处理区end****/
-
 /***ajax请求区****/
 // 获取大家都再看
 $.ajax({
@@ -44,7 +43,7 @@ $.ajax({
         var url, match, imgUrl,stringBuffer = [];
         $(".success-remove").remove();
         data = randArray(data,4);
-        $.each(data, function(index, item) {
+        $.each(data, function(index, item){
           url = item.url;
           imgUrl = item.thumb;
           if (imgUrl.indexOf("http") == -1) {
@@ -69,6 +68,82 @@ $.ajax({
       console.log(data)
     }
 });
+// 获取值得买ajax
+$.ajax({
+    url: "http://api.diaox2.com/v3/zdm",
+    type: "GET",
+    cache: true, //prevent the default parameter _=${timestamp}, CDN
+    dataType: "jsonp",
+    crossDomain: true,
+    data: {
+      data: JSON.stringify({
+        'method': 'get_all_pc'
+      })
+    },
+    jsonpCallback: 'cb', //override the &callback='jQuery123457676_253954801'
+    jsonp: 'cb', //override the &'callback'=
+    success:function(data){
+        var res,meta_infos,feed_list,cidList = [],everyMeta,title,url,summary,price,
+        date,source,imgUrl,stringBuffer = [],i=0,item;
+        if(data||data.state === 'SUCCESS'){
+            res = data.res;
+            meta_infos = res.meta_infos;
+            meta_infos_form_server = meta_infos;
+            arrayPrototypeFor.call(meta_infos,function(item){
+              cidList.push(item.cid);
+            })
+            cidList_from_server = cidList;
+            feed_list = res.feed_list;
+            for(;i<feed_list.length;i++){
+              item = feed_list[i];
+              if(i > LOAD_COUNT - 1){
+                    return;
+                }
+                everyMeta = meta_infos[cidList.indexOf(item[0])];
+                url = everyMeta.url;
+                summary = extractText(everyMeta.summary);
+                price = everyMeta.price;
+                if(price == null || price == 'null'){
+                  price = '&nbsp;';
+                }
+                date = everyMeta.pub_time * 1000;
+                source = everyMeta.author.name;
+                imgUrl = everyMeta.thumb_image_url;
+                title = everyMeta.title[0];
+                stringBuffer.push('<li class="result-item clearfix ',item[1]===1?'outdate':'','"><a target="_blank" href="',url,'" class="img-container f-l loading"><img src="',imgUrl,'" alt="',title,'" height="188" width="188"><span class="outdate-tag disnone">已过期</span></a><div class="result-detail f-l"><a target="_blank" href="',url,'" class="result-title">',title,'</a><p class="result-price">',price,'</p><p class="result-content">',isIE8?title:summary,'</p><ul class="result-footer clearfix"><li class="date f-l">',getDateStr(date),'</li><li class="source f-l">',source,'</li><li class="view-result f-r"><a target="_blank" href="',url,'">查看详情</a></li></ul></div></li>');
+                feed_list.splice(i--,1);// 插入之后就删除。供后续分页使用
+            }
+            // arrayPrototypeFor.call(feed_list,function(item,i){
+            //     if(i > LOAD_COUNT - 1){
+            //         return;
+            //     }
+            //     everyMeta = meta_infos[cidList.indexOf(item[0])];
+            //     url = everyMeta.url;
+            //     summary = extractText(everyMeta.summary);
+            //     price = everyMeta.price;
+            //     if(price == null || price == 'null'){
+            //       price = '&nbsp;';
+            //     }
+            //     date = everyMeta.pub_time * 1000;
+            //     source = everyMeta.author.name;
+            //     imgUrl = everyMeta.thumb_image_url;
+            //     title = everyMeta.title[0];
+            //     stringBuffer.push('<li class="result-item clearfix ',item[1]===1?'outdate':'','"><a target="_blank" href="',url,'" class="img-container f-l loading"><img src="',imgUrl,'" alt="',title,'" height="188" width="188"><span class="outdate-tag disnone">已过期</span></a><div class="result-detail f-l"><a target="_blank" href="',url,'" class="result-title">',title,'</a><p class="result-price">',price,'</p><p class="result-content">',isIE8?title:summary,'</p><ul class="result-footer clearfix"><li class="date f-l">',getDateStr(date),'</li><li class="source f-l">',source,'</li><li class="view-result f-r"><a target="_blank" href="',url,'">查看详情</a></li></ul></div></li>');
+            //     feed_list.splice(i,1);// 插入之后就删除。供后续分页使用
+            // })
+            feed_list_from_server = feed_list;
+            document.getElementById('result-list').innerHTML = stringBuffer.join('');
+            addDot('.result-content');
+        }else{
+            console.log('zdm failed!');
+            console.log(data);
+        }
+    },error: function(data) {
+      console.log("zdm error!");
+      console.log(data)
+    }
+})
+/***ajax请求区 end****/
 /***工具方法区****/
 if(typeof arrayPrototypeFor !== "function"){
     arrayPrototypeFor = function(fn){
@@ -180,7 +255,7 @@ function extractText(summary){
             .replace(/\n$/g, "")
             .split("\n").filter(function(item){
                 return !item.startsWith('<');
-            }).join('').replace(/&nbsp;?|<br\s*\/*>/ig,'');
+            }).join('').replace(/&nbsp;?|<br\s*\/*>|\s*/ig,'');
         }
 }
 /**
@@ -219,61 +294,6 @@ function addDot(selector){
   }
 }
 /***工具方法区end****/
-// 获取值得买ajax
-$.ajax({
-    url: "http://api.diaox2.com/v3/zdm",
-    type: "GET",
-    cache: true, //prevent the default parameter _=${timestamp}, CDN
-    dataType: "jsonp",
-    crossDomain: true,
-    data: {
-      data: JSON.stringify({
-        'method': 'get_all_pc'
-      })
-    },
-    jsonpCallback: 'cb', //override the &callback='jQuery123457676_253954801'
-    jsonp: 'cb', //override the &'callback'=
-    success:function(data){
-        var res,meta_infos,feed_list,cidList = [],everyMeta,title,url,summary,price,
-        date,source,imgUrl,stringBuffer = [];
-        if(data||data.state === 'SUCCESS'){
-            res = data.res;
-            meta_infos = res.meta_infos;
-            meta_infos_form_server = meta_infos;
-            arrayPrototypeFor.call(meta_infos,function(item){
-              cidList.push(item.cid);
-            })
-            cidList_from_server = cidList;
-            feed_list = res.feed_list;
-            arrayPrototypeFor.call(feed_list,function(item,i){
-                if(i > LOAD_COUNT - 1){
-                    return;
-                }
-                everyMeta = meta_infos[cidList.indexOf(item[0])];
-                url = everyMeta.url;
-                summary = extractText(everyMeta.summary);
-                price = everyMeta.price;
-                date = everyMeta.pub_time * 1000;
-                source = everyMeta.author.name;
-                imgUrl = everyMeta.thumb_image_url;
-                title = everyMeta.title[0];
-                stringBuffer.push('<li class="result-item clearfix ',item[1]===1?'outdate':'','"><a target="_blank" href="',url,'" class="img-container f-l loading"><img src="',imgUrl,'" alt="',title,'" height="188" width="188"><span class="outdate-tag disnone">已过期</span></a><div class="result-detail f-l"><a target="_blank" href="',url,'" class="result-title">',title,'</a><p class="result-price">',price == null?'&nbsp':price,'</p><p class="result-content">',isIE8?title:summary,'</p><ul class="result-footer clearfix"><li class="date f-l">',getDateStr(date),'</li><li class="source f-l">',source,'</li><li class="view-result f-r"><a target="_blank" href="',url,'">查看详情</a></li></ul></div></li>');
-                feed_list.splice(i,1);// 插入之后就删除。供后续分页使用
-            })
-            // feed_list.forEach()
-            feed_list_from_server = feed_list;
-            document.getElementById('result-list').innerHTML = stringBuffer.join('');
-            addDot('.result-content');
-        }else{
-            console.log('zdm failed!');
-            console.log(data);
-        }
-    },error: function(data) {
-      console.log("zdm error!");
-      console.log(data)
-    }
-})
-/***ajax请求区 end****/
 /****分页*****/
 function updateDOM(){
     if(feed_list_from_server.length === 0){
@@ -287,9 +307,10 @@ function updateDOM(){
         // 新节点的克隆模板
         resultItem = resultList.querySelector('.result-item'),
         frag = document.createDocumentFragment(), // 乾坤袋
-        newNode;
-        arrayPrototypeFor.call(feed_list_from_server,function(item,i){
-            if(i > LOAD_COUNT - 1){
+        newNode,i=0;
+        for(;i<feed_list_from_server.length;i++){
+          item = feed_list_from_server[i];
+          if(i > LOAD_COUNT - 1){
                 return;
             }
             everyMeta = meta_infos_form_server[cidList_from_server.indexOf(item[0])];
@@ -317,9 +338,39 @@ function updateDOM(){
             newNode.querySelector('.result-footer .source').innerHTML = everyMeta.author.name;
             
             frag.appendChild(newNode);
-            feed_list_from_server.splice(i,1);// 插入之后就删除。供后续分页使用
-        })
-        // feed_list_from_server.forEach()
+            feed_list_from_server.splice(i--,1);// 插入之后就删除。供后续分页使用
+        }
+        // arrayPrototypeFor.call(feed_list_from_server,function(item,i){
+        //     if(i > LOAD_COUNT - 1){
+        //         return;
+        //     }
+        //     everyMeta = meta_infos_form_server[cidList_from_server.indexOf(item[0])];
+        //     url = everyMeta.url;
+        //     newNode = resultItem.cloneNode(true);
+        //     // item[1]是flag字段 0 未过期 1 过期
+        //     if(item[1] === 1){
+        //       $(newNode).addClass('outdate');
+        //     }else{
+        //       $(newNode).removeClass('outdate');
+        //     }
+            
+        //     arrayPrototypeFor.call(newNode.querySelectorAll('a'),function(each){
+        //       each.href = url;
+        //       if(each.className.indexOf('result-title')!==-1){
+        //         each.innerHTML = everyMeta.title[0];
+        //       }
+        //     })
+
+        //     newNode.querySelector('img').src = everyMeta.thumb_image_url;
+        //     newNode.querySelector('.result-price').innerHTML = everyMeta.price == null?'&nbsp;':everyMeta.price;
+        //     // 防止IE8下出现问题
+        //     newNode.querySelector('.result-content').innerHTML = isIE8?everyMeta.title[0]:extractText(everyMeta.summary);
+        //     newNode.querySelector('.result-footer .date').innerHTML = getDateStr(everyMeta.pub_time * 1000);
+        //     newNode.querySelector('.result-footer .source').innerHTML = everyMeta.author.name;
+            
+        //     frag.appendChild(newNode);
+        //     feed_list_from_server.splice(i,1);// 插入之后就删除。供后续分页使用
+        // })
           resultList.appendChild(frag);
           addDot('.result-content');
 }
@@ -339,5 +390,6 @@ addEvent(window,'scroll',function(){
           toggleLoading('block');
         }
   })
+
 })
 

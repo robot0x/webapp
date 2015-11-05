@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>flex-box</title>
+<style>
+table,tr,td{
+    padding: 0;
+    margin: 0;
+}
+.outer{
+    width: 600px;
+    height: 200px;
+    background: #ccc;
+    border:none;
+}
+    .outer tr{
+        /*display: -webkit-flex;*/
+        display: -webkit-box;
+    }
+    .td1{
+        width: 100px;
+        background: red;
+        height: 200px;
+    }
+    .td2{
+        height: 200px;
+        -webkit-flex:1;
+        -webkit-box-flex:1;
+        background: green;
+    }
+</style>
+</head>
+<body>
+
+<table class="outer">
+    <tr>
+     <td class="td1">
+     td1
+     </td>
+     <td class="td2">
+        td2
+     </td>
+    </tr>
+</table>
+    
+</body>
+</html>
