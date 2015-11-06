@@ -84,7 +84,7 @@ $.ajax({
     jsonp: 'cb', //override the &'callback'=
     success:function(data){
         var res,meta_infos,feed_list,cidList = [],everyMeta,title,url,summary,price,
-        date,source,imgUrl,stringBuffer = [],i=0,item;
+        date,source,imgUrl,stringBuffer = [],i=count=0,item;
         if(data||data.state === 'SUCCESS'){
             res = data.res;
             meta_infos = res.meta_infos;
@@ -94,11 +94,11 @@ $.ajax({
             })
             cidList_from_server = cidList;
             feed_list = res.feed_list;
-            for(;i<feed_list.length;i++){
+            for(;i<feed_list.length;i++,count++){
               item = feed_list[i];
-              if(i > LOAD_COUNT - 1){
-                    return;
-                }
+              if(count > LOAD_COUNT - 1){
+                    break;
+              }
                 everyMeta = meta_infos[cidList.indexOf(item[0])];
                 url = everyMeta.url;
                 summary = extractText(everyMeta.summary);
@@ -307,11 +307,11 @@ function updateDOM(){
         // 新节点的克隆模板
         resultItem = resultList.querySelector('.result-item'),
         frag = document.createDocumentFragment(), // 乾坤袋
-        newNode,i=0;
-        for(;i<feed_list_from_server.length;i++){
+        newNode,i=count=0;
+        for(;i<feed_list_from_server.length;i++,count++){
           item = feed_list_from_server[i];
-          if(i > LOAD_COUNT - 1){
-                return;
+          if(count > LOAD_COUNT - 1){
+                break;
             }
             everyMeta = meta_infos_form_server[cidList_from_server.indexOf(item[0])];
             url = everyMeta.url;
@@ -336,7 +336,6 @@ function updateDOM(){
             newNode.querySelector('.result-content').innerHTML = isIE8?everyMeta.title[0]:extractText(everyMeta.summary);
             newNode.querySelector('.result-footer .date').innerHTML = getDateStr(everyMeta.pub_time * 1000);
             newNode.querySelector('.result-footer .source').innerHTML = everyMeta.author.name;
-            
             frag.appendChild(newNode);
             feed_list_from_server.splice(i--,1);// 插入之后就删除。供后续分页使用
         }
