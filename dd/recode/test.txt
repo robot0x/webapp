@@ -1,0 +1,14 @@
+1、安卓调试，在我的页面，添加顶部条10下，开启调试模式，然后使用数据线连接电脑，使用chrome的adb插件来调
+
+2、
+ a、iphone调试，开启mac safari的调试模式，然后使用数据线连接电脑，在手机safari打开一个网址，然后在mac    safari下即可调试
+ 
+ b、iphone app内webview内页面调试，可以使用若雪给我下的调试版app来调试web，使用方法同a
+
+ c、如果一个地址，想放入app内调试，可以使用schema方法在app内打开
+
+     比如一个网址 http://c.diaox2.com/view/annual/expire.html
+     想要在调调app内打开，
+     在iphone safari地址栏中填写 
+     diaodiao://c.diaox2.com/view/annual/expire.html
+     就可以呼起调调app打开该页了，然后页面内的bridge也能和app交互

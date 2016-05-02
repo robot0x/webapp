@@ -18,7 +18,7 @@
     expires
     refresh
     set-cookie
-
+    
   name的值：
     author
     description
@@ -42,6 +42,9 @@
     jsonp: 'cb',
     jsonpCallback: "cb2",
     cache:true,// 防止 jquery 发送ajax请求时在后面带上时间戳，导致过不了cdn
+    // 设置timeout，如果设置的过小，会导致ajax请求不成功，
+    // 比如 我实验 timeout:130 有时候成功，有时候不成功，不成功占大多数，也没有报错
+    // 如果是jsonp的话，也会不成功，但是会报错，错误是 cb2 is not a function
     timeout: 20000,
     data: {
       data: JSON.stringify({
@@ -49,15 +52,43 @@
         "from": "pc"
       })
     },
-    // type:"POST",
-    // dataType:"json",
-    // contentType: 'application/json',//若是没有这个属性的话，就不会发送options请求
-    // data:JSON.stringify({"query":q,"from":"pc"}),
     error: function(e) {
       console.log("搜索接口的jsonp执行失败！！" + " " + e);
     },
     success: normalSearchSuccess
 });
+ 
+  一个cors跨域：
+  $.ajax({
+    url: "http://s.diaox2.com/ddsearch/q",
+    cache:true,// 防止 jquery 发送ajax请求时在后面带上时间戳，导致过不了cdn
+    timeout: 20000,
+    type:"POST",
+    dataType:"json",
+    contentType: 'application/json',//若是没有这个属性的话，就不会发送options请求
+    data:JSON.stringify({"query":q,"from":"pc"}),
+    error: function(e) {
+      console.log("搜索接口的jsonp执行失败！！" + " " + e);
+    },
+    success: normalSearchSuccess
+  });
+
+  一个promise cors跨域写法
+  $.ajax({
+      url: "http://s.diaox2.com/ddsearch/q",
+      cache:true,// 防止 jquery 发送ajax请求时在后面带上时间戳，导致过不了cdn
+      timeout: 20000,
+      type:"POST",
+      dataType:"json",
+      contentType: 'application/json',//若是没有这个属性的话，就不会发送options请求
+      data:JSON.stringify({"query":q,"from":"pc"})
+  }).done(normalSearchSuccess).fail(function(e){
+    console.log(e);
+  }).done(function(){
+    // 第二个回调
+    alert(2);
+  })
+
 5、前端渲染和后端渲染
  前端渲染：
   使用ajax调用后端的接口，后端返回json数据，这个json数据可能是元数据，也可能是带有html标签的数据，
@@ -211,6 +242,229 @@
     // do something
   })
   
+  18、移动端的触摸事件
+    touchstart 手指放在一个DOM元素上
+    touchmove 手指拖拽一个DOM元素
+    touchend  手指从一个DOM元素上移开
+
+    每个触摸事件都包括了三个触摸列表：
+
+    1、touches 当前位于屏幕上的所有手指的一个列表
+    2、targetTouches 位于当前DOM元素上的手指的一个列表
+    3、changedTouches 涉及当前事件的手指的一个列表
+       例如，在一个touchend事件中，这就是移开的手指
+    4、
+      clientX / clientY 触摸目标在视口中的X / Y 坐标
+      pageX / pageY 触摸目标在页面中的 X / Y 坐标
+      screenX / screenY 触摸目标在屏幕中的 X / Y 坐标
+      identifier 表示触摸的唯一ID
+
+    touch事件不能使用DOM0级绑定，只能使用addEventListener绑定
+
+  19、在移动开发时，一定要注意写 -webkit前缀，不然在某些浏览器下可能没有效果
+
+      比如在做一周年活动时，我使用transform来居中，但是在iphone5（IOS 8.3）中并没有居中，加上前缀才居中了
+
+
+  20、原生ajax如果发送post请求，
+  xhr.setRequestHeader('Content-Type','application/x-www.form-urlencoded');
+  这行代码一定要放在open(method,url,async)之后，否则会报错
+  Uncaught InvalidStateError. Object's State must be Opened.
+
+  21、
+  一个原生的可以发送cros（options）请求的ajax函数
+
+  // ajax函数
+function ajax(opts){
+     var xhr = new XMLHttpRequest(),
+         method = opts.type || "GET",
+         async = true,
+         contentType = opts.contentType || 'application/x-www.form-urlencoded';
+         data = opts.data || {},
+         type = function (arg){
+            var t = typeof arg,s;
+            if(t === 'object'){
+                if(arg === null){
+                    return 'null';
+                }else{
+                    s = Object.prototype.toString.call(arg);
+                    return s.slice(8,s.length-1).toLowerCase();
+                }
+            }else{
+                return t;
+            }
+      };
+     if(opts.async != undefined){
+        async = opts.async;
+     }
+     xhr.open(method,opts.url,async);
+     if(method.toUpperCase() === "POST"){
+        xhr.setRequestHeader('Content-Type',contentType);
+     }
+     data = opts.data;
+     if(data && type(data) == 'object'){
+            data = (function(data){
+                var str = '',prop;
+                for(prop in data){
+                    str += prop + "=" + data[prop] + "&";
+                }
+                return str;
+            })(data);
+    }
+     xhr.send(data);
+     xhr.onreadystatechange = function(){
+        if(xhr.readyState === 4){
+            if(xhr.status === 200){
+                opts.success && opts.success(xhr.responseText);
+            }else{
+                opts.error && opts.error({readyState:xhr.readyState,status:xhr.status});
+            }
+        }else{
+            opts.error && opts.error({readyState:xhr.readyState,status:xhr.status});
+        }
+     }
+}
+
+  22、在移动端可以使用浏览器默认滚动条来做滑动（跑马灯效果），例如调调一周年奖品展示效果
+
+      外层容器 overflow-y:hidden;overflow-x:auto;
+      内层容器 宽度能容纳所有的item
+
+      然后结合 -webkit-overflow-scrolling:touch; 就可以使用顺滑的滑动体验了。
+
+  23、移动端布局
+      document.documentElement.tagName = 'HTML'
+      虽然他的tagName是html，但其是他是document，因为在html没内容任何内容时，
+      document.documentElement.clientHeight 为视口高度
+
+      html {
+        font-size: 100px;
+        -ms-touch-action: none;
+        /*保证在页面内容没有撑开body时，html的高度为视口高度*/
+        height:100%;
+      }
+      body{
+          /*保证在页面内容没有撑开body时，body高度为html高度*/
+          height: 100%;
+      }
+
+      html的height保证了页面即使没内容页面html元素的高度为视口高度
+      结合body的height:100%，保证页面没有任何内容或撑不开body时，body的高度为html的高度，由于
+      html已经保证了height为视口高度
+
+      /*加载动画end*/
+      .wrapper {
+          margin: 0 auto;
+          overflow: hidden;
+          min-width: 320px;
+          max-width: 640px;
+          /*一定要设置min-height*/
+          min-height: 100%;
+          background: url(../images/bg.jpg) 0 0 no-repeat #73C7EB;
+          background-size: 6.4rem 10.08rem;
+          background-size: 6.4rem 10.08rem;
+      }
+
+      移动端布局记住3个100
+      html height:100%
+      body height:100%;
+      wrapper min-height:100%;
+
+
+  24、 js cookie操作
+     document.cookie                     // 读取cookie
+     document.cookie = 'name=liyanfeng'  // 设置cookie
+     例如 原始cookie为 "name=liyanfeng"
+     document.cookie = "age=25"
+     document.cookie  // "name=liyanfeng; age=25"
+     document.cookie = "skill=java" 
+     document.cookie // "name=liyanfeng; age=25; skill=java"
+     document.cookie = "name=gaoguojing"
+     document.cookie // age=25; skill=java; name=gaoguojing;
+
+     可以看出来　document.cookie = 'xxx=yyy' 往历史cookie中append
+     
+     document.cookie = 'xxx=zzz' 如果key存在，那么会覆盖历史中相同key的value
+
+
+     document.cookie = 'hello=' // 可以添加成功，key是hello，value是 ""
+     document.cookie = 'hello'  // 可以添加陈宫，key是 ""，value是hello
+
+     /*************删除cookie大法***************/
+     var date = new Date();
+     // 设置一个比现在小的GMT时间串，可以立即删除cookie
+     // 但是必须要知道key和value，所以在删除时，可以先通过getCookie(key) 获得value，然后在拼接
+     document.cookie = 'name=liyanfeng;expires='+date.toGMTString(date.getTime()-1);
+    
+
+    可以看到将cookie的过期时间设置到当前时间之前，则该cookie会自动失效，也就达到了删除cookie的目的。之所以这么设计是因为cookie是通过HTTP的标头来传递的，客户端根据服务端返回的Set-Cookie段来进行cookie的设置，如果删除cookie需要使用新的Del-Cookie来实现，则HTTP头就会变得复杂，实际上仅通过Set-Cookie就可以简单明了的实现Cookie的设置、更新与删除。
+
+    ！！！！！如果没有设置cookie的过期时间，那么浏览器关闭时，会删除cookie！！！！！
+
+  25、三星上有执行js的bug
+      大叔遇到过，在前端交流群里也有人问，看来问题确实存在。记录一下防止日后踩坑。。
+      大叔的解决办法是在页面底部，domReady之前加上了一行原生js
+      大叔的注释是：//三星的奇怪bug，一定要有裸执行的js，否则jQuery ready的，完全不生效
+      var viewport = document.querySelector("meta[name=viewport]");
+
+  26、在关闭页面时，向服务器发送统计
+
+      思路：在onbeforeunload的回调中写ajax函数，async必须为false（同步），不然可能不成功
+          页面关闭或刷新往服务器推送数据！
+          注意：一定要使用同步的方式发送，这样可以阻塞一会儿线程保证在关闭之前能推送出去
+
+  27、在前端一定要注意处理表单的提交检查，可以减少垃圾数据、无意义的与服务器端通信、后端的工作量
+
+      a、空检查
+      b、格式检查，比如：电话、邮箱等等
+
+      注意要提交的数据应该trim一下
+
+  
+  28、
+  offsetWidth = borderleft + paddingleft + contentwidth + paddingright + borderright; 
+  clientWidth = paddingleft + contentwidth + paddingright;
+
+  29、
+    obj + 1
+    a、如果obj没有toString和valueOf方法，返回[object Object]
+    b、如果obj有valueOf方法，且valueOf方法返回的数字
+       执行数字相加
+       如果obj有valueOf方法，但是返回字符串，执行字符串连接操作
+
+    c、如果obj有toString方法，且toString方法返回的是字符串，则执行字符串连接操作
+       如果obj有toString方法，但是返回的是数字，则执行数字相加
+
+    d、如果即含有valueOf有含有toString，那么只会调用valueOf方法，根据valueOf方法返回值的不同
+       执行不同的操作（规则同b）
+
+       
+  30、
+   obj2 + obj
+   要么是数字相加操作，要么是字符串连接操作。
+   规则同29
+ 
+
+  31、
+  很难说清Number（+）和parseInt/parseFloat谁的优势更大。
+
+  要说parseInt/parseFloat能parse含有其他字符的数字，它更占优势么？
+  非也，
+  Number还能解析
+  '',true,false,null,十六进制字符串
+  '' -> 0
+  true -> 1
+  false -> 0
+  null -> 0
+  undefined -> NaN
+
+  但是parse函数就不能（parseInt能解析16进制字符串）
+
+  parse函数的优势是：可以解析带字母的字符串（parseInt('100px') -> 100。
+  Number的优势是：可以解析更多的类型，唯一不能解析的是带字母的字符串。
+  两者的相同点：前导空格不影响解析。
+             前导0也不影响解析（解析成10进制）
+
 
 
 

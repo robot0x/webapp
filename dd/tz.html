@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Cache-Control" content="max-age=864" />
+<title>测试scheme跳转</title>
+<style>
+    a{
+        display: block;
+        height: 50px;
+    }
+</style>
+</head>
+<body>
+<a href="diaodiao://c.diaox2.com/aladin/gift.html">典型a标签跳转</a>
+<a id="aa" href="javascript:;">js跳转</a>
+<script type="text/javascript">
+    window.onload = function(){
+        var aa = document.getElementById('aa');
+        aa.onclick = function(){
+            location.href = 'diaodiao://c.diaox2.com/aladin/gift.html';
+        }
+    }
+</script>
+</body>
+</html>

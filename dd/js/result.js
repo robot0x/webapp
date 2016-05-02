@@ -71,14 +71,9 @@ $(function() {
             dataType: 'jsonp',
             jsonp: 'cb',
             jsonpCallback: "cb2",
+            data:{data:JSON.stringify({"query":q,"from":"pc"})},
             cache:true,
             timeout: 20000,
-            data: {
-              data: JSON.stringify({
-                "query": q,
-                "from": "pc"
-              })
-            },
             success: normalSearchSuccess
           });
   }else{
@@ -211,9 +206,9 @@ function isIE(ver){
           meta_infos_obj[item] = meta_infos[item];
         }
       })
-    $('.no-result').hide();
-    $('.no-result p.f-l').html('找不到<span class="target-word"></span>，换个关键词试试');
-     renderDOM(meta_infos_obj);
+      $('.no-result').hide();
+      $('.no-result p.f-l').html('找不到<span class="target-word"></span>，换个关键词试试');
+      renderDOM(meta_infos_obj);
     }else{
       var curSelect = document.querySelectorAll('.cur-select');
       // 两种情况，一种交集是空集，一种是没有选择任何条件
@@ -302,8 +297,6 @@ function isIE(ver){
           return newArray;
       })
     }
-    console.log('238:'+metaResult.indexOf(238));
-    console.log('321:'+metaResult.indexOf(321));
     return metaResult;
   }
   function isNullObject(obj){
@@ -377,13 +370,8 @@ function isIE(ver){
         count = 0,
         dataPos = 1;
         goodthingList.innerHTML = ''; // 清空 
-        console.log(meta_infos);
         for(attr in meta_infos){
          attr = +attr;
-         if(attr === 321 || attr === 238){
-          // alert(attr);
-          console.log(attr);
-         }
          /*
             bug1
             筛选出来的好物，可能小于20条，例如 文艺范 和 500-800 交集只有18条好物，
@@ -446,7 +434,6 @@ function isIE(ver){
              i = 0,
              l = search.length,
              eachSearch,clickArr,newClick;
-             console.log(dom);
              if(curUrl.indexOf('&t=h') !== -1){
                 for(;i<l;i++){
                   eachSearch = search[i];
@@ -512,6 +499,7 @@ function update_success(data) {
     }
     return true;
 }
+
 function get_stat() {
     var eles = $(".unknown"),
         cids = [],i = 0,l = eles.length,ele,longId;
@@ -523,6 +511,7 @@ function get_stat() {
         }
         cids.push(+longId);
     }
+
     (function(input){
       (function(){
         var pack = input.slice(0, LOAD_COUNT);
@@ -543,7 +532,7 @@ function get_stat() {
   如：七夕情人节  给老婆的情人节礼物|给老婆的七夕礼物  返回 true
 */
 function checkStr(a,b){
-    var i ;
+    var i;
     for(i=0; i<=a.length-1; i++){
      if (a.indexOf(b.substr(i,1))!=-1){
         return true;  
@@ -605,7 +594,8 @@ function checkStr(a,b){
           everyMeta = meta_infos[every];
           //清空keyword串，保证每条文章的keyword串都是全新的
           authorSrc = keywords_str = "";
-          if (!everyMeta.price) {
+          var hasPrice = everyMeta.price;
+          if (!hasPrice) {
             everyMeta.price = "<img width='15' height='15' style='margin-right:5px;' src='http://c.diaox2.com/cms/diaodiao/assets/links.png'>全网结果";
           }
           rendered_keywords = everyMeta.rendered_keywords;
@@ -622,6 +612,9 @@ function checkStr(a,b){
             imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
           }
           authorSrc = everyMeta.author.src || everyMeta.author.url;
+          // if(authorSrc == null){
+            // console.log(index);
+          // }
           if (authorSrc.indexOf("http") == -1) {
             authorSrc = "editor/" + authorSrc + ".html";
           }
@@ -637,11 +630,17 @@ function checkStr(a,b){
             }
           }
           var price = everyMeta.price;
+          // 没有 知道价格，但有购买链接的情况
           if (everyMeta.has_buylink === false || everyMeta.price === "N/A") {
             price = "&nbsp";
           }
           // 发布去除 http://www.diaox2.com/
           // 优化。提高字符串拼接速度
+          // console.log(url);
+          // 如果是站内链接，且没有价格
+          if( !hasPrice && /^\/?article\/\d+\.html/.test(url) ){
+            price = "&nbsp";
+          }
           stringBuffer.push('<li class="result-item" data-pos=',index+1,'><a target="_blank" href="',devprefix,url,'" class="imglink f-l"><div class="result-item-img-container loading"><img src="',imgUrl,'" alt="',rendered_keywords,'" width="188" height="188"></div></a><div class="result-item-detail f-l"><h2 class="detail-title"><a target="_blank" href="',url,'">',rendered_title,'</a></h2><ul class="detail-keywords clearfix">',keywords_str,'</ul><div class="detail-author clearfix"><a class="detail f-l">',price,'</a><div class="author f-l clearfix"><ul class="clearfix"><li class="author-face f-l"><a target="_blank" href="',authorSrc, '"><span class="author-face-container"><img src="http://c.diaox2.com/cms/diaodiao/',everyMeta.author.pic, '" width="20" height="20"></span></a></li><li class="author-name f-l"><a target="_blank" href="',authorSrc,'">',everyMeta.author.name,'</a></li></ul></div></div></div></li>');
         })
           document.getElementById('result-list').innerHTML = stringBuffer.join('');
@@ -665,7 +664,6 @@ function checkStr(a,b){
              i = 0,
              l = search.length,
              eachSearch,clickArr,newClick;
-             console.log(dom);
              if(curUrl.indexOf('&t=h') !== -1){
                 for(;i<l;i++){
                   eachSearch = search[i];
@@ -732,7 +730,7 @@ function checkStr(a,b){
           }
           titleStr2 = title[len - 1];
         }
-         stringBuffer.push('<li class="loading"><a target="_blank" href="',url,'"><img src="',item.cover_image_url,'" alt="',titleStr.replace('<br>',''),'" width="277" height="180"><p>',titleStr,'</p><span>',titleStr2,'</span><div class="black-musk"></div></a></li>');
+         stringBuffer.push('<li class="loading"><a target="_blank" href="',url,'"><img src="',item.cover_image_url,'" alt="',titleStr.replace('<br>','').replace(/\"/g,"&quot;"),'" width="277" height="180"><p>',titleStr,'</p><span>',titleStr2,'</span><div class="black-musk"></div></a></li>');
       });
         document.getElementById('special').innerHTML = stringBuffer.join('');
     }
@@ -771,7 +769,7 @@ function checkStr(a,b){
           url: "http://api.diaox2.com/v2/ubs",
           type:"POST",
           async:false,
-          contentType:'application/json',//若是没有这个属性的话，就不会发送options请求
+          contentType:'application/json',
           data:postData,
           success:function(data){
             localStorage.clear();
@@ -848,7 +846,7 @@ function checkStr(a,b){
              // 删除经过处理加上的属性，防止后续加载的图片变形
              img.removeAttribute('width');
              img.removeAttribute('height');
-             img.removeAttribute('style');
+             img.removeAttribute('style');  
              newNode.setAttribute('data-pos',dataPos++);
              // 发布取出 www.diaox2.com
              a.href = devprefix+url;

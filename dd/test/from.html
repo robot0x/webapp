@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>测试from</title>
+</head>
+<body>
+
+<p>
+    <p>我是p内部的p</p>
+</p>
+
+<p><div>我是p内部的div</div></p>
+
+<a href="javascript:void(0);">
+    <a href="javascript:void(0);">我是a标签内的a</a>
+</a>
+
+<h1><strong>nihao</strong></h1>
+
+<script type="text/javascript">
+    "use strict";
+    var foo = 1;
+    function main(){
+
+        console.log(foo);
+        var foo = 2;
+        console.log(this.foo);
+        this.foo = 3;
+
+    }
+    main();
+    new main();
+
+    function mySort(){
+        var tags = new Array();
+        for(var i = 0,l = arguments.length;i<l;i++){
+            tags.push(arguments[i]);
+        }
+
+        tags.sort(function(a,b){
+            return a - b;
+        });
+
+        return tags;
+
+    }
+
+</script>    
+</body>
+</html>

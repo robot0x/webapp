@@ -1,0 +1,539 @@
+body,div,p,ul,li,form,input,h1,h2,h3,h4,h5,h6,table,tbody,tr,td,dl,dd,textarea,ol{margin:0;padding:0;}
+ul,li{list-style:none;}
+img{vertical-align:middle;border:none;display:inline-block;}
+a{text-decoration:none;border:none;}
+input{outline:none;border:none;}
+html {
+    font-size: 100px;
+    -ms-touch-action: none;
+    height:100%;
+}
+body{
+    /*一定定义min-height，否则的话就是视口的高度*/
+    height: 100%;
+}
+body, button, input {
+    line-height: 1.4;
+    font-family: "Hiragino Sans GB", "Helvetica Neue", Helvetica, "Microsoft Yahei", heiti, Arial, sans-serif
+}
+img {
+    border: 0;
+    vertical-align: middle
+}
+h1,h2,h3,h4{font-weight: normal;}
+.clearfix:after{content: "";display: table;clear: both;} 
+.link, .link-sf {
+    border-bottom: 2px #3ea0d3 solid;
+    position: absolute
+}
+a {
+    color: #333;
+    text-decoration: none;
+    outline: 0
+}
+* {
+    -webkit-tap-highlight-color: transparent
+}
+input[type=button], input[type=reset], input[type=submit] {
+    -webkit-appearance: none
+}
+@media screen and (max-width:640px) {
+    button, html, input {
+        font-size: 100px
+    }
+}
+@media screen and (max-width:620px) {
+    button, html, input {
+        font-size: 97px
+    }
+}
+@media screen and (max-width:600px) {
+    button, html, input {
+        font-size: 94px
+    }
+}
+@media screen and (max-width:580px) {
+    button, html, input {
+        font-size: 90px
+    }
+}
+@media screen and (max-width:560px) {
+    button, html, input {
+        font-size: 88px
+    }
+}
+@media screen and (max-width:540px) {
+    button, html, input {
+        font-size: 84px
+    }
+}
+@media screen and (max-width:520px) {
+    button, html, input {
+        font-size: 81px
+    }
+}
+@media screen and (max-width:500px) {
+    button, html, input {
+        font-size: 78px
+    }
+}
+@media screen and (max-width:480px) {
+    button, html, input {
+        font-size: 75px
+    }
+}
+@media screen and (max-width:460px) {
+    button, html, input {
+        font-size: 72px
+    }
+}
+@media screen and (max-width:440px) {
+    button, html, input {
+        font-size: 69px
+    }
+}
+@media screen and (max-width:428px) {
+    button, html, input {
+        font-size: 67px
+    }
+}
+@media screen and (max-width:414px) {
+    button, html, input {
+        font-size: 64px
+    }
+}
+@media screen and (max-width:380px) {
+    button, html, input {
+        font-size: 56px
+    }
+}
+@media screen and (max-width:360px) {
+    button, html, input {
+        font-size: 56px
+    }
+}
+@media screen and (max-width:319px) {
+    button, html, input {
+        font-size: 50px
+    }
+}
+/*加载动画start*/
+.mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #73C7EB;
+    z-index: 9999;
+    color: #fff;
+    line-height: 10.88rem
+}
+.double-bounce1, .double-bounce2 {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background-color: #fff;
+    opacity: .6;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -.5rem;
+    margin-top: -.5rem;
+    -webkit-animation: bounce 2s infinite ease-in-out;
+    animation: bounce 2s infinite ease-in-out
+}
+.double-bounce2 {
+    -webkit-animation-delay: -1s;
+    animation-delay: -1s
+}
+@-webkit-keyframes bounce {
+    0%, 100% {
+        -webkit-transform: scale(0)
+    }
+    50% {
+        -webkit-transform: scale(1)
+    }
+}
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(0);
+        -webkit-transform: scale(0)
+    }
+    50% {
+        transform: scale(1);
+        -webkit-transform: scale(1)
+    }
+}
+/*加载动画end*/
+.wrapper {
+    margin: 0 auto;
+    overflow: hidden;
+    min-width: 320px;
+    max-width: 640px;
+    min-height: 100%;
+    background: url(../images/bg.jpg) 0 0 no-repeat #73C7EB;
+    -webkit-background-size:100%;
+    background-size:100%;
+}
+.prizes-container{
+ margin-top: 4.03rem;
+ overflow-y:hidden;
+ overflow-x:auto;
+}
+.prizes{
+ /*width: 8.1rem;*/
+ padding: .1rem;
+}
+.prize{
+    float: left;
+    margin: .1rem;
+    width: 2.5rem;
+    min-height: 3.1rem;
+    position: relative;
+}
+.prize a{
+    display: block;
+}
+.prize img{
+    width: 2.5rem;
+    height: 2.1rem;
+}
+.prize-highlight{
+    width: 2.34rem;
+    min-height: .84rem;
+    padding: .08rem;
+    background:#c3edff;
+}
+.prize-highlight h2{
+    font-size: .2rem;
+    color:#1e6380;
+}
+.prize-highlight p{
+    font-size: .18rem;
+    color:#388bae;
+}
+.tag{
+    position: absolute;
+    text-align: center;
+    /*width: .98rem;*/
+    height: .32rem;
+    line-height: .32rem;
+    background:rgba(235,43,43,.5);
+    color:#fffbc9;
+    font-size: .14rem;
+    left: .1rem;
+    top: 0;
+    padding: .05rem;
+    border-radius: 0 0 .1rem .1rem;
+}
+.tip{
+    font-size: .3rem;
+    color: #0e5370;
+    margin-top: .18rem;
+    text-align: center;
+}
+.attention{
+    color: #166688;
+    font-size: .2rem;
+    text-align: center;
+    visibility: hidden;
+}
+.btn{
+    display: block;
+    color:#fff;
+    font-size: .3rem;
+    line-height: .83rem;
+    text-align: center;
+    background:url(../images/btn.png) center center no-repeat;
+    background-size: 3.02rem .83rem;
+}
+.red-btn{
+    background: url(../images/share-pang-btn.png) center center no-repeat;
+    background-size: 3.02rem .83rem;
+}
+.btn-container{
+    height: .83rem;
+    width: 4.48rem;
+    margin: 0 auto;
+    margin-top: .2rem;
+}
+.share-btn{
+    background: url(../images/share-btn.png) center center no-repeat;
+    background-size: 2.14rem .83rem;
+    width: 2.14rem;
+    line-height: 1;
+    height: .83rem;
+    float: left;
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+}
+.share-btn:first-child{
+    margin-right: .2rem;
+}
+.view-my-prize{
+    display: block;
+    margin: 0 auto;
+    margin-top: .18rem;
+    text-align: center;
+    width: 2rem;
+    font-size: .24rem;
+    color:#2186b0;
+    text-decoration: underline;
+    visibility: hidden;
+}
+.winning{
+    margin-top: .3rem;
+}
+.winning-title{
+    background: url(../images/title.png) center center no-repeat;
+    font-size: .4rem;
+    color: #fff;
+    width: 3.22rem;
+    height: .96rem;
+    margin: 0 auto;
+    background-size: 3.22rem .96rem; 
+    text-align: center;
+    padding-top: .12rem;
+}
+.winning-list{
+    width: 6rem;
+    margin:0 auto;
+    margin-top: .2rem;
+    color: #1e6380;
+}
+.winning-list>li{
+    padding:.4rem 0;
+    border-bottom: 1px #3e9eb6 solid;
+    position: relative;
+}
+.winning-block{
+    background: #c3edff;
+    padding: .16rem;
+    line-height: 1;
+    position: relative;
+    display: block;
+}
+.winning-list img{
+    width: 1.3rem;
+    height: 1.3rem;
+    float: left;
+}
+.prize-detail{
+    float: left;
+    font-size: .3rem;
+    margin-left: .2rem;
+}
+.prize-name{
+    font-size: .3rem;
+}
+.prize-prize{
+    margin-top: .12rem;
+    font-size: .22rem;
+}
+.prize-desc{
+    margin-top: .3rem;
+    font-size: .22rem;
+}
+.right-arrow{
+    position: absolute;
+    width: .5rem;
+    height: .7rem;
+    background: url(../images/right-arrow.png) center center no-repeat;
+    right: .16rem;
+    top: 50%;
+    -webkit-transform:translateY(-50%);
+    transform:translateY(-50%);
+}
+.winning-gays-count{
+    font-size: .22rem;
+    line-height: 1;
+    margin-top: .2rem;
+}
+.winning-gays{
+    margin-top: .2rem;
+    height: .84rem;
+    overflow: hidden;
+}
+.winning-gays li{
+    float: left;
+    font-size: .22rem;
+    margin-right: .2rem;
+    margin-bottom: .12rem;
+}
+.view-more{
+    display: block;
+    color:#fff;
+    font-size: .22rem;
+    line-height: 1;
+    position: relative;
+    left: 50%;
+    -webkit-transform:translateX(-50%);
+    transform:translateX(-50%);
+    text-align: center;
+    margin-top: .2rem;
+    text-align: center;
+}
+.view-more i{
+    display: inline-block;
+    margin-left: .08rem;
+    width: .25rem;
+    height: .11rem;
+    background: url(../images/bottom-arrow.png) left top no-repeat;
+    vertical-align: middle;
+    background-size: .24rem .1rem;
+}
+.bottom-line{
+    display: block;
+    border-bottom: 1px #daeef7 solid;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.f-and-q{
+    margin-top: .3rem;
+}
+.q-and-a-list{
+    margin: .2rem auto;
+    width: 5.8rem;
+}
+.q-and-a-list li{
+    padding: .2rem 0 .2rem .2rem;
+    background: #c3edff;
+    font-size: .3rem;
+    color: #1e6380;
+    margin-top: .2rem;
+}
+.q-and-a-list li p:last-child{
+    color: #4ea8ce;
+}
+/*中奖提示*/
+.red-circle-tip{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    height: 3.2rem;
+    width: 3.2rem;
+    margin-left: -1.6rem;
+    margin-top: -1.6rem;
+    /*line-height: 3.2rem;*/
+    display: -webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+    text-align: center;
+    color: #fff;
+    font-size: .3rem;
+    border-radius: 50%;
+    background: rgba(252,75,101,.8);
+    visibility: hidden;
+}
+/*中间弹框*/
+.winning-dialog{
+   position: fixed;
+   box-sizing: border-box;
+   left: 50%;
+   top: 50%;
+   width: 4.2rem;
+   height: 6rem;
+   margin-left: -2.1rem;
+   margin-top: -3rem;
+   background: rgba(252,75,101,.8);
+   padding: .38rem .2rem;
+   color: #fff;
+   font-size: .3rem;
+   display: none;
+}
+#view_winning{
+    height:auto;
+}
+.winning-dialog > h2{
+    line-height: 1;
+    font-size: .48rem;
+    text-align: center;
+}
+#view_winning > h2{
+    font-size:.3rem;text-align:left;line-height:1.4;
+}
+.winning-dialog > p{
+    line-height: 1;
+    margin-top: .3rem;
+    font-size: .3rem;
+}
+#view_winning > p{
+    font-size:.2rem;line-height:1.4;margin-top:.1rem;
+}
+.info-block input{
+    font-size: .29rem;
+    width: 2.16rem;
+    height: .5rem;
+    line-height: .5rem;
+    color:#988d8e;
+    border-radius: .1rem;
+    padding-left: .14rem;
+}
+.info-block ul li{
+    margin-top: .2rem;
+}
+.info-block ul li div{
+    float: left;
+}
+.info-block .addr{
+    height: 1.58rem;
+    width: 2.26rem;
+    line-height: 1.4;
+    outline: none;
+    border:none;
+    font-size: .29rem;
+    color: #988d8e;
+    resize: none;
+    border-radius: .1rem;
+}
+.btn-block{
+    margin-top: .3rem;
+    text-align: center;
+    font-size: 0;
+}
+.btn-block a{
+color: #fff;
+font-size: .3rem;
+width: 1.4rem;
+height: .6rem;
+border:1px #fff solid;
+display: inline-block;
+text-align: center;
+line-height: .6rem;
+margin-right: .4rem;
+border-radius: .1rem;
+}
+.btn-block .cancel{
+    margin: 0;
+}
+.unwinning-dialog{
+   position: fixed;
+   box-sizing: border-box;
+   left: 50%;
+   top: 50%;
+   width: 4.2rem;
+   margin-left: -2.1rem;
+   background: rgba(252,75,101,.8);
+   padding: .38rem .2rem;
+   color: #fff;
+   font-size: .3rem;
+   display: none;
+   -webkit-transform:translateY(-50%);
+   transform:translateY(-50%);
+}
+.unwinning-dialog h2{
+    text-align: center;
+}
+.unwinning-dialog p{
+    margin-top: .18rem;
+    font-size: .2rem;
+    text-align: center;
+}
+.android > h2{
+    font-size: .2rem;
+    text-align: left;
+    line-height: 1.4;
+}

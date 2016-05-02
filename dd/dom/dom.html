@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>dom方法测试</title>
+</head>
+<body>
+
+    <div class="wrapper">
+        
+        <ul>
+            <li id="nihao" class="item" name="test" title="1">1</li>
+            <li class="item" name="test" title="2">2</li>
+            <li class="item" name="test" title="3">3</li>
+            <li class="item" name="test" title="4">4</li>
+            <li class="item" name="test" title="5">5</li>
+        </ul>
+
+        <ul id="test"><!-- 你好 --></ul>
+    </div>
+    <form  id="fo">
+        
+        <input type="text" name="username" id="username">
+        <input type="password" name="password" id="pwd" >
+        <input type="submit" value="提交" id="sub" >
+    
+    </form>
+<script type="text/javascript">
+    
+    window.onload = function(){
+
+
+
+        var fo = document.getElementById('fo');
+        fo.onsubmit = function(){
+            alert('submit');
+        }
+        // var sub = document.getElementById('sub');
+        // sub.onsubmit = function(){
+        //     alert('btn submit');
+        // }
+
+
+        var ul = document.querySelector('ul');
+
+        var li = document.querySelectorAll('li');
+
+        var li2 = document.getElementsByTagName('li');
+        var li2ByClassName = document.getElementsByClassName('item');
+        var li2ByName = document.getElementsByName('test');
+
+
+        console.log("document.querySelectorAll('li').length="+li.length);
+        console.log("document.getElementsByTagName('li').length="+li2.length);
+        console.log("document.getElementsByClassName('item').length="+li2ByClassName.length);
+        console.log("document.getElementsByName('item').length="+li2ByName.length);
+
+        var newLi = document.createElement('li');
+        newLi.className = "item";
+        // newLi.name = "test";
+        newLi.setAttribute('name','test');
+        newLi.title = 6;
+        newLi.innerHTML = 11122;
+        ul.insertBefore(newLi,ul.childNodes[0]);
+
+        console.log('----------------------------------往UL中添加了一个li元素之后---------------------------------------');
+        console.log("document.querySelectorAll('li').length="+li.length);
+        console.log("document.getElementsByTagName('li').length="+li2.length);
+        console.log("document.getElementsByClassName('item').length="+li2ByClassName.length);
+        console.log("document.getElementsByName('item').length="+li2ByName.length);
+
+
+        console.time('dom');
+        var ul = document.getElementById('test');
+        // var frag = document.createDocumentFragment();
+        var node = document.createElement('li');
+        node.innerHTML = "hah";
+        node.className = "xixi";
+        node.id = "dada";
+        node.style.margin = "0";
+        // for(var i =0;i<200000;i++){
+        //     var newNode = node.cloneNode(true);
+        //     // newNode.innerHTML = i;
+        //     // frag.appendChild(node);
+        //     ul.appendChild(newNode);
+
+        // }
+
+        console.log(document.querySelector('ul').childNodes[0]);
+        console.log(document.querySelector('ul').childNodes[0].nodeName);
+
+        // console.timeEnd('dom');
+        // console.log(document.createDocumentFragment());
+        // console.log(document.createDocumentFragment().nodeName);
+        // console.log(document);
+        // console.log(document.nodeName);
+        // console.log(document.querySelector('ul').childNodes[1]);
+        // console.log(document.querySelector('ul').childNodes[1].nodeName);
+        // console.log(document.getElementById('test').childNodes[0]);
+        // console.log(document.getElementById('test').childNodes[0].nodeName);
+
+        // console.log(document.getElementById('nihao').getAttributeNode('class'));
+        // console.log(document.getElementById('nihao').getAttributeNode('class').nodeType);
+        // console.log(document.getElementById('nihao').getAttributeNode('class').nodeName);
+    }
+
+</script>
+</body>
+</html>

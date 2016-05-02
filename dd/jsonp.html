@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>jsonp</title>
+</head>
+<body>
+
+<script src="js/jquery.js"></script>
+<script src="jstest/qAjax.js"></script>
+<script type="text/javascript">
+
+
+    $.ajax({
+        url: "http://c.diaox2.com/cms/diaodiao/pcsite/goodthing_feed_list.json",
+        dataType:'jsonp',
+        timeout:8000,
+        data:{
+            name:"李彦峰"
+        },
+        // cache:false,
+        // jsonp:'cb',//这是发送到服务器的参数名。可不指定，jquery会默认把参数名变成callback
+        jsonpCallback:"cb",//这是发送到服务器的参数值。这个名称必须与服务器传过来的 cb( josn ) 函数调用的函数名称一样
+        success:function(result){
+            console.log(result);
+        },
+        error:function(x,t,e){
+            console.log(x);
+            console.log(t);
+            console.log(e);
+        }
+    });
+     ajax({
+            url: "cb.json",
+            timeout: 20000,
+            error:function(XMLHttpRequest,t,e){
+                console.log("XMLHttpRequest:"+(XMLHttpRequest.status));
+                console.log("t:"+t);
+                console.log("e:"+e);
+            },
+            success: function(data){
+                // console.log(data)
+                alert(data);
+            }
+        });
+        ajax({
+            url: "http://s.diaox2.com/ddsearch/q",
+            cache:true,// 防止 jquery 发送ajax请求时在后面带上时间戳，导致过不了cdn
+            timeout: 20000,
+            type:"POST",
+            dataType:"json",
+            contentType: 'application/json',//若是没有这个属性的话，就不会发送options请求
+            data:JSON.stringify({"query":'电脑',"from":"pc"}),
+            error:function(XMLHttpRequest,t,e){
+                console.log("XMLHttpRequest:"+(XMLHttpRequest.status));
+                console.log("t:"+t);
+                console.log("e:"+e);
+            },
+            success: function(data){
+                // console.log(data)
+            }
+        });
+
+    // $.ajax({
+    //     url: "http://c.diaox2.com/cms/diaodiao/pcsite/goodthing_feed_list.json",
+    //     dataType:'jsonp',
+    //     data:{
+    //         name:"李彦峰"
+    //     },
+    //     // cache:false,
+    //     // jsonp:'cb',//这是发送到服务器的参数名。可不指定，jquery会默认把参数名变成callback
+    //     jsonpCallback:"cb",//这是发送到服务器的参数值。这个名称必须与服务器传过来的 cb( josn ) 函数调用的函数名称一样
+    //     success:function(result){
+    //         console.log(result);
+    //     }
+    // });
+
+
+    // // function cb(obj){
+    // //     console.log(obj);
+    // // }
+    // function createScriptElement(src,callback,success){
+    //      var __script = document.createElement('script');
+    //      __script.type = "text/javascript";
+    //      __script.src = src;
+    //      document.body.appendChild(__script);
+
+    //      window[callback] = function(text){
+    //         success(text);
+    //         // 执行完毕之后，磨除JSONP标记
+    //         window[callback] = undefined;
+    //         document.body.removeChild(__script);
+    //      }
+
+    // }
+    // window.onload = function(){
+
+    //     var p = document.createElement("p");
+    //     p.innerHTML = "jsonp:";
+    //     // createScriptElement("http://c.diaox2.com/cms/diaodiao/pcsite/goodthing_feed_list.json","cb",function(text){
+    //     //     alert(1);
+    //     //     alert(text);
+    //     // });
+
+    //     // var xhr = new XMLHttpRequest();
+    //     // xhr.open('GET','cb.json',true);
+    //     // xhr.onreadystatechange = function(){
+    //     //     // console.log(xhr.readyState);
+    //     //     if(xhr.readyState === 4 && xhr.status === 200){
+    //     //         // console.log(xhr.responseText);
+    //     //         // p.innerHTML = xhr.responseText;
+    //     //         eval(xhr.responseText);
+    //     //     }
+    //     // }
+    //     // xhr.send(null);
+    //     // document.body.appendChild(p);
+    // }
+
+</script>
+</body>
+</html>

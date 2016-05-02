@@ -13,7 +13,7 @@ $(function(){
         stringPrototype = String.prototype,
         arrayPrototypeFor = arrayPrototype.forEach,
         // 从服务器端获取的json信息，在获取值得买ajax的success回调中赋值
-        meta_infos_form_server,isIE8 = isIE(8),isIE9 = isIE(9),
+        meta_infos_from_server,isIE8 = isIE(8),isIE9 = isIE(9),
         cidList_from_server,
         // feed流列表，在获取值得买ajax的success回调中赋值
         feed_list_from_server;
@@ -58,7 +58,7 @@ $.ajax({
               url = match[0].replace(reg2, toReplaceStr);
             }
           }
-          stringBuffer.push('<li class="f-l"><a href="',url,'"><img src="',item.thumb,'" alt="',item.title,'" width="144" height="144"><p>',item.title,'</p></a></li>');
+          stringBuffer.push('<li class="f-l"><a href="article/',url,'"><img src="',item.thumb,'" alt="',item.title,'" width="144" height="144"><p>',item.title,'</p></a></li>');
         });
         document.getElementById('hot-list').innerHTML = stringBuffer.join('');
         $(".result-content").trigger("update");
@@ -72,7 +72,7 @@ $.ajax({
 $.ajax({
     url: "http://api.diaox2.com/v3/zdm",
     type: "GET",
-    cache: true, //prevent the default parameter _=${timestamp}, CDN
+    cache: true,
     dataType: "jsonp",
     crossDomain: true,
     data: {
@@ -80,15 +80,16 @@ $.ajax({
         'method': 'get_all_pc'
       })
     },
-    jsonpCallback: 'cb', //override the &callback='jQuery123457676_253954801'
-    jsonp: 'cb', //override the &'callback'=
+    jsonpCallback: 'cb',
+    jsonp: 'cb',
     success:function(data){
         var res,meta_infos,feed_list,cidList = [],everyMeta,title,url,summary,price,
-        date,source,imgUrl,stringBuffer = [],i=count=0,item;
+        date,source,imgUrl,stringBuffer = [],i=0,count=0,item;
+        console.log(data);
         if(data||data.state === 'SUCCESS'){
             res = data.res;
             meta_infos = res.meta_infos;
-            meta_infos_form_server = meta_infos;
+            meta_infos_from_server = meta_infos;
             arrayPrototypeFor.call(meta_infos,function(item){
               cidList.push(item.cid);
             })
@@ -110,27 +111,10 @@ $.ajax({
                 source = everyMeta.author.name;
                 imgUrl = everyMeta.thumb_image_url;
                 title = everyMeta.title[0];
-                stringBuffer.push('<li class="result-item clearfix ',item[1]===1?'outdate':'','"><a target="_blank" href="',url,'" class="img-container f-l loading"><img src="',imgUrl,'" alt="',title,'" height="188" width="188"><span class="outdate-tag disnone">已过期</span></a><div class="result-detail f-l"><a target="_blank" href="',url,'" class="result-title">',title,'</a><p class="result-price">',price,'</p><p class="result-content">',isIE8?title:summary,'</p><ul class="result-footer clearfix"><li class="date f-l">',getDateStr(date),'</li><li class="source f-l">',source,'</li><li class="view-result f-r"><a target="_blank" href="',url,'">查看详情</a></li></ul></div></li>');
+                buylink_site = everyMeta.buylink_site || "";
+                stringBuffer.push('<li class="result-item clearfix ',item[1]===1?'outdate':'','"><a target="_blank" href="',url,'"><div class="img-container f-l loading"><img src="',imgUrl,'" alt="',title,'" height="188" width="188"><span class="outdate-tag disnone">已过期</span></div><div class="result-detail f-l"><p class="result-title">',title,'</p><p class="result-price">',price,'</p><p class="result-content">',isIE8?title:summary,'</p><ul class="result-footer clearfix"><li class="date f-l">',getDateStr(date),'</li><li class="source f-l">',source,'</li><li class="view-result f-r"><p>查看详情</p></li><li class="buylink_site f-r">',buylink_site,'</li></ul></div></a></div>');
                 feed_list.splice(i--,1);// 插入之后就删除。供后续分页使用
             }
-            // arrayPrototypeFor.call(feed_list,function(item,i){
-            //     if(i > LOAD_COUNT - 1){
-            //         return;
-            //     }
-            //     everyMeta = meta_infos[cidList.indexOf(item[0])];
-            //     url = everyMeta.url;
-            //     summary = extractText(everyMeta.summary);
-            //     price = everyMeta.price;
-            //     if(price == null || price == 'null'){
-            //       price = '&nbsp;';
-            //     }
-            //     date = everyMeta.pub_time * 1000;
-            //     source = everyMeta.author.name;
-            //     imgUrl = everyMeta.thumb_image_url;
-            //     title = everyMeta.title[0];
-            //     stringBuffer.push('<li class="result-item clearfix ',item[1]===1?'outdate':'','"><a target="_blank" href="',url,'" class="img-container f-l loading"><img src="',imgUrl,'" alt="',title,'" height="188" width="188"><span class="outdate-tag disnone">已过期</span></a><div class="result-detail f-l"><a target="_blank" href="',url,'" class="result-title">',title,'</a><p class="result-price">',price,'</p><p class="result-content">',isIE8?title:summary,'</p><ul class="result-footer clearfix"><li class="date f-l">',getDateStr(date),'</li><li class="source f-l">',source,'</li><li class="view-result f-r"><a target="_blank" href="',url,'">查看详情</a></li></ul></div></li>');
-            //     feed_list.splice(i,1);// 插入之后就删除。供后续分页使用
-            // })
             feed_list_from_server = feed_list;
             document.getElementById('result-list').innerHTML = stringBuffer.join('');
             addDot('.result-content');
@@ -184,10 +168,9 @@ if(typeof stringPrototype.endsWith !== 'function'){
 }
 // 随机从数组中取出数据
 function randArray(data, len) {
-  data.sort(function() {
-    return Math.random() - 0.5;
-  });
-  return data.slice(0, len);
+  return data.sort(function() {
+           return Math.random() - 0.5;
+         }).slice(0, len);
 }
 // 传入的时间戳是否是今年
 function isThisYear(ms){
@@ -198,7 +181,7 @@ function isToday(ms){
     var now = new Date(),
         date = new Date(ms);
     // 是同一年同一月同一日
-    if(isThisYear() && now.getMonth() === date.getMonth() && now.getDate() === date.getDate()){
+    if(isThisYear(ms) && now.getMonth() === date.getMonth() && now.getDate() === date.getDate()){
         return true;
     } 
     return false;
@@ -302,18 +285,18 @@ function updateDOM(){
         // TODO提示用户已经加载完毕 
         return;
     }
-    var everyMeta,url,
+    var everyMeta,url,item,
         resultList = document.getElementById('result-list'),
         // 新节点的克隆模板
         resultItem = resultList.querySelector('.result-item'),
         frag = document.createDocumentFragment(), // 乾坤袋
-        newNode,i=count=0;
+        newNode,a,i=count=0;
         for(;i<feed_list_from_server.length;i++,count++){
           item = feed_list_from_server[i];
           if(count > LOAD_COUNT - 1){
                 break;
             }
-            everyMeta = meta_infos_form_server[cidList_from_server.indexOf(item[0])];
+            everyMeta = meta_infos_from_server[cidList_from_server.indexOf(item[0])];
             url = everyMeta.url;
             newNode = resultItem.cloneNode(true);
             // item[1]是flag字段 0 未过期 1 过期
@@ -322,54 +305,19 @@ function updateDOM(){
             }else{
               $(newNode).removeClass('outdate');
             }
-            
-            arrayPrototypeFor.call(newNode.querySelectorAll('a'),function(each){
-              each.href = url;
-              if(each.className.indexOf('result-title')!==-1){
-                each.innerHTML = everyMeta.title[0];
-              }
-            })
-
-            newNode.querySelector('img').src = everyMeta.thumb_image_url;
-            newNode.querySelector('.result-price').innerHTML = everyMeta.price == null?'&nbsp;':everyMeta.price;
+            a = newNode.querySelector('a');
+            a.href = url;
+            a.querySelector('.result-title').innerHTML = everyMeta.title[0];
+            a.querySelector('img').src = everyMeta.thumb_image_url;
+            a.querySelector('.result-price').innerHTML = everyMeta.price == null?'&nbsp;':everyMeta.price;
             // 防止IE8下出现问题
-            newNode.querySelector('.result-content').innerHTML = isIE8?everyMeta.title[0]:extractText(everyMeta.summary);
-            newNode.querySelector('.result-footer .date').innerHTML = getDateStr(everyMeta.pub_time * 1000);
-            newNode.querySelector('.result-footer .source').innerHTML = everyMeta.author.name;
+            a.querySelector('.result-content').innerHTML = isIE8?everyMeta.title[0]:extractText(everyMeta.summary);
+            a.querySelector('.result-footer .date').innerHTML = getDateStr(everyMeta.pub_time * 1000);
+            a.querySelector('.result-footer .source').innerHTML = everyMeta.author.name;
+            a.querySelector('.result-footer .buylink_site').innerHTML = everyMeta.buylink_site || "";
             frag.appendChild(newNode);
             feed_list_from_server.splice(i--,1);// 插入之后就删除。供后续分页使用
         }
-        // arrayPrototypeFor.call(feed_list_from_server,function(item,i){
-        //     if(i > LOAD_COUNT - 1){
-        //         return;
-        //     }
-        //     everyMeta = meta_infos_form_server[cidList_from_server.indexOf(item[0])];
-        //     url = everyMeta.url;
-        //     newNode = resultItem.cloneNode(true);
-        //     // item[1]是flag字段 0 未过期 1 过期
-        //     if(item[1] === 1){
-        //       $(newNode).addClass('outdate');
-        //     }else{
-        //       $(newNode).removeClass('outdate');
-        //     }
-            
-        //     arrayPrototypeFor.call(newNode.querySelectorAll('a'),function(each){
-        //       each.href = url;
-        //       if(each.className.indexOf('result-title')!==-1){
-        //         each.innerHTML = everyMeta.title[0];
-        //       }
-        //     })
-
-        //     newNode.querySelector('img').src = everyMeta.thumb_image_url;
-        //     newNode.querySelector('.result-price').innerHTML = everyMeta.price == null?'&nbsp;':everyMeta.price;
-        //     // 防止IE8下出现问题
-        //     newNode.querySelector('.result-content').innerHTML = isIE8?everyMeta.title[0]:extractText(everyMeta.summary);
-        //     newNode.querySelector('.result-footer .date').innerHTML = getDateStr(everyMeta.pub_time * 1000);
-        //     newNode.querySelector('.result-footer .source').innerHTML = everyMeta.author.name;
-            
-        //     frag.appendChild(newNode);
-        //     feed_list_from_server.splice(i,1);// 插入之后就删除。供后续分页使用
-        // })
           resultList.appendChild(frag);
           addDot('.result-content');
 }
@@ -389,6 +337,5 @@ addEvent(window,'scroll',function(){
           toggleLoading('block');
         }
   })
-
 })
 

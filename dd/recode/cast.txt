@@ -1,0 +1,157 @@
+1、转型
+
+javascript中，基本类型有5中，分别是 number boolean string null undefined
+复杂类型只有一种 object
+
+typeof操作符返回字符串，共有6种值 number boolean string undefined function object
+
+这些值之间可以互相转换。。
+字面量，字面值的大小就是字面值
+什么是基本类型？基本类型就是可以直接把字面量赋值给某个变量的类型
+
+例如: 
+var num = 123
+var bool = true
+var str = 'abc'
+var nT = null
+var uT = undefined
+
+基本类型的包装类
+Number Boolean String
+Object并不是包装类，因为object并不是基本类型
+
+值转boolean
+转成boolean的函数是Boolean()
+
+转换规则是：
+
+ 数字：
+ 非0数字（Infinity）  true
+ 0/NaN              false
+
+ 布尔：
+ true     true
+ false    false
+
+ 字符串：
+ 非空字符串           true
+ 空字符串             false
+
+ object：
+ 非空object         true
+ null              false
+ 
+ undefined:false
+
+ if引起的boolean转换
+ null undefined '' 0 NaN -> false
+
+ 布尔操作符引起的boolean转换
+ !null !undefined !'' !0 !NaN-> true
+ 
+ 如果逻辑非后面跟的是一个对象、非空字符串、非0数字（包括Infinity）返回false
+
+ 注意：
+ && || 也常用于不和if结合的情况
+ 这种情况下：
+ var t = a && b 
+ 相当于
+ var t;
+ if(a){
+    t = b;
+ }else{
+    t = a;
+ }
+ 或者 return a && b
+ 相当于
+ if(a){
+   return b;
+ }else{
+   return a;
+ }
+ 或者
+ a && test();
+ 相当于(a为真才执行test方法)
+ if(a){
+   test();
+ }
+
+ ||
+ 常用与给某个变量赋予默认值的情况
+ 例如：
+ var obj = obj || {};
+ var event = e || window.event'
+ 
+ var t = a || b;
+
+ 相当于(跟a&&b正好相反)
+ var t;
+ if(a){
+   t = a;
+ }else{
+   t = b;
+ }
+
+ return a || b;
+ if(a){
+   return a;
+ }else{
+   return b;
+ }
+
+ a || test();
+
+ 只有当a的值为 null undefined '' 0 NaN 时，才执行test方法
+ if(!a){
+   test();
+ }
+
+
+转换number
+有3种 Number parseInt parseFloat
+
+对于Number()
+
+number:
+0  0 
+1  1
+
+boolean:
+true   1
+false  0
+
+string:
+a 如果字符串中只包含数字（包括前面带正号或符号的情况），则将其转换为十进制
+b 如果字符串中包含有效的浮点格式，则将其转换为相同大小的十进制数值
+c 如果是空字符串，则转换成0
+d 如果字符串包含除上述格式之外的字符，转换成NaN
+e 如果是对象，则调用对象的valueOf方法，然后依照前面的规则进行转换，如果没有valueOf方法，则调用对象的toString方法，然后按照上述规则进行转换
+
+parseInt/parseFloat
+
+number 
+1 1
+0 0
+
+undefined null '' -> NaN
+
+不以-,+,0x,空格开头的字符串
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

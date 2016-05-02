@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>div拖拽</title>
+<style type="text/css">
+        
+    #d{
+        height: 200px;
+        width: 200px;
+        background-color: red;
+    }
+
+</style>
+</head>
+<body>
+
+
+<div id="d"></div>
+<input type="text" value="点我啊">
+<input type="button" value="点我啊">
+<script type="text/javascript">
+ ;(function(w){
+    var Drag = function(obj){
+        this.obj = obj;
+        this.main();
+    }
+    Drag.prototype = {
+        constructor:Drag,
+        addStyle:function(){
+            this.obj.style.cssText = "position:absolute;left:"+this.obj.offsetLeft + "px;top:" + this.obj.offsetTop + "px";
+        },
+        bindEvent:function(){
+            var self = this.obj;
+            self.onmousedown = function(e){
+                 e = e || event;
+                 var posX = e.clientX - this.offsetLeft;
+                 var posY = e.clientY - this.offsetTop;
+                document.onmousemove = function(e){
+                    e = e || event;
+                    self.style.left = e.clientX - posX + "px";
+                    self.style.top = e.clientY - posY + "px";
+                }
+            }
+            self.onmouseup = function(){
+                  document.onmousemove = null;
+            };
+        },
+        main:function(){
+            this.addStyle();
+            this.bindEvent();
+        }
+    }
+    w.Drag = Drag;
+ })(window);
+
+ // var dragedDOM = document.getElementById('d');
+ // var dragedDOM = document.querySelector('[type="text"]');
+ var dragedDOM = document.querySelector('[type$="value"]');
+ new Drag(dragedDOM);
+
+</script>    
+</body>
+</html>

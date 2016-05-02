@@ -1,0 +1,111 @@
+1、更新s-result.html  礼物“情景”顺序变化
+2、更新download.html  文案和图片变化
+3、更新wapdown.html   文案和图片变化
+4、更新zdm.html       加上百度统计
+5、更新images/down下所有的图片   download 和 wapdown 页要用到的图片
+
+5、更新  article.css    
+        article.html
+       articls.js
+       slider.js
+
+下一步三个工作：
+1、解决返回webview刷新问题
+2、原生listview，同ios短信，左滑删除
+3、右滑整屏滚动，同ios qq
+
+
+
+PC站的页面：
+1、首页         done
+2、搜索结果页    done
+3、正文页  --| done
+4、专刊页  --|-->这3个页面在服务器端是由一套模板渲染的  done
+5、场景页  --|  done
+6、分类页    done
+7、值得买页  done
+8、作者页   done
+9、404页  done
+10、下载页  done
+11、关于我们页 done
+
+
+
+---------------------
+2016.03.09 更新新首页
+
+1、更新 http://t.diaox2.com/view/test/lyf/dd/new_index.html
+2、更新 http://t.diaox2.com/view/test/lyf/dd/css/new_index.css
+3、更新 http://t.diaox2.com/view/test/lyf/dd/js/new_index.js
+4、更新 http://t.diaox2.com/view/test/lyf/dd/js/jquery.js
+5、图片资源
+6、关于我们页
+
+html资源；
+1、http://t.diaox2.com/view/test/lyf/dd/index.html
+2、http://t.diaox2.com/view/test/lyf/dd/about.html
+3、http://t.diaox2.com/view/test/lyf/dd/download.html
+4、http://t.diaox2.com/view/test/lyf/dd/404.html
+5、http://t.diaox2.com/view/test/lyf/dd/zdm.html
+css资源：
+1、http://t.diaox2.com/view/test/lyf/dd/css/index.css
+2、http://t.diaox2.com/view/test/lyf/dd/css/zdm.css
+3、http://t.diaox2.com/view/test/lyf/dd/css/s-result.css
+4、http://t.diaox2.com/view/test/lyf/dd/css/category.css
+5、http://t.diaox2.com/view/test/lyf/dd/css/author.css
+6、http://t.diaox2.com/view/test/lyf/dd/css/404.css
+7、http://t.diaox2.com/view/test/lyf/dd/css/download.css
+8、http://t.diaox2.com/view/test/lyf/dd/css/article.css
+9、http://t.diaox2.com/view/test/lyf/dd/css/zk.css
+10、http://t.diaox2.com/view/test/lyf/dd/css/scene.css
+js资源：
+1、http://t.diaox2.com/view/test/lyf/dd/js/index.js
+2、http://t.diaox2.com/view/test/lyf/dd/js/jquery.js
+图片资源：
+1、http://t.diaox2.com/view/test/lyf/dd/images/left.png
+2、http://t.diaox2.com/view/test/lyf/dd/images/right.png
+3、http://t.diaox2.com/view/test/lyf/dd/images/diaox2-logo-40.png
+4、http://t.diaox2.com/view/test/lyf/dd/images/wb-footer.png
+5、http://t.diaox2.com/view/test/lyf/dd/images/wx-footer.png
+
+---------------------------4.1更新----------------------------------
+
+1、http://t.diaox2.com/view/test/lyf/dd/index.html
+2、http://t.diaox2.com/view/test/lyf/dd/css/index.css
+    a.添加“资讯订阅”链接
+    b.修改footer样式（加上地址信息）
+
+3、http://t.diaox2.com/view/test/lyf/dd/js/zdm.js
+4、http://t.diaox2.com/view/test/lyf/dd/css/zdm.css
+   a.添加来源（查看详情按钮左侧）
+
+5、http://t.diaox2.com/view/test/lyf/dd/subscribe.html
+6、http://t.diaox2.com/view/test/lyf/dd/css/subscribe.css
+7、http://t.diaox2.com/view/test/lyf/dd/js/subscribe.js
+   a.新增
+
+8、http://t.diaox2.com/view/test/lyf/dd/css/category.css
+   a.左侧树状菜单样式与交互调整
+
+9、http://t.diaox2.com/view/test/lyf/dd/images/down/PF-shadowed1.png
+   a.改成了新版的图片
+
+
+-----------------------------04-26更新-------------------------------
+
+1.添加“登录”或“注销”按钮
+2.给新添加的按钮添加样式
+3.新按钮的点击事件处理
+4.登录
+
+1.http://t.diaox2.com/view/test/lyf/dd/index.html
+2.http://t.diaox2.com/view/test/lyf/dd/css/index.css 
+3.http://t.diaox2.com/view/test/lyf/dd/js/index.js 
+4.http://t.diaox2.com/view/test/lyf/dd/js/subscribe.js
+
+
+
+
+
+
+

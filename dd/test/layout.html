@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>布局研究</title>
+<style>
+    *{
+        margin:0;
+        padding:0;
+    }
+    .wrapper{
+        min-width: 1240px;
+        background-color: #ccc;
+        height: 3000px;
+    }
+    .header-block{
+        height: 200px;
+        background-color: #fff;
+        padding: 0 120px;
+    }
+    .header{
+        height: 100%;
+        background-color: red;
+    }
+</style>
+</head>
+<body>
+ <div class="wrapper">
+     <div class="header-block">
+         <div class="header">
+             
+         </div>
+     </div>
+ </div>  
+ <script type="text/javascript">
+     window.onload = function(){
+        function throttle(method,context,ms){
+              clearTimeout(method.tId);
+              method.tId=setTimeout(function(){
+                  method.call(context);
+              },ms);
+        }
+        var header = document.querySelector('.header');
+        var fn = function(){
+                console.log(1);
+        }
+        header.onclick = function(){
+            throttle(fn,null,300);
+        }
+     }
+ </script>  
+ <script type="text/javascript" src="test.js"></script>
+</body>
+</html>

@@ -189,9 +189,9 @@ st3 一次选中多行操作
   36、
       使用ajax进行跨域，有4点必须要注意：
       1、dataType 必须指定为 jsonp
-      2、jsonp 属性必须有值
-      3、jsonpCallback 属性必须有值
-      4、jsonpCallback 属性值必须与返回过来的padding函数一致
+      2、jsonp 属性必须有值 注意：这句话是错误的，jsonp可以没有值，jquery会提供一个默认值callback
+      3、jsonpCallback 属性必须有值 注意：这句话是错误的，jsonpCallback可以没有值，jquery会提供一个随机字符串作为值 
+      4、jsonpCallback 属性值必须与返回过来的padding函数一致 √
       jq发送的ajax的格式如下：
        http://d.diaox2/view/test/lyf/goodthing_feed_list.json?cb=cback&_=1440232632929
 
@@ -221,13 +221,14 @@ st3 一次选中多行操作
           document.documentElement.clientHeight
 
           都去掉滚动条的大小（一般是17像素），比如我的dell笔记本在chrome下，
-          正常的可视区（即无滚动条）大小是1366*663，加入水平和垂直方向都有滚动条的话，这两个值
+          正常的可视区（即无滚动条）大小是1366*663，假如水平和垂直方向都有滚动条的话，这两个值
           的大小为 1349 * 646
       b、
-         document.documentElement.offsetWidth   无滚动条 1366  有滚动条 1349
+         document.documentElement.offsetWidth   无滚动条 1366  有滚动条 1349 同a
          document.documentElement.offsetHeight  根据实际的html元素被撑开的大小
 
-      c、window.innerWidth / window.innerHeight 
+      c、
+         window.innerWidth / window.innerHeight 
            （1）有滚动条 a + 17
            （2）无滚动条 a 
   

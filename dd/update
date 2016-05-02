@@ -1,0 +1,20 @@
+update files list
+
+1. article page
+   
+   a. article.html
+   b. article.css
+   c. cart.png and cart-w.png
+   d. left-arrow.png and right-arrow.png
+
+2. category page
+
+   a. category.html
+   b. category.css
+
+
+20160127
+1. category page
+  
+   a. update category_test.css
+   b. exchange under the element class "menu-list-item" a's href

@@ -38,50 +38,50 @@ function adjust(img){
 <body>
 <div class="wrapper">
   <div class="header">
- 	<div class="header-box">
- 		<ul class="f-l">
- 			<li class="logo f-l"><a href="index.html">
- 			<img src="images/logo-top.png" alt="" width="70" height="40"></a></li>			
- 			<li class="index f-l" style="margin-left:30px;"><a href="index.html">首页</a></li>
+    <div class="header-box">
+        <ul class="f-l">
+            <li class="logo f-l"><a href="index.html">
+            <img src="images/logo-top.png" alt="" width="70" height="40"></a></li>          
+            <li class="index f-l" style="margin-left:30px;"><a href="index.html">首页</a></li>
             <li class="category f-l"><a href="zdm.html">值得买</a></li>
- 			<li class="category f-l"><a href="/category/100003.html">分类</a></li>
-            <li class="category present f-l"><a href="/s-result.html?q=礼物">礼物</a></li>
- 			<li class="down-app f-l">
- 			<i class="header-app-icon"></i>
- 			<a href="http://www.diaox2.com" target="_blank">下载APP</a></li>	
- 		</ul>
- 	    <ul class="login f-r">
- 			<li class="login-title f-l"><a href="#">登录</a></li>
- 			<li class="face f-l"><a href="#"></a></li>
- 			<div class="person-state-list-container">
- 			  <ul class="person-state-list">
- 				<li><a href="collect.html">我的收藏</a></li>
- 				<li><a href="javascript:;">退出</a></li>
- 			  </ul>
- 			</div>
- 		</ul>
- 	</div>
+            <li class="category f-l"><a href="/category/100003.html">分类</a></li>
+            <li class="category present f-l"><a href="s-result.html?q=礼物">礼物</a></li>
+            <li class="down-app f-l">
+            <i class="header-app-icon"></i>
+            <a href="http://www.diaox2.com/download.html" target="_blank">下载APP</a></li>    
+        </ul>
+        <ul class="login f-r">
+            <li class="login-title f-l"><a href="#">登录</a></li>
+            <li class="face f-l"><a href="#"></a></li>
+            <div class="person-state-list-container">
+              <ul class="person-state-list">
+                <li><a href="collect.html">我的收藏</a></li>
+                <li><a href="javascript:;">退出</a></li>
+              </ul>
+            </div>
+        </ul>
+    </div>
  </div><!-- 顶部导航 -->
 <div class="content-area">
-	<div class="content-box clearfix">
+    <div class="content-box clearfix">
         <!-- 左侧内容区 -->
-		<div class="main-content f-l">
+        <div class="main-content f-l">
 
-		  <div class="search-wrapper">
- 			<div class="search-content">
- 				<form action="s-result.html" class="search-form" name="search">
-				<input placeholder="你想要的，都在这里" type="text" id="search-input" class="search-input" name="q" maxlength="100" autocomplete="off">
- 				<input type="submit" id="sub" class="btn" value="">
- 				</form>
- 			</div>
- 		 </div>
- 		 <div class="hot-search clearfix">
- 		 	<h1 class="hot-title f-l">大家都在搜：</h1>
- 		 	<ul class="hot-search-word-list f-l clearfix"></ul>
- 		 </div>
+          <div class="search-wrapper">
+            <div class="search-content">
+                <form action="s-result.html" class="search-form" name="search">
+                <input placeholder="你想要的，都在这里" type="text" id="search-input" class="search-input" name="q" maxlength="100" autocomplete="off">
+                <input type="submit" id="sub" class="btn" value="">
+                </form>
+            </div>
+         </div>
+         <div class="hot-search clearfix">
+            <h1 class="hot-title f-l">大家都在搜：</h1>
+            <ul class="hot-search-word-list f-l clearfix"></ul>
+         </div>
     <div class="search-result-list">
- 		 	<ul class="result-list" id="result-list"></ul>
- 		 </div>
+            <ul class="result-list" id="result-list"></ul>
+         </div>
         <!-- 礼物问答机代码 start-->
          <div class="present-area" style="display:none"> 
             <!-- 礼物筛选器 -->
@@ -89,15 +89,15 @@ function adjust(img){
                 <div class="present-type clearfix scene">
                     <h2>场景</h2>
                     <ul>
+                        <li data-group="scene" data-title="圣诞节平安夜">圣诞节</li>
+                        <li data-group="scene" data-title="新年">新年</li>
+                        <li data-group="scene" data-title="过年回家">过年回家</li>
                         <li data-group="scene" data-title="七夕情人节">情人节</li>
-                        <li data-group="scene" data-title="告白" id="test">告白</li>
                         <li data-group="scene" data-title="生日">生日</li>
                         <li data-group="scene" data-title="纪念日">纪念日</li>
-                        <li data-group="scene" data-title="新婚">新婚</li>
+                        <li data-group="scene" data-title="告白" id="test">告白</li>
                         <li data-group="scene" data-title="乔迁">乔迁</li>
-                        <li data-group="scene" data-title="感恩节">感恩节</li>
-                        <li data-group="scene" data-title="圣诞节平安夜">圣诞节</li>
-                        <li data-group="scene" data-title="万圣节">万圣节</li>
+                        <li data-group="scene" data-title="新婚">新婚</li>
                     </ul>
                 </div>
                 <div class="present-type clearfix relation">
@@ -125,6 +125,7 @@ function adjust(img){
                         <li data-group="character" data-title="搞怪">搞怪</li>
                         <li data-group="character" data-title="成熟">成熟</li>
                     </ul>
+                    </ul>
                 </div>
                 <div class="present-type clearfix price">
                     <h2>价格</h2>
@@ -147,17 +148,17 @@ function adjust(img){
           <i class="no-result-face f-l"></i>
           <p class="f-l">找不到<span class="target-word"></span>，换个关键词试试</p>
          </div>
-		</div>
-		<!-- 左侧热门区 -->
-		<div class="hot-topics-area f-l">
-			<h2 class="hot-topics"><img src="images/hot-topics.png">热门专题</h2>
-			<ul class="special" id="special"></ul>
-      <a target="_blank" href="http://diaox2.com/downloads" class="erweima">
+        </div>
+        <!-- 左侧热门区 -->
+        <div class="hot-topics-area f-l">
+            <h2 class="hot-topics"><img src="images/hot-topics.png">热门专题</h2>
+            <ul class="special" id="special"></ul>
+      <a target="_blank" href="http://www.diaox2.com/download.html" class="erweima">
         <span>更多精彩<br>下载APP</span>
         <img src="images/download_96.jpg" width="96" height="96" alt="扫码下载调调">
      </a>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 </div>
 <div class="mask disnone"></div>
@@ -176,6 +177,6 @@ function adjust(img){
 </div>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/result.js" defer='defer'></script>
-<script type="text/javascript" src="js/login.js" defer='defer'></script>
+<!-- <script type="text/javascript" src="js/login.js" defer='defer'></script> -->
 </body>
 </html>

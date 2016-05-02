@@ -6,7 +6,7 @@
 <meta name="renderer" content="webkit|ie-stand">
 <title>测试</title>
 <style>
-      .box{
+   /*   .box{
         height: 200px;
         width: 200px;
         background: #eee;
@@ -56,9 +56,48 @@
     overflow: hidden;
 }
 @media screen\0 {.a div { background: green; }}
-</style></head><body>
+
+.a~div{
+  background: red;
+}
+*/
+#hhh{
+  position: relative;
+}
+.ppp{
+  position: static;
+}
+.imgcon{
+  height: 200px;
+  width: 200px;
+  background: #eee;
+  text-align: center;
+  /*line-height: 200px;*/
+  overflow: hidden;
+}
+.imgcon img{
+  margin-top: 80px;
+  vertical-align: middle;
+}
+</style>
+</head>
+<body>
+<div id="ddddd" class="tttt">你好，我有class，但是无值</div>
+<div id="dddddd">你好，我没有class</div>
+<div id="ddd">
+  
+  <h1 class="hhh" onclick="alert(1);">
+    <p class="ppp" onclick="alert(2);">i am a p inner hhh,hhh is inner ddd</p>
+  </h1>
+
+</div>
+
+<div class="imgcon">
+  <img src="http://img.mukewang.com/user/56303ab20001a9a701000100-40-40.jpg" alt="">
+</div>
+
  <div class="a">
-     <div>
+     <div class="inner-a">
          一行文字一行文字一  
          一行文字一行文字一  
      </div>
@@ -69,10 +108,13 @@
  <div class="flex">
      一行文字flex
  </div>
+ <!--
  <script type="text/javascript" src="js/jquery.js"></script>
  <script type="text/javascript" src="js/DDAjax.js"></script>
  <script type="text/javascript" src="js/GetNum.js"></script>
+ -->
  <script>
+
    // window.onload = function(){
    //    var box = document.getElementById('box');
    //    /*
@@ -137,15 +179,21 @@
 // console.log(ret.value);
 // console.log(ret.done);
 // 发送的ajax都需要使用 encodeURIComponent() 编码，因为参数可能含有函数
-new GetNum({
-    className:"unknown",
-    // http://api.diaox2.com/v1/stat/all?cb=cb&data=%7B%22aids%22%3A%5B13640816135272%5D%7D
-    url:"http://api.diaox2.com/v1/stat/all"
-    // 13640816135272
-},function(){
-  console.log("success");
-}).getStat();
- </script>
+// new GetNum({
+//     className:"unknown",
+//     // http://api.diaox2.com/v1/stat/all?cb=cb&data=%7B%22aids%22%3A%5B13640816135272%5D%7D
+//     url:"http://api.diaox2.com/v1/stat/all"
+//     // 13640816135272
+// },function(){
+//   console.log("success");
+// }).getStat();
+window.addEventListener('popstate', function(e){
+  // if (history.state){
+  //   var state = e.state;
+  // }
+  alert('popstate callback execute...')
+}, false); 
+</script>
  <div id="div1"></div>
  <div id="div2"></div>
 </body>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>测试轮播组件</title>
+<style>
+html,body,div,ul,li{
+    margin:0;
+    padding:0;
+}
+img{
+    border:none;
+    vertical-align: middle;
+}
+ul,li{list-style: none;}
+.clearfix:after{
+    display: table;
+    content: '';
+    clear:both;
+}
+.article-banner{
+    width: 860px;
+    height: 370px;
+    margin: 0 auto;
+    background: #e9e9e9;position: relative;
+}
+.prev-btn {
+    left: 45px;
+    background: url(../images/prev.png) 0 center no-repeat;
+}
+.change-btn {
+    height: 100%;
+    width: 40px;
+    top: 0;
+    z-index: 99;
+    position: absolute;
+}
+.next-btn {
+    right: 45px;
+    background: url(../images/next.png) 100% center no-repeat;
+}
+.article-banner-container {
+    width: 640px;
+    height: 370px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+.banner-list{
+    height: 100%;
+    position: relative;
+}
+.banner-list li{
+    position: absolute;
+    width:100%;
+    height: 100%;
+    left: 0;
+    top:0;
+    display: none;
+    z-index: 0;
+}
+li.current{
+    display: block;
+}
+</style>
+</head>
+<body>
+   
+<div class="article-banner">
+    <a href="javascript:;" class="change-btn prev-btn"></a>
+    <div class="article-banner-container">
+        <ul class="banner-list">
+           <li class="current"><img src="http://a.diaox2.com/cms/sites/default/files/20150707/goodthing/g_2.jpg" alt="" width="640" height="370"></li>
+           <li><img src="http://a.diaox2.com/cms/sites/default/files/20150707/goodthing/3_1.jpg" alt="" width="640" height="370"></li>   
+        </ul>
+  <!-- <li><img src="http://a.diaox2.com/cms/sites/default/files/20150708/goodthing/swip.jpg" alt="" width="640" height="370"></li>
+           <li><img src="http://a.diaox2.com/cms/sites/default/files/20141014/firstpage/coffeefirst.jpg" alt="" width="640" height="370"></li>
+           <li><img src="http://a.diaox2.com/cms/sites/default/files/20141009/firstpage/01.jpg" alt="" width="640" height="370"></li>-->    
+    </div>
+    <a href="javascript:;" class="change-btn next-btn"></a>
+</div>
+<script>
+function getStyle(obj, name) {
+    if (obj.currentStyle) {
+        return obj.currentStyle[name];
+    } else {
+        return getComputedStyle(obj, false)[name];
+    }
+}
+
+function startMove(obj, json, fnEnd) {
+    clearInterval(obj.timer);
+    obj.timer = setInterval(function() {
+        var bStop = true;
+        for (var attr in json) {
+            var cur = 0;
+            if (attr == "opacity") {
+                cur = Math.round(parseFloat(getStyle(obj, attr)) * 100);
+            } else {
+                cur = parseInt(getStyle(obj, attr));
+            }
+            var speed = (json[attr] - cur) / 6;
+            speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+            if(cur!=json[attr])
+               bStop = false;
+            if (attr == "opacity") {
+                obj.style.opacity = (cur + speed) / 100;
+                obj.style.filter = "alpha(opacity:" + (cur + speed) + ")";
+            } else {
+                obj.style[attr] = (cur + speed) + "px";
+            }
+        }
+        if(bStop){
+            clearInterval(obj.timer);
+            if(fnEnd) fnEnd();
+        }
+    }, 30);
+}
+
+window.onload = function(){
+    var container = document.querySelector('.banner-list');
+    var children = container.children;
+    console.log(children[children.length-1]);
+    var timer = setInterval(function(){
+        children[children.length-1].style.cssText = "left:640px;display:block;";
+        
+        startMove(children[children.length-1],{
+            left:0
+        });
+
+
+    },800)
+}
+</script>
+</body>
+</html>

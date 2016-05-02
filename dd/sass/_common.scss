@@ -14,6 +14,7 @@ $fontFamily:"Hiragino Sans GB", "Helvetica Neue", Helvetica, "Microsoft Yahei", 
   -o-border-radius:$value;
   border-radius:$value;
 }
+
 @mixin transition($value){
   -webkit-transition: $value;
   -moz-transition: $value;
@@ -51,18 +52,19 @@ font-size:16px;font-family: $fontFamily;line-height: 19px; /* for non-ie */
 input:-ms-input-placeholder { /* Internet Explorer 10+ */
 font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
 }
-// input::placeholder{ //for new
-//   font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
-// }
-// input:placeholder{ // for new
-//   font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
-// }
+input::placeholder{ //for new
+  font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+}
+input:placeholder{ // for new
+  font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */  
+}
 .clearfix:after{content: "";display: table;clear: both;} 
 .f-l{float:left;}
 .f-r{float:right;}
 .disnone{display:none;}
 .disblk{display:block;}
-@media (min-width:0px){
+
+
 .loading{position:relative;}
 .loading:after{
   content: "";
@@ -82,10 +84,28 @@ font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */
   -ms-animation:loading .7s linear infinite;
   -o-animation:loading .7s linear infinite;
   animation:loading .7s linear infinite;
-  // for IE9
+  // FOR IE9
+  display: block;
   display: none\9\0;
+  *display: none;
 }
+
+// FOR IE9
+@media screen and (-ms-high-contrast:active),(-ms-high-contrast: none) { 
+ .loading:after{
+     display: block;
+  }
 }
+
+// FOR IE8
+@media \0screen\,screen\9 {
+    .loading:after{
+       display: block;
+    }
+}
+
+
+
 @-webkit-keyframes loading{from{-webkit-transform:rotate(0);}to{-webkit-transform:rotate(359deg);}}
 @-moz-keyframes loading{from{-moz-transform:rotate(0);}to{-moz-transform:rotate(359deg);}}
 @-ms-keyframes loading{from{-ms-transform:rotate(0);}to{-ms-transform:rotate(359deg);}}
@@ -163,3 +183,38 @@ font-size:16px;font-family: $fontFamily;line-height: normal; /* for non-ie */
 .header-box ul.login{
   visibility: hidden;
 }
+// .header-box ul li:nth-child(3),.header-box ul li:nth-child(5){
+//     position: relative;
+// }
+// .header-box ul li:nth-child(3):before,.header-box ul li:nth-child(5):before{
+//     content:"NEW";
+//     position:absolute;
+//     right: 8px;
+//     top: 6px;
+//     width: 24px;
+//     height: 12px;
+//     font-size: 12px;
+//     line-height:12px;
+//     text-align: center;
+//     color:#fff;
+//     -webkit-transform:scale(0.675);
+//     -moz-transform:scale(0.675);
+//     -ms-transform:scale(0.675);
+//     -o-transform:scale(0.675);
+//     transform:scale(0.675);
+//     z-index: 3;
+// }
+// .header-box ul li:nth-child(3) a:before,.header-box ul li:nth-child(5) a:before{
+//     content: "";
+//     position:absolute;
+//     right: 6px;
+//     top: 6px;
+//     width: 24px;
+//     height: 12px;
+//     background:#e60012;
+//     border-radius:12px;
+// }
+// .header-box ul li:nth-child(5):before{
+//     content:"HOT";
+//     right: 7px;
+// }

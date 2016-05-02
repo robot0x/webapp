@@ -76,7 +76,7 @@ li.current-page:hover{
   display: inline-block;
   width: 11px;
   height: 16px;
-  background: url(../images/head-app-icon.png) no-repeat 0 0;
+  background: url(/images/head-app-icon.png) no-repeat 0 0;
   vertical-align: -3px;
   transition: .3s;
   -moz-transition: .3s;
@@ -84,7 +84,7 @@ li.current-page:hover{
   -o-transition: .3s;
 }
 .down-app:hover .header-app-icon{
-	background: url(../images/head-app-icon.png) no-repeat 0 -16px;
+	background: url(/images/head-app-icon.png) no-repeat 0 -16px;
 }
 .current-page{
   border-bottom:2px $commonColor solid;
@@ -112,7 +112,7 @@ li.current-page:hover{
 		width:26px;
 	    height:26px;
 	    @include border-radius(50%);
-		background:url(../images/def-user.png) center center no-repeat;
+		background:url(/images/def-user.png) center center no-repeat;
 	    background-size:26px 26px;
 	}
 }
@@ -168,7 +168,7 @@ li.current-page:hover{
     right: 2px;
     top:2px;
     @include border-radius(3px);
-    background:url(../images/search.png) center center no-repeat $commonColor;
+    background:url(/images/search.png) center center no-repeat $commonColor;
     background-size:20px 20px;cursor: pointer;
 }
 .search-input{
@@ -186,7 +186,7 @@ li.current-page:hover{
     top:11px;
     height: 16px;
     width: 16px;
-	background:url(../images/clear.png) center center no-repeat;
+	background:url(/images/clear.png) center center no-repeat;
 }
 .s-logo{
 	text-align:center;

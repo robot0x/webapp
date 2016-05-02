@@ -57,7 +57,7 @@ module.exports = function (grunt) {
       },
       sass: {
         files: ['<%= config.app %>/sass/{,*/}*.{scss,sass}'],
-        tasks: ['sass', 'postcss']
+        tasks: ['sass', 'postcss','cssmin']
       },
       jsmin: {
         files:['<%= config.dist %>/js/{,*}*.js'],
@@ -366,7 +366,7 @@ module.exports = function (grunt) {
                 cwd:'<%= config.app %>/js',//js目录下
                 src:'**/*.js',//所有js文件
                 // src: ['*.js', '!*.min.js'], // 错误的写法
-                dest: '<%= config.app %>/minjs',//输出到此目录下
+                dest: '<%= config.app %>/javascripts',//输出到此目录下
                 ext:".min.js"
             }]
         }
@@ -472,10 +472,13 @@ module.exports = function (grunt) {
     'usemin',
     'htmlmin'
   ]);
-
-  grunt.registerTask('default', [
-    'newer:eslint',
-    'test',
-    'build'
-  ]);
+  // default 任务是可以在命令行中直接输入grunt运行的。
+  grunt.registerTask('default',[
+     'serve'
+  ])
+  // grunt.registerTask('default', [
+  //   'newer:eslint',
+  //   'test',
+  //   'build'
+  // ]);
 };

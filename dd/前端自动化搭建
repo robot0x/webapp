@@ -1,0 +1,17 @@
+1、首先需要下载nodejs，下载地址 https://nodejs.org/en/。跟安装QQ一样，一直点击“下一步”即可
+
+2、装上node之后，可以使用npm命令，
+   
+   使用npm命令来安装yeoman
+   npm install yeoman
+
+3、安装bower 。命令是 npm install bower
+
+4、安装grunt或gulp。命令是 npm install grunt/gulp
+
+node地址：https://nodejs.org/en/
+yeoman地址：http://yeoman.io/
+grunt地址：http://www.gruntjs.net/
+bower地址：http://bower.io/
+
+教程：http://www.imooc.com/learn/30

@@ -1,0 +1,57 @@
+Response Headers
+Access-Control-Allow-Headers:Content-Type
+Access-Control-Allow-Methods:POST, GET, OPTIONS
+Access-Control-Allow-Origin:*
+Cache-Control:no-store, no-cache, max-age=0, must-revalidate
+Connection:Keep-Alive
+Content-Encoding:gzip
+Content-Length:20
+Content-Type:application/json
+Date:Mon, 28 Mar 2016 15:42:40 GMT
+Keep-Alive:timeout=5, max=256
+Server:Apache/2.2.22 (Ubuntu)
+Vary:Accept-Encoding
+
+Request Headers
+Accept:*/*
+Accept-Encoding:gzip, deflate, sdch
+Accept-Language:zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4
+Access-Control-Request-Headers:accept, content-type
+Access-Control-Request-Method:POST
+Cache-Control:no-cache
+Connection:keep-alive
+Host:api.diaox2.com
+Origin:http://localhost:9000
+Pragma:no-cache
+Referer:http://localhost:9000/subscribe.html
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36
+
+-------------------CORS-------------------
+Response Headers
+Access-Control-Allow-Headers:Content-Type
+Access-Control-Allow-Methods:POST, GET, OPTIONS
+Access-Control-Allow-Origin:*
+Cache-Control:no-store, no-cache, max-age=0, must-revalidate
+Connection:Keep-Alive
+Content-Encoding:gzip
+Content-Length:20
+Content-Type:application/json
+Date:Mon, 28 Mar 2016 15:44:01 GMT
+Keep-Alive:timeout=5, max=256
+Server:Apache/2.2.22 (Ubuntu)
+Vary:Accept-Encoding
+
+Request Headers
+Accept:*/*
+Accept-Encoding:gzip, deflate, sdch
+Accept-Language:zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4
+Access-Control-Request-Headers:accept, content-type
+Access-Control-Request-Method:POST
+Cache-Control:no-cache
+Connection:keep-alive
+Host:api.diaox2.com
+Origin:http://localhost:9000
+Pragma:no-cache
+Referer:http://localhost:9000/index.html
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36
+
