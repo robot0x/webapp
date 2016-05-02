@@ -730,7 +730,8 @@ function checkStr(a,b){
           }
           titleStr2 = title[len - 1];
         }
-         stringBuffer.push('<li class="loading"><a target="_blank" href="',url,'"><img src="',item.cover_image_url,'" alt="',titleStr.replace(/<br\s*\/>/g,'').replace(/\"/g,"&quot;"),'" width="277" height="180"><p>',titleStr,'</p><span>',titleStr2,'</span><div class="black-musk"></div></a></li>');
+        console.log(titleStr);
+         stringBuffer.push('<li class="loading"><a target="_blank" href="',url,'"><img src="',item.cover_image_url,'" alt="',titleStr.replace(/<br\s*\/?\s*>/g,'').replace(/\"/g,"&quot;"),'" width="277" height="180"><p>',titleStr,'</p><span>',titleStr2,'</span><div class="black-musk"></div></a></li>');
       });
         document.getElementById('special').innerHTML = stringBuffer.join('');
     }
