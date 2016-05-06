@@ -575,6 +575,14 @@ function checkStr(a,b){
     // return;//加快调试速度，开发时，暂不更新dom
       renderDOM(data.meta_infos);
   }
+
+  function clearBRandQuot(str){
+    if(!str){
+      return "";
+    }
+    return str.replace(/<br\s*\/?\s*>/g,'').replace(/\"/g,"&quot;")
+  }
+
   // 一般query的success回调
   function normalSearchSuccess(data) {
       // console.log("查询接口的jsonp执行成功！！");
@@ -586,6 +594,7 @@ function checkStr(a,b){
           rendered_keywords,
           keywords_str = "",
           rendered_title,
+          alt_title,
           authorSrc,
           url, match,
           stringBuffer = [],
@@ -595,7 +604,7 @@ function checkStr(a,b){
           //清空keyword串，保证每条文章的keyword串都是全新的
           authorSrc = keywords_str = "";
           var hasPrice = everyMeta.price;
-          if (!hasPrice) {
+          if (!hasPPrice) {
             everyMeta.price = "<img width='15' height='15' style='margin-right:5px;' src='http://c.diaox2.com/cms/diaodiao/assets/links.png'>全网结果";
           }
           rendered_keywords = everyMeta.rendered_keywords;
@@ -618,7 +627,13 @@ function checkStr(a,b){
           if (authorSrc.indexOf("http") == -1) {
             authorSrc = "editor/" + authorSrc + ".html";
           }
-          rendered_title = rendered_title.replace(/<<<<(.*?)>>>>/gi, "<span class='target-word'>$1</span>")
+
+          alt_title = clearBRandQuot(rendered_title.replace(/<<<<(.*?)>>>>/gi,'$1'));
+          
+          // console.log(alt_title);
+
+          rendered_title = clearBRandQuot(rendered_title.replace(/<<<<(.*?)>>>>/gi, "<span class='target-word'>$1</span>"));
+
           url = everyMeta.url;
           match = url.match(reg);
           if (match && match.length) {
@@ -641,7 +656,7 @@ function checkStr(a,b){
           if( !hasPrice && /^\/?article\/\d+\.html/.test(url) ){
             price = "&nbsp";
           }
-          stringBuffer.push('<li class="result-item" data-pos=',index+1,'><a target="_blank" href="',devprefix,url,'" class="imglink f-l"><div class="result-item-img-container loading"><img src="',imgUrl,'" alt="',rendered_keywords,'" width="188" height="188"></div></a><div class="result-item-detail f-l"><h2 class="detail-title"><a target="_blank" href="',url,'">',rendered_title,'</a></h2><ul class="detail-keywords clearfix">',keywords_str,'</ul><div class="detail-author clearfix"><a class="detail f-l">',price,'</a><div class="author f-l clearfix"><ul class="clearfix"><li class="author-face f-l"><a target="_blank" href="',authorSrc, '"><span class="author-face-container"><img src="http://c.diaox2.com/cms/diaodiao/',everyMeta.author.pic, '" width="20" height="20"></span></a></li><li class="author-name f-l"><a target="_blank" href="',authorSrc,'">',everyMeta.author.name,'</a></li></ul></div></div></div></li>');
+          stringBuffer.push('<li class="result-item" data-pos=',index+1,'><a target="_blank" href="',devprefix,url,'" class="imglink f-l"><div class="result-item-img-container loading"><img src="',imgUrl,'" alt="',alt_title,'" width="188" height="188"></div></a><div class="result-item-detail f-l"><h2 class="detail-title"><a target="_blank" href="',url,'">',rendered_title,'</a></h2><ul class="detail-keywords clearfix">',keywords_str,'</ul><div class="detail-author clearfix"><a class="detail f-l">',price,'</a><div class="author f-l clearfix"><ul class="clearfix"><li class="author-face f-l"><a target="_blank" href="',authorSrc, '"><span class="author-face-container"><img src="http://c.diaox2.com/cms/diaodiao/',everyMeta.author.pic, '" width="20" height="20"></span></a></li><li class="author-name f-l"><a target="_blank" href="',authorSrc,'">',everyMeta.author.name,'</a></li></ul></div></div></div></li>');
         })
           document.getElementById('result-list').innerHTML = stringBuffer.join('');
       } else {
@@ -730,8 +745,7 @@ function checkStr(a,b){
           }
           titleStr2 = title[len - 1];
         }
-        console.log(titleStr);
-         stringBuffer.push('<li class="loading"><a target="_blank" href="',url,'"><img src="',item.cover_image_url,'" alt="',titleStr.replace(/<br\s*\/?\s*>/g,'').replace(/\"/g,"&quot;"),'" width="277" height="180"><p>',titleStr,'</p><span>',titleStr2,'</span><div class="black-musk"></div></a></li>');
+        stringBuffer.push('<li class="loading"><a target="_blank" href="',url,'"><img src="',item.cover_image_url,'" alt="',clearBRandQuot( titleStr ),'" width="277" height="180"><p>',titleStr,'</p><span>',titleStr2,'</span><div class="black-musk"></div></a></li>');
       });
         document.getElementById('special').innerHTML = stringBuffer.join('');
     }
