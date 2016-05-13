@@ -45,6 +45,10 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       babel: {
+        // 匹配的文件
+        // app/js/*.js    匹配js文件夹下所有的js文件
+        // app/js/*/*.js  匹配js文件夹下第一层子文件夹下的js文件 因为 * 不能包含 / 所以只能找一层
+        // 这样做主要是出于对性能的考虑
         files: ['<%= config.app %>/js/{,*/}*.js'],
         tasks: ['babel:dist']
       },
@@ -240,6 +244,7 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= config.app %>/index.html'],
+        // 忽略以 ../any number of characters..
         ignorePath: /^(\.\.\/)*\.\./
       },
       sass: {
