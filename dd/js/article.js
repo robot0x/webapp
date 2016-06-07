@@ -252,6 +252,67 @@ function get_stat() {
     return true;
 }
 
+
+function pinchImg(w,container){
+
+    if(!w || !container){
+        return;
+    }
+
+    var imgs;
+    
+    if(container.tagName.toLowerCase() === "img"){
+    
+        imgs = [ container ];
+    
+    }else{
+    
+        imgs = container.getElementsByTagName('img');
+    
+    }
+
+    // 取出 container 中所有img
+    var i = 0;
+    var l = imgs.length;
+    var pendingImgs = [];
+    var img;
+    var width;
+    var height;
+    var ratio;
+
+    function getStyle(dom,style){
+        if(dom.currentStyle){
+          return dom.currentStyle[style];
+        }else{
+          return getComputedStyle(dom,null)[style];
+        }
+    }
+
+    for(;i<l;i++){
+        img = imgs[i];
+        width = img.width || getStyle(img,"width");
+        if(width !== w){
+            pendingImgs.push(img);
+        }
+    }
+
+    l = pendingImgs.length;
+    if(!l){
+        return;
+    }
+    for(i = 0;i<l;i++){
+        img = pendingImgs[i];
+        width = img.width;
+        height = img.height || getStyle(img,"height");
+        ratio = width / height;
+        img.width = w;
+        img.height = w/ratio;
+    }
+    
+}
+
+pinchImg(596,document.querySelector('.article'));
+
 // $(function(){
 //     var uid = $.cookie('DDuid');
 //     if(uid == undefined)
