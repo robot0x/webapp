@@ -258,30 +258,84 @@ li.current-page:hover{
 .hot-list li:hover{
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1), 0 4px 8px 0 rgba(0,0,0,0.2);
 }
-.result-item{
+.result-list > li{
   width: 760px;
   padding:20px;
-  height: 188px;
+  // height: 188px;
+  min-height: 188px;
   background:#fff;
   margin-bottom: 30px;
   -webkit-transition: all 200ms;
   transition: all 200ms;
+  a{
+    display: block;
+  }
+  &:hover{
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1), 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
 }
-.result-item:hover{
- box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1), 0 4px 8px 0 rgba(0,0,0,0.2);
+
+.code-table{
+  padding:0;
+  margin: 0;
+  border:0;
+  table-layout: fixed;
+  tr{
+    line-height: 1;
+    color:rgb(117,117,117);
+    font-size: 14px;
+    a{
+      color:rgb(118,118,118);
+      line-height: 26px;
+      background-color:rgb(216,216,216);
+      border-radius:5px;
+      display: block;
+      padding:0 10px;
+    }
+    td{
+      padding:4px 0;
+      &:last-child{
+        padding-left:14px;
+        text-align: center;
+      }
+    }
+    input{
+      outline: none;
+      padding:0;
+      margin: 0;
+      border:0;
+      font-size: 14px;
+      background-color:rgb(216,216,216);
+      color:rgb(118,118,118);
+      line-height: 26px;
+      text-align: center;
+      border-radius:5px;
+      cursor: pointer;
+    }
+  }
 }
+
+
+// .result-item{
+// }
+// .result-item:hover{
+// }
 
 .result-detail{
   width: 552px;
   margin-left: 20px;
-  height: 100%;
+  // height: 100%;
 }
+
 .buylink_site{
   color:#999;
   font-size: 14px;
   margin-right: 10px;
   line-height: 1;
   padding-top:10px;
+}
+.view-result{
+  cursor: pointer;
 }
 .view-result a{
   display: block;
@@ -302,6 +356,7 @@ li.current-page:hover{
   white-space: nowrap;
   display: block;
   margin-top: -5px;
+  // line-height: 1;
 }
 .result-price{
   font-size: 16px;
@@ -323,7 +378,8 @@ li.current-page:hover{
   color:#306aff;
 }
 .result-footer{
-  margin-top: 27px;
+  margin:0;
+  margin-top: 23px;
 }
 .date,.source{
   padding-top:10px;
@@ -430,5 +486,31 @@ li.current-page:hover{
 .IE9LOADING{
     text-align:center;
     color:#e60012;
+}
+
+.stick-tip{
+  color:#fff;
+  line-height: 1.4;
+  position:fixed;
+  left: 50%;
+  top:50%;
+  padding:8px;
+  background:rgba(49,49,47,.99);
+  background: linear-gradient(to bottom,rgba(49,49,47,.99),#262625);
+  border-radius: 5px;
+  // .stick-tip-trangle-box{
+  //     position: absolute;
+  //     bottom: -10px;
+  //     left: 50%;
+  //     clip: rect(10px 20px 20px 0);
+  //     margin-left: -10px;
+  //     .stick-tip-trangle{
+  //       display: block;
+  //       width: 20px;
+  //       height: 20px;
+  //       background-color: #262625;
+  //       transform: rotate(45deg) scale(.5);
+  //     }
+  //  }
 }
 // 分页loading效果 end

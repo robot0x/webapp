@@ -18,3 +18,21 @@ update files list
   
    a. update category_test.css
    b. exchange under the element class "menu-list-item" a's href
+
+
+20160916
+
+本次更新3点：
+
+1. 由于通过了ICP认证，index.html footer-bottom中只留ICP
+2. 由于通过了ICP认证，index.html 去掉了“登录”按钮和“资讯订阅”链接
+3. 值得买卡片添加领“取优惠券链接”和“优惠码”，其中“优惠码”为点击复制
+4. 把index.html和zdm.html中调调替换成了有调
+5. 添加前端异常上报
+
+
+要更新的文件：
+1. index.html
+2. index.js
+3. index.css
+4. 

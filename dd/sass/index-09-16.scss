@@ -398,14 +398,33 @@ li.current-page:hover{
   height: 200px;
 }
 .footer-bottom{
-  line-height: 48px;
-  text-align: center;
+  padding:32px 0;
+  height: 36px;
   background-color:#595858;
   font-size: 14px;
   color:#999;
-  a{
-    color:#999;
-  }
+  line-height: 1;
+  padding-left: 120px;
+  // text-align: left;
+}
+.copyright{
+  margin-top:15px;  
+}
+.cicle-c{
+  font-size: 18px;
+  vertical-align: -2px;
+}
+.copyright a,.site-name a{
+  color:#999;
+}
+.copyright .zk{
+  margin-right: 40px;
+}
+.icp-num{
+  margin:0 40px;
+}
+.phone-num{
+  margin:0 15px;
 }
 
 .footer-top h1{

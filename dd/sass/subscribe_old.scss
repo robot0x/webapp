@@ -445,32 +445,6 @@ li.current-page:hover{
   font-size: 24px;
   color:#474747;
 }
-.input-box .subscribe-desc-box{
-  color:#d81010;
-  margin-top: 30px;
-  line-height: 1;
-}
-.input-box .subscribe-desc{
-  width: auto;
-  vertical-align: middle;
-  margin-right: 10px;
-}
-
-
-.regist-input-box .subscribe-desc{
-  width: auto;
-  vertical-align: middle;
-  margin-left: 10px;
-}
-
-.regist-area .subscribe-desc-label{
-  margin:0;
-  font-size: 16px;
-  color:#d81010;
-  margin-left: 10px;
-  vertical-align: 2px;
-}
-
 .username{
   border-bottom:2px #dcdcdc solid;
 }
@@ -582,27 +556,4 @@ input:placeholder{ // for new
   position:absolute;
   bottom:0;
 }
-
-.subscribe-main-content{
-  text-align: center;
-  color:rgb(113,113,113);
-  font-size: 24px;
-  margin-top:200px;
-}
-
-.subscribe-main-content a{
-    display: inline-block;
-    width: 80px;
-    height: 30px;
-    line-height: 30px;
-    font-size: 14px;
-    color: #fff;
-    background: #ea7780;
-    margin-top: 30px;
-}
-
-
-
-
-
 

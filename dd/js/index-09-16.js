@@ -401,6 +401,32 @@ $(function() {
         return ret;
     }
 
+    var loginBtn = document.getElementById('login-btn');
+    var isLogined = isLogin();
+    function login() {
+        var isLogined = isLogin();
+        // 如果是已经登录，不跳转，否则跳转之
+        if (isLogined) {
+            return false;
+        }
+        // 跳转之前，先告诉，subscribe.html 是从首页过来的
+        setCookie('login_from_index', true);
+    }
+    if (isLogined) {
+        loginBtn.innerHTML = "注销";
+        // 点击注销。清除登录状态标识
+        loginBtn.onclick = function() {
+            deleteCookie('isLogin');
+            loginBtn.innerHTML = "登录";
+            loginBtn.onclick = login;
+            return false;
+        }
+    } else {
+        loginBtn.onclick = login;
+    }
+
+
+
     Pagination.prototype = {
         constructor: Pagination,
         /*

@@ -261,18 +261,16 @@ $.ajax({
     }
 });
 
-// $('.result-content').dotdotdot({
-//     ellipsis:'......',
-//     wrap:'letter'
-// });
+$('.result-content').dotdotdot({
+    ellipsis:'......',
+    wrap:'letter'
+});
 
 function myTip(args){
-
       this.title = args.title || "提示";
       this.content = args.content;
       this.timeout = args.timeout;
-
-}
+    }
 
     myTip.prototype = {
       constructor:myTip,
@@ -317,51 +315,58 @@ function reset(dom){
     $(dom).find(":text,:password").val('');
 }
 
-// $(document).on('click','.result-item a',function(e){
-//     // 如果已经登录，就不需要显示提示框了
-//     if(isLogin()){
-//         return;
-//     }
-//     // 如果已经存在了提示框，阻止跳转，直接返回
-//     if( $('.tips').length !== 0 ){
-//         e.preventDefault();
-//         return;
-//     }
-//     tip.open();
-//     var tipDOM = tip.getTipDOM();
-//     var tipA = tipDOM.find('a');
-//     reset(tipDOM);
-//     if(isLogin()){
-//         tipA.attr('href',this.href);
-//     }else{
-//         tipA.attr("target","_self");
-//         if(location.hash != "#login"){
-//             tipA.attr('href',location.href+"#login");
-//         }
-//     }
-//     var secondSpan = tipDOM.find('span');
-//     var second = +secondSpan.text();
-//     var timer = setInterval(function(){
-//       if(--second == 0){
-//         if(isLogin()){
-//          tipA.get(0).click();
-//         }else{
-//           location.hash = "login";
-//         }
-//         clearInterval(timer);
-//         tip.close();
-//       }else{
-//         secondSpan.text(second);
-//       }
-//     },1000);
-//     // 绑定 “跳转”按钮的点击事件
-//     tipA.click(function(){
-//         clearInterval(timer);
-//         tip.close();
-//     })
-//   e.preventDefault();
-//   // return false;
-// })
+$(document).on('click','.result-item a',function(e){
+    
+    // 如果已经登录，就不需要显示提示框了
+    if(isLogin()){
+        return;
+    }
+    // 如果已经存在了提示框，阻止跳转，直接返回
+    if( $('.tips').length !== 0 ){
+        e.preventDefault();
+        return;
+    }
+    tip.open();
+
+    var tipDOM = tip.getTipDOM();
+    var tipA = tipDOM.find('a');
+    reset(tipDOM);
+
+    if(isLogin()){
+        tipA.attr('href',this.href);
+    }else{
+        tipA.attr("target","_self");
+        if(location.hash != "#login"){
+            tipA.attr('href',location.href+"#login");
+        }
+    }
+    
+    var secondSpan = tipDOM.find('span');
+    var second = +secondSpan.text();
+    var timer = setInterval(function(){
+      if(--second == 0){
+        if(isLogin()){
+         tipA.get(0).click();
+        }else{
+          location.hash = "login";
+        }
+        clearInterval(timer);
+        tip.close();
+      }else{
+        secondSpan.text(second);
+      }
+    },1000);
+
+    // 绑定 “跳转”按钮的点击事件
+    tipA.click(function(){
+        clearInterval(timer);
+        tip.close();
+    })
+
+
+  e.preventDefault();
+  // return false;
+})
 
 // 根据hash变化来切换是否显示登录区
 function switchLogin(hash,isLogin){
@@ -370,12 +375,10 @@ function switchLogin(hash,isLogin){
   }
 
   if(hash === "#login" && !isLogin){
-    // $('#result-list').hide();
-    $('#subscribe-main-content').hide();
+    $('#result-list').hide();
     $('.login-area').css('display','block');
   }else{
-    // $('#result-list').show();
-    $('#subscribe-main-content').show();
+    $('#result-list').show();
     $('.login-area').css('display','none');
     $('.regist-area').css('display','none');
   }
@@ -386,7 +389,6 @@ window.onhashchange = function(){
   console.log(hash);
   switchLogin(hash,isLogin());
 }
-
 var hash = location.hash;
 
 switchLogin(hash,isLogin());
@@ -497,7 +499,7 @@ $(document).on('click','.login-area .regist-btn',function(e){
             alert('注册成功');
             setCookie('isLogin',true);
             $('.regist-area').hide();
-            $('#subscribe-main-content').show();
+            $('#result-list').show();
         }else{
           alert('用户名已经存在，请换个用户名试试');
         }

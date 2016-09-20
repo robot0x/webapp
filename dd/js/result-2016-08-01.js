@@ -1,21 +1,3 @@
-/**
-*
-* 最后一次改于2016-08-01
-* 解决的问题：作者url不存在，报错，导致搜索不可用
-* 从
-*
-* if(authorSrc.indexOf("http") == -1){
-     authorSrc = "editor/" + authorSrc + ".html";
-  }
-*
-*  改为：
-* 
-* if( authorSrc == null ){
-      authorSrc = '#';
-  }else if(authorSrc.indexOf("http") == -1){
-     authorSrc = "editor/" + authorSrc + ".html";
-  }
-*/
 $.extend({
     getParam: function() {
         var
@@ -666,9 +648,10 @@ $(function() {
                 if (imgUrl.indexOf("http") == -1) {
                     imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
                 }
-
                 authorSrc = everyMeta.author.src || everyMeta.author.url;
-         
+                // if(authorSrc == null){
+                // console.log(index);
+                // }
                 if( authorSrc == null ){
                     authorSrc = '#';
                 }else if(authorSrc.indexOf("http") == -1){
