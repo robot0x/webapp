@@ -373,34 +373,6 @@ $(function() {
         }
     }
 
-    function setCookie(key, value, days) {
-        // 设置cookie过期事件,默认是30天
-        var expire = new Date();
-        days = days || 30;
-        expire.setTime(expire.getTime() + (+days) * 24 * 60 * 60 * 1000);
-        document.cookie = key + "=" + encodeURIComponent(value) + ";expires=" + expire.toGMTString();
-    };
-
-    function deleteCookie(key) {
-        var expire = new Date();
-        expire.setTime(expire.getTime() - 1);
-        var cval = getCookie(key);
-        if (cval != null)
-        // 把toGMTString改成了toUTCString，两者等价。但是ECMAScript推荐使用toUTCString方法。toGMTString的存在仅仅是
-        // 为了向下兼容
-            document.cookie = key + "=" + cval + ";expires=" + expire.toUTCString();
-    }
-
-    function isLogin() {
-        var ret = getCookie('isLogin');
-        if (!ret) {
-            ret = false;
-        } else {
-            ret = ret == "true" ? true : false;
-        }
-        return ret;
-    }
-
     Pagination.prototype = {
         constructor: Pagination,
         /*
