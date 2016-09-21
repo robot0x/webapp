@@ -146,7 +146,7 @@ $(function() {
                                 left: left - distance
                             }, function() {
                                 /*
-                                把数组中最后一个元素移动到最后一个位置。并更新到页面上
+                                把数组中第一个元素移动到最后一个位置。并更新到页面上
                                 */
                                 var removedDOM = self.list.shift();
                                 self.list.push(removedDOM);
@@ -158,7 +158,7 @@ $(function() {
                                 bannerList.css('left', 0);
                             });
                         }, this, 700);
-                    })
+                });
                     // 上一张的点击事件
                 self.bannerArea.on('click', '.prev', function() {
 
@@ -190,7 +190,8 @@ $(function() {
 
                     }, this, 700);
 
-                })
+                });
+                
                 if (this.hoverPausePlay) {
                     // 整个banner区的hover事件
                     $('.banner-container,.prev,.next').hover(function() {
