@@ -395,12 +395,19 @@ $(function() {
         'top:', '0;',
         'left:', '0;',
         'padding:', '0;',
-        'width:', '1px;',
-        'height:', '1px;',
+        // 针对safari10
+        // 增大textarea的大小，否则的话在safari10中successful为true，
+        // 但却什么也没拷贝
+        'width:', '31px;',
+        'height:', '21px;',
         'border:', 'none;',
         'outline:', 'none;',
         'boxShadow:', 'none;',
-        'background:', 'transparent'
+        'background:', 'transparent;',
+        // 针对safari10
+        // 因为增大了textarea的大小，故使用其他技巧隐藏之
+        'opacity:', '0;',
+        'z-index:', '-1;'
       ];
       textArea.style.cssText = styleArr.join('');
       textArea.value = text;
