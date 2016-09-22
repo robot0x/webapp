@@ -309,54 +309,6 @@ $(function() {
     b.innerHTML = "<!--[if IE " + ver + "]><i></i><![end if]-->"
     return b.getElementsByTagName('i').length === 1;
   }
-
-  function copyTextToClipboard(text, success, error) {
-    success = success || function() {};
-    error = error || function() {};
-    // 如果是IE，就使用IE专有方式进行拷贝
-    // 好处是可以直接复制而不用曲线救国，创建textarea来实现。
-    if (window.clipboardData) {
-      var successful = window.clipboardData.setData('Text', text);
-      if (successful) {
-        success();
-      } else {
-        error();
-      }
-    } else {
-      var textArea = document.createElement('textarea');
-      var styleArr = ['position:', 'fixed;',
-        'top:', '0;',
-        'left:', '0;',
-        'padding:', '0;',
-        'width:', '1px;',
-        'height:', '1px;',
-        'border:', 'none;',
-        'outline:', 'none;',
-        'boxShadow:', 'none;',
-        'background:', 'transparent',
-      ]
-      textArea.style.cssText = styleArr.join('');
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        var successful = document.execCommand('copy');
-        var msg = successful ? 'successful' : 'unsuccessful';
-        console.log('Copying text command was ' + msg);
-        if (successful) {
-          success();
-        } else {
-          error();
-        }
-      } catch (e) {
-        console.log('Oops, unable to copy');
-        error();
-      }
-      // 卸磨杀驴
-      document.body.removeChild(textArea);
-    }
-  }
-
   /*
       解析传进来的带标签的字符串，返回去掉标签之后的纯文本
   */
