@@ -109,10 +109,11 @@ $(function() {
       linkHTMLString = '<tr class="get-coupon">';
       for (l = link.length; i < l; i++) {
         var ln = link[i];
+        // 因为在PC站上用。优先使用urlpc字段，url字段作为保险。
         var url = ln.url;
         // 如果是我们自己的优惠券，则不显示
         if (!/.*diaox2\.com.*/i.test(url)) {
-          linkHTMLString += '<td>领取优惠券</td><td><a target="_blank" href="' + link[i].url + '">' + link[i].text + '</a></td>';
+          linkHTMLString += '<td>领取优惠券</td><td><a target="_blank" href="' + ( link[i].urlpc || link[i].url ) + '">' + link[i].text + '</a></td>';
           // 保证hasLinkValue只会被赋值一次
           if (!hasLinkValue) {
             hasLinkValue = true;
@@ -129,7 +130,7 @@ $(function() {
         codeHTMLString += '<td>优惠码</td><td><input class="code" type="text" value="' + code[i].code + '" readonly></td>'
       }
       codeHTMLString += '</tr>';
-      console.log('有优惠码');
+      // console.log('有优惠码');
     }
 
     if (hasLinkValue || hasCodeValue) {
@@ -141,6 +142,7 @@ $(function() {
         ret += codeHTMLString;
       }
       ret += '</tbody></table>'
+      // console.log(meta);
     }
 
     return ret;
