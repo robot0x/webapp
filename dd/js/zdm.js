@@ -451,7 +451,7 @@ $(function() {
       // 新节点的克隆模板
       resultItem = resultList.querySelector('.result-list > li'),
       frag = document.createDocumentFragment(), // 乾坤袋
-      newNode, a, i = count = 0;
+      newNode, a, i = count = 0,length,j;
     for (; i < feed_list_from_server.length; i++, count++) {
       item = feed_list_from_server[i];
       if (count > LOAD_COUNT - 1) {
@@ -470,14 +470,22 @@ $(function() {
       // 删除code-table
       var codeTable = newNode.querySelector('code-table');
       if (codeTable) {
-        console.log('复制的有code-table');
+        // console.log('复制的有code-table');
         removeNode(codeTable);
       }
 
-      // a = newNode.querySelector('a');
-      // a.href = url;
+      /*
+        2016-10-09
+        李园宁提出一个bug，
+        第二页中所有item的链接都是值得买列表中的第一个条目的链接。
+        出现bug的原因在于：
+          复制好的节点没有更新节点下的a标签的href属性，导致a标签还带着复制的href值
+       */
       a = newNode.querySelectorAll('a');
-
+      length = a.length;
+      for(j = 0;j < length;j++){
+         a[j].href = url;
+      }
       newNode.querySelector('.result-title').innerHTML = everyMeta.title[0];
       newNode.querySelector('img').src = everyMeta.thumb_image_url;
       newNode.querySelector('.result-price').innerHTML = everyMeta.price == null ? '&nbsp;' : everyMeta.price;
