@@ -5,7 +5,7 @@
  UAs:
 
  串1:
- 
+
  ipadMINI 1024x768 pr:1
 
  Mozilla/5.0 (iPad; CPU OS 4_3_5 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8L1 Safari/6533.18.5
@@ -21,9 +21,9 @@
  iphone5 320x568 pr:2
 
  Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53
- 
+
  iphone6 375x667 pr:2
- 
+
  Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4
 
  iphone6p 414x736 pr:3
@@ -68,10 +68,10 @@
  iphone5 QQ
 
  Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12F70 QQ/5.7.0.469 NetType/WIFI Mem/95
- 
+
  iphone5 weibo
- 
- Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12F70 Weibo (iPhone5,2__weibo__5.4.0__iphone__os8.3)
+
+ Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12F70 Weibo (iPhone5,2__weibo__5.4.0__iphone
 
  MX4Pro QQ
 
@@ -82,7 +82,7 @@
  Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12F70 baiduboxapp/0_1.0.7.6_enohpi_6311_046/3.8_2C2%255enohPi/1099a/AF6531286CBF6D5FC717513FA083D4605709694DBFGLSDFLJFO/1
 
  MotoX Pro 480 1440 pr:3.5 太搞笑了。
- 
+
  Mozilla/5.0 (Linux;U;Android 5.0.2;zh-cn;Moto X Pro Build/LXG22.67-7.1) AppleWebkit/533.1 (KHTML,like Gecko)Version/4.0 MQQBrowser/5.4 TBS/025440 Mobile Safari/533.1 MicroMessenger 6.2.4.53_r843fb8e.600 NetType/WIFI Language/zh_CN
 
  Nokia N9
@@ -135,7 +135,7 @@ Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:42.0) Gecko/20100101 Firefox/42
  5.5吋屏对角线长度为5.5吋，即13.97CM
 
  960×640分辨率加上3.5英寸的显示屏 苹果CEO史蒂夫·乔布斯(Steve Jobs)在苹果全球开发者大会上表示，新款iPhone4将使用一种名为Retina(视网膜)屏幕的显示技术，与此前iPhone产品相比，观看屏幕近景消除了颗粒感。之后据苹果官方解释，Retina屏幕是一种具备超高像素密度的液晶屏，它可以将960×640的分辨率压缩到一个3.5英寸的显示屏内。也就是说，该屏幕的像素密度达到326像素/英寸(ppi)，像素点相互间隔仅为78微米，肉眼根本辨不出明显的独立像素点。其显示精度是iPhone3GS的4倍，对比度高达800:1，是迄今为止iPhone系列中最高精细的屏幕。 所以只要你的视频转换分辨率不要高于940*480就行
- 
+
 
 
  记一次完整的解决bug过程
@@ -167,7 +167,7 @@ Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:42.0) Gecko/20100101 Firefox/42
       而按照视口大小
 
      （max-width、min-width）来布局是靠谱的，因为有viewport的meta标签来兜底。
- 
+
 
 手机及平板常见的屏幕宽度
  320
@@ -193,7 +193,7 @@ chrome 45.0.2454.93 (64-bit)
 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36
 
 opera 32.0.1948.69
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36 OPR/32.0.1948.69 
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36 OPR/32.0.1948.69
 
 safari 9
 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11) AppleWebKit/601.1.56 (KHTML, like Gecko) Version/9.0 Safari/601.1.56
@@ -215,12 +215,3 @@ Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 10.0; Trident/8.0; .NET4.0C; .NET4
 
 IE8
 Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 10.0; Trident/8.0; .NET4.0C; .NET4.0E)
-
-
-
-
-
-
-
-
-
