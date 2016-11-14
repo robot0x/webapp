@@ -149,16 +149,20 @@ $(function() {
   }
   // 获取值得买ajax
   $.ajax({
-      url: "http://api.diaox2.com/v3/zdm",
+      // 「精选」「超市」「女神专区」三个数据是一次性下发的
+      // url: "http://api.diaox2.com/v3/zdm", 
+      url: "http://api.diaox2.com/v4/zdm",
       type: "GET",
       cache: true,
       dataType: "jsonp",
       crossDomain: true,
       data: {
-        data: JSON.stringify({
-          'method': 'get_all_pc'
-        })
-      },
+       data: JSON.stringify({
+        "device_info": {"client": "pc"},
+        "method": "get_all",
+        "client_data_version": 0
+      })
+     },
       jsonpCallback: 'cb',
       jsonp: 'cb',
       success: function(data) {
@@ -172,6 +176,7 @@ $(function() {
         if (data || data.state === 'SUCCESS') {
           res = data.res;
           meta_infos = res.meta_infos;
+          console.log('共' + meta_infos.length + '条数据')
           meta_infos_from_server = meta_infos;
           arrayPrototypeFor.call(meta_infos, function(item) {
             cidList.push(item.cid);
@@ -203,7 +208,7 @@ $(function() {
           }
           feed_list_from_server = feed_list;
           document.getElementById('result-list').innerHTML = stringBuffer.join('');
-          addDot('.result-content');
+          // addDot('.result-content');
         } else {
           console.log('zdm failed!');
           console.log(data);
@@ -357,18 +362,22 @@ $(function() {
     }
     return dateStr;
   }
-
-  function addDot(selector) {
-    var opts = {
-      ellipsis: '......',
-      wrap: 'letter'
-    };
-    if (typeof selector === 'string') {
-      $(selector).dotdotdot(opts);
-    } else {
-      selector.dotdotdot(opts);
-    }
-  }
+ /**
+  * 2016-11-14 星期一
+  *  李园宁说值得买说明最多只有2行的限制（超出2行，显示......）取消掉
+  *  绝大部分说明都不会超过3行，然后策略是不管是多少行都显示出来
+  */
+  // function addDot(selector) {
+  //   var opts = {
+  //     ellipsis: '......',
+  //     wrap: 'letter'
+  //   };
+  //   if (typeof selector === 'string') {
+  //     $(selector).dotdotdot(opts);
+  //   } else {
+  //     selector.dotdotdot(opts);
+  //   }
+  // }
 
   function removeNode(node) {
     if (!node) return;
@@ -508,7 +517,7 @@ $(function() {
       feed_list_from_server.splice(i--, 1); // 插入之后就删除。供后续分页使用
     }
     resultList.appendChild(frag);
-    addDot('.result-content');
+    // addDot('.result-content');
   }
   addEvent(window, 'scroll', function() {
     var pageHeight = document.body.clientHeight,

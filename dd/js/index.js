@@ -76,7 +76,6 @@ $(function() {
             count,
             startTime,
             endTime;
-
         //开始组装参数
         if (argLen === 0 || argLen > 3) {
             return;
@@ -93,7 +92,6 @@ $(function() {
             context = this;
         }
         // 参数组装完毕
-
         if (firstDelay) {
             // 如果第一次需要延迟的话，就不记录次数了，每次都延迟即可
             clearTimeout(context.__throttle_timer__);
@@ -128,10 +126,9 @@ $(function() {
             }
             // 执行次数加1
             context.__throttle_count__++;
-
         }
-
     }
+    
     BannerPlay.prototype = {
             constructor: BannerPlay,
             bindEvent: function() {
@@ -744,7 +741,7 @@ $(function() {
         }
     }
     $.ajax({
-        url: "http://c.diaox2.com/cms/diaodiao/pcsite/goodthing_feed_list.json",
+        url: "http://c.diaox2.com/cms/diaodiao/pcsite/goodthing_feed_list2.json",
         dataType: 'jsonp',
         jsonp: 'cb', //这是发送到服务器的参数名。可不指定，jquery会默认把参数名变成callback
         jsonpCallback: "cb", //这是发送到服务器的参数值。这个名称必须与服务器传过来的 cb( josn ) 函数调用的函数名称一样

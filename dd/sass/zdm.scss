@@ -366,12 +366,20 @@ li.current-page:hover{
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/**
+* 2016-11-14 星期一
+*  李园宁说值得买说明最多只有2行的限制（超出2行，显示......）取消掉
+*  绝大部分说明都不会超过3行，然后策略是不管是多少行都显示出来
+*/
 .result-content{
   margin-top: 11px;
   font-size: 18px;
   line-height: 25px;
   color: #666;
-  height: 60px;
+  // height: 60px;
+  // 因为绝大部分说明都不超过3行
+  // 所以设定了刚好能容纳3行的最小高度（3x25=75）
+  min-height: 75px;
   overflow: hidden;
 }
 .readmore{
