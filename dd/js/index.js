@@ -391,8 +391,8 @@ $(function() {
                     aTag.href = "javascript:void(0);";
                     aTag.onclick = "return false;";
                     return aTag;
-                }
-                // 创建 上一页 按钮
+            }
+            // 创建 上一页 按钮
             var previousPage = PreProcessingATag(document.createElement("a"));
             // 创建 下一页 按钮 浅拷贝 上一页 按钮即可
             var nextPage = previousPage.cloneNode(false);
@@ -490,6 +490,7 @@ $(function() {
             var end = index * this.countPerPage;
             return this.data.slice(start, end);
         },
+
         toTop: function() {
             var self = this;
             $('html,body').animate({
@@ -507,9 +508,11 @@ $(function() {
             this.callback.call(this, data);
             this.toTop();
         },
+
         clearPaginationBar: function() {
             document.getElementById('pagination-main').innerHTML = '';
         },
+
         stateOneUpdateDOM: function() {
             /* 状态1：
                上一页 1 2 3 4 5 6 ... N 下一页
@@ -520,6 +523,7 @@ $(function() {
             this.renderDOM();
             console.log('state 1 updateDOM');
         },
+
         stateTwoUpdateDOM: function() {
 
             this.clearPaginationBar();
@@ -539,7 +543,7 @@ $(function() {
                     aTag.onclick = "return false;";
                     return aTag;
                 }
-                // 创建 上一页 按钮
+            // 创建 上一页 按钮
             var previousPage = PreProcessingATag(document.createElement("a"));
             // 创建 下一页 按钮 浅拷贝 上一页 按钮即可
             var nextPage = previousPage.cloneNode(false);
@@ -741,7 +745,7 @@ $(function() {
         }
     }
     $.ajax({
-        url: "http://c.diaox2.com/cms/diaodiao/pcsite/goodthing_feed_list2.json",
+        url: "http://c.diaox2.com/cms/diaodiao/pcsite/goodthing_feed_list.json",
         dataType: 'jsonp',
         jsonp: 'cb', //这是发送到服务器的参数名。可不指定，jquery会默认把参数名变成callback
         jsonpCallback: "cb", //这是发送到服务器的参数值。这个名称必须与服务器传过来的 cb( josn ) 函数调用的函数名称一样
@@ -767,13 +771,18 @@ $(function() {
                 // 由于首页的图片其比例跟好物和专刊的不一样，所以需要用adjust函数调整到居中
                 var imgAdjust = '';
                 var size = 'width="390" height="254"';
+                var imageUrl = goodthing.cover_image_url;
                 if (goodthing.ctype == 1) {
                     // 只有首页长文需要调整
                     imgAdjust = 'onload="adjust(this);"'
                         // 使用adjust函数，必须不设定img的尺寸
                     size = '';
+                }else if(goodthing.ctype == 4){
+                    // 李园宁说，由于是新的模板，他不确定ctype=4的文章是否真的有coverv3
+                    // 字段，让我用cover_image_url保底
+                    imageUrl = goodthing.coverv3 || imageUrl;
                 }
-                li.innerHTML = '<a href="' + url + '" target="_blank"><dl><dt class="loading"><div class="img-container"><img ' + imgAdjust + ' src="' + goodthing.cover_image_url + '" ' + size + '></div></dt><dd><h3><p>' + handleTitle(goodthing.title, goodthing.ctype) + '</p></h3><div class="icon-list clearfix"><img class="icon-author" width="30" height="30" src="http://c.diaox2.com/cms/diaodiao/' + goodthing.author.pic + '"></div></dd></dl></a>';
+                li.innerHTML = '<a href="' + url + '" target="_blank"><dl><dt class="loading"><div class="img-container"><img ' + imgAdjust + ' src="' + imageUrl + '" ' + size + '></div></dt><dd><h3><p>' + handleTitle(goodthing.title, goodthing.ctype) + '</p></h3><div class="icon-list clearfix"><img class="icon-author" width="30" height="30" src="http://c.diaox2.com/cms/diaodiao/' + goodthing.author.pic + '"></div></dd></dl></a>';
                 documentFrag.appendChild(li);
             }
             contentList.appendChild(documentFrag);
@@ -785,11 +794,9 @@ $(function() {
                 displayPageCount: 7, // 分页条显示的分页标签的个数。默认是7个
                 appendTo: document.getElementById('content-area'), // 分页条要插入的容器
                 callback: function(data) {
-
                     var contentList = document.getElementById('content-list');
                     var list = contentList.children;
-
-                    // IE8下children取到节点包含command节点，所以需要筛选出所有的元素节点
+                    // IE8- children取到节点包含command节点，所以需要筛选出所有的元素节点
                     if (!-[1, ]) {
                         var nodeList = list;
                         list = [];
@@ -812,20 +819,31 @@ $(function() {
 
                         dom.style.display = "block";
                         a.href = changeURL(paddingData.url);
-
+                        var imageUrl = paddingData.cover_image_url;
+                        // 2016-11-15 李园宁
+                        // 如果ctype为4优先使用coverv3字段
+                        if(paddingData.ctype == 4){
+                            imageUrl = paddingData.coverv3 || imageUrl;
+                        }
+                        // 只有ctype为1，才进行调整
                         if (paddingData.ctype == 1) {
                             img.removeAttribute('width');
                             img.removeAttribute('height');
                             img.onload = (function() {
                                 adjust(this);
                             });
-                        } else if (img.onload) {
+                        }
+                         // 如果含有img.onload属性，说明原先这个img元素为ctype为1的
+                         // 故移除之
+                         else if (img.onload)
+                        {  
                             img.width = imgContainer.offsetWidth;
                             img.height = imgContainer.offsetHeight;
                             img.removeAttribute('onload');
                             img.removeAttribute('style');
                         }
-                        img.src = paddingData.cover_image_url;
+                        
+                        img.src = imageUrl;
 
                         titleP.innerHTML = handleTitle(paddingData.title, paddingData.ctype);
                         iconAuthor.src = "http://c.diaox2.com/cms/diaodiao/" + paddingData.author.pic;
