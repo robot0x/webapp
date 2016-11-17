@@ -196,7 +196,14 @@ $(function() {
               price = '&nbsp;';
             }
             date = everyMeta.pub_time * 1000;
-            source = everyMeta.author.name;
+            
+            // 2016-11-17日，值得买挂了，问题在于有一条值得买没有
+            // author字段，所以线上报错
+            // Uncaught TypeError: Cannot read property 'name' of undefined(…)
+            source = '';
+            if(everyMeta.author){
+              source = everyMeta.author.name
+            }
             imgUrl = everyMeta.thumb_image_url;
             title = everyMeta.title[0];
             buylink_site = everyMeta.buylink_site || "";
@@ -504,7 +511,14 @@ $(function() {
       var resultFooter = newNode.querySelector('.result-footer');
 
       resultFooter.querySelector('.date').innerHTML = getDateStr(everyMeta.pub_time * 1000);
-      resultFooter.querySelector('.source').innerHTML = everyMeta.author.name;
+       // 2016-11-17日，值得买挂了，问题在于有一条值得买没有
+       // author字段，所以线上报错
+       // Uncaught TypeError: Cannot read property 'name' of undefined(…)
+      var source = ''
+      if(everyMeta.author){
+        source = everyMeta.author.name;
+      }
+      resultFooter.querySelector('.source').innerHTML = source;
       resultFooter.querySelector('.buylink_site').innerHTML = everyMeta.buylink_site || "";
 
       // 重新build一份code-table，插入到resultFooter前面
