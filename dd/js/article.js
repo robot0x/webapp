@@ -1,9 +1,9 @@
 $(function() {
         var
         doc = document,
-        // 第一种文章url 形如 http://c.diaox2.com/view/app/?m=show&id=1234(&ch=goodthing)
+        // 第一种文章url 形如 //c.diaox2.com/view/app/?m=show&id=1234(&ch=goodthing)
         reg = /\/view\/app\/\?m=(?:show|zk|scene)&id=(\d+)?(&ch=goodthing)?/i,
-        // 第二中文章url 形如 http://c.diaox2.com/cms/diaodiao/articles/goodthing/893_893.html
+        // 第二中文章url 形如 //c.diaox2.com/cms/diaodiao/articles/goodthing/893_893.html
         reg2 = /\/cms\/diaodiao\/articles\/(?:goodthing|firstpage|experience|weekend)\/\d+_(\d+)?\.html/i,
         toReplaceStr = "$1.html",
         UA = navigator.userAgent,
@@ -12,7 +12,7 @@ $(function() {
         // 大屏移动设备及pc，比如ipad、androidPad、pc还是用pc页
         try{
         if(isWirelessDev && document.documentElement.offsetWidth < 600){
-        window.location.href = 'http://c.diaox2.com/share/'+document.body.id+'.html';
+        window.location.href = '//c.diaox2.com/share/'+document.body.id+'.html';
         }
         }catch(e){
         console.log(e);
@@ -71,7 +71,7 @@ function mycb(data) {
             url = item.url;
             imgUrl = item.thumb;
             if (imgUrl.indexOf("http") == -1) {
-            imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
+            imgUrl = "//a.diaox2.com/cms/sites/default/files/" + imgUrl;
             }
             match = url.match(reg);
             if (match && match.length) {
@@ -86,10 +86,10 @@ function mycb(data) {
     });
 }
 $.ajax({
-        //http://c.diaox2.com/view/app/?m=recommend&id=3217&callback=jQuery1113028636212670244277_1443079759695&_=1443079759696
-        //http://api.diaox2.com/v1/stat/all?&cb=jQuery111308396169231273234_1443183199217&{%22a%22:1,%20%22b%22:2}
-        url: "http://c.diaox2.com/view/app/?m=recommend&id=" + doc.body.className.split("_")[0],
-        //url:"http://api.diaox2.com/v1/stat/all?",
+        ////c.diaox2.com/view/app/?m=recommend&id=3217&callback=jQuery1113028636212670244277_1443079759695&_=1443079759696
+        ////api.diaox2.com/v1/stat/all?&cb=jQuery111308396169231273234_1443183199217&{%22a%22:1,%20%22b%22:2}
+        url: "//c.diaox2.com/view/app/?m=recommend&id=" + doc.body.className.split("_")[0],
+        //url:"//api.diaox2.com/v1/stat/all?",
         type: "GET",
         //data: '{"a":1, "b":2}',
         cache: true, //prevent the default parameter _=${timestamp}, CDN
@@ -172,7 +172,7 @@ function createQRCode() {
         pageName = window.location.href;
     }
     console.log(pageName);
-    new QRCode(document.getElementById('qrcode'), "http://c.diaox2.com/share/" + pageName + ".html");
+    new QRCode(document.getElementById('qrcode'), "//c.diaox2.com/share/" + pageName + ".html");
     isAlreadyCreateQRCode = true;
 }
 $cancle.on('click', close);
@@ -238,7 +238,7 @@ function doupdate(cids) {
         contentType: "application/json",
         data: jsonstr,
         dataType: "json",
-        url: "http://api.diaox2.com/v1/stat/all",
+        url: "//api.diaox2.com/v1/stat/all",
         success: update_success,
         timeout: 8000,
         error: function(x,t,e) {console.log("update failed, with error " + e);}

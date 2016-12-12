@@ -3,9 +3,9 @@ $(function() {
     function changeURL(url) {
         // reg = /\/view\/app\/\?m=(?:show|zk|scene)&id=(\d+)?/i,
         var reg = /\/view\/app\/\?m=(?:show|zk|scene)&id=(\d+)?(&ch=goodthing)?/i,
-            // 第二中文章url 形如 http://c.diaox2.com/cms/diaodiao/articles/goodthing/893_893.html
+            // 第二中文章url 形如 //c.diaox2.com/cms/diaodiao/articles/goodthing/893_893.html
             reg2 = /\/cms\/diaodiao\/articles\/(?:goodthing|firstpage|experience|weekend)\/\d+_(\d+)?\.html/i,
-            toReplaceStr = "http://www.diaox2.com/article/$1.html",
+            toReplaceStr = "//www.diaox2.com/article/$1.html",
             match;
         if (!url) {
             return url;
@@ -238,7 +238,7 @@ $(function() {
 
         // dom ready 之后首先填充banner
         $.ajax({
-            url: "http://api.diaox2.com/v4/meta",
+            url: "//api.diaox2.com/v4/meta",
             timeout: 20000,
             type: "POST",
             dataType: "json",
@@ -250,7 +250,7 @@ $(function() {
         }).done(function(data) {
             var cids = data.res.feed_order_data.carousel;
             $.ajax({
-                url: "http://api.diaox2.com/v4/meta",
+                url: "//api.diaox2.com/v4/meta",
                 timeout: 20000,
                 type: "POST",
                 dataType: "json",
@@ -745,7 +745,7 @@ $(function() {
         }
     }
     $.ajax({
-        url: "http://c.diaox2.com/cms/diaodiao/pcsite/goodthing_feed_list.json",
+        url: "//c.diaox2.com/cms/diaodiao/pcsite/goodthing_feed_list.json",
         dataType: 'jsonp',
         jsonp: 'cb', //这是发送到服务器的参数名。可不指定，jquery会默认把参数名变成callback
         jsonpCallback: "cb", //这是发送到服务器的参数值。这个名称必须与服务器传过来的 cb( josn ) 函数调用的函数名称一样
@@ -782,7 +782,7 @@ $(function() {
                     // 字段，让我用cover_image_url保底
                     imageUrl = goodthing.coverv3 || imageUrl;
                 }
-                li.innerHTML = '<a href="' + url + '" target="_blank"><dl><dt class="loading"><div class="img-container"><img ' + imgAdjust + ' src="' + imageUrl + '" ' + size + '></div></dt><dd><h3><p>' + handleTitle(goodthing.title, goodthing.ctype) + '</p></h3><div class="icon-list clearfix"><img class="icon-author" width="30" height="30" src="http://c.diaox2.com/cms/diaodiao/' + goodthing.author.pic + '"></div></dd></dl></a>';
+                li.innerHTML = '<a href="' + url + '" target="_blank"><dl><dt class="loading"><div class="img-container"><img ' + imgAdjust + ' src="' + imageUrl + '" ' + size + '></div></dt><dd><h3><p>' + handleTitle(goodthing.title, goodthing.ctype) + '</p></h3><div class="icon-list clearfix"><img class="icon-author" width="30" height="30" src="//c.diaox2.com/cms/diaodiao/' + goodthing.author.pic + '"></div></dd></dl></a>';
                 documentFrag.appendChild(li);
             }
             contentList.appendChild(documentFrag);
@@ -846,7 +846,7 @@ $(function() {
                         img.src = imageUrl;
 
                         titleP.innerHTML = handleTitle(paddingData.title, paddingData.ctype);
-                        iconAuthor.src = "http://c.diaox2.com/cms/diaodiao/" + paddingData.author.pic;
+                        iconAuthor.src = "//c.diaox2.com/cms/diaodiao/" + paddingData.author.pic;
                     }
 
                     // 如果分段数据长度等于每页的大小不需要删除多余的DOM

@@ -3,7 +3,7 @@ $(function() {
   /***全局变量区****/
   var
     reg = /\/view\/app\/\?m=(?:show|zk|scene)&id=(\d+)?(&ch=goodthing)?/i,
-    // 第二中文章url 形如 http://c.diaox2.com/cms/diaodiao/articles/goodthing/893_893.html
+    // 第二中文章url 形如 //c.diaox2.com/cms/diaodiao/articles/goodthing/893_893.html
     reg2 = /\/cms\/diaodiao\/articles\/(?:goodthing|firstpage|experience|weekend)\/\d+_(\d+)?\.html/i,
     toReplaceStr = "$1.html",
     LOAD_COUNT = 30, // 每次加载的数目
@@ -33,7 +33,7 @@ $(function() {
   /***ajax请求区****/
   // 获取大家都再看
   $.ajax({
-    url: "http://c.diaox2.com/view/app/?m=recommend",
+    url: "//c.diaox2.com/view/app/?m=recommend",
     type: "GET",
     cache: true, //prevent the default parameter _=${timestamp}, CDN
     dataType: "jsonp",
@@ -48,7 +48,7 @@ $(function() {
         url = item.url;
         imgUrl = item.thumb;
         if (imgUrl.indexOf("http") == -1) {
-          imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
+          imgUrl = "//a.diaox2.com/cms/sites/default/files/" + imgUrl;
         }
         match = url.match(reg);
         if (match && match.length) {
@@ -102,8 +102,8 @@ $(function() {
     var hasLinkValue = false;
     var hasCodeValue = false;
     /**
-     * APP内的：http://z.diaox2.com/view/app/?m=jfmall
-     * 分享出的：http://z.diaox2.com/view/app/mall.html
+     * APP内的：//z.diaox2.com/view/app/?m=jfmall
+     * 分享出的：//z.diaox2.com/view/app/mall.html
      */
     if (link && link.length > 0) {
       linkHTMLString = '<tr class="get-coupon">';
@@ -122,14 +122,23 @@ $(function() {
       }
       linkHTMLString += '</tr>';
     }
-
+    // 2016-12-08 发现优惠码在一行
+    // if (code && code.length > 0) {
+    //   hasCodeValue = true;
+    //   codeHTMLString = '<tr class="copy-code">';
+    //   for (i = 0, l = code.length; i < l; i++) {
+    //     codeHTMLString += '<td>优惠码</td><td><input class="code" type="text" value="' + code[i].code + '" readonly></td>'
+    //   }
+    //   codeHTMLString += '</tr>';
+    //   // console.log('有优惠码');
+    // }
+    // 2016-12-08 改写了，使优惠码在多行
     if (code && code.length > 0) {
       hasCodeValue = true;
-      codeHTMLString = '<tr class="copy-code">';
+      codeHTMLString = '';
       for (i = 0, l = code.length; i < l; i++) {
-        codeHTMLString += '<td>优惠码</td><td><input class="code" type="text" value="' + code[i].code + '" readonly></td>'
+        codeHTMLString += '<tr class="copy-code"><td>优惠码</td><td><input class="code" type="text" value="' + code[i].code + '" readonly></td></tr>'
       }
-      codeHTMLString += '</tr>';
       // console.log('有优惠码');
     }
 
@@ -150,8 +159,8 @@ $(function() {
   // 获取值得买ajax
   $.ajax({
       // 「精选」「超市」「女神专区」三个数据是一次性下发的
-      // url: "http://api.diaox2.com/v3/zdm", 
-      url: "http://api.diaox2.com/v4/zdm",
+      // url: "//api.diaox2.com/v3/zdm", 
+      url: "//api.diaox2.com/v4/zdm",
       type: "GET",
       cache: true,
       dataType: "jsonp",
@@ -587,8 +596,8 @@ $(function() {
 
 
   /**
-   * APP内的：http://z.diaox2.com/view/app/?m=jfmall
-   * 分享出的：http://z.diaox2.com/view/app/mall.html
+   * APP内的：//z.diaox2.com/view/app/?m=jfmall
+   * 分享出的：//z.diaox2.com/view/app/mall.html
    */
   $(document.body).on('click', '.code-table .code', function(e) {
     var self = this;

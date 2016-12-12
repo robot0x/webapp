@@ -134,7 +134,7 @@ function logpage(input) {
         contentType: "application/json",
         data: postdata,
         dataType: "json", //"html"
-        url: "http://api.diaox2.com/v1/contvote",
+        url: "//api.diaox2.com/v1/contvote",
         //url: "http://api.diaox2.com/v1/contvote/" + serverid,
         success: function(data) {console.log("log success with ret ==>"); console.log(data);},
         timeout: 12000,
