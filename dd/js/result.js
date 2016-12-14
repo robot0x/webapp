@@ -70,7 +70,7 @@ $(function() {
         $('.present-area').css('display', 'none');
         // 获取热搜词
         $.ajax({
-            url: "http://api.diaox2.com/v2/app/config",
+            url: "//api.diaox2.com/v2/app/config",
             dataType: 'jsonp',
             type: "GET",
             jsonp: 'cb',
@@ -85,7 +85,7 @@ $(function() {
             }
         });
         $.ajax({
-            url: "http://s.diaox2.com/ddsearch/q",
+            url: "//s.diaox2.com/ddsearch/q",
             dataType: 'jsonp',
             jsonp: 'cb',
             jsonpCallback: "cb2",
@@ -170,7 +170,7 @@ $(function() {
         $('.hot-search').hide();
         $('.present-area').css('display', 'block');
         $.ajax({
-            url: "http://s.diaox2.com/view/app/gift_supply.php",
+            url: "//s.diaox2.com/view/app/gift_supply.php",
             dataType: 'jsonp',
             jsonp: 'cb',
             jsonpCallback: "cb4",
@@ -439,11 +439,11 @@ $(function() {
                     }
                 }
                 if (imgUrl && imgUrl.indexOf("http") == -1) {
-                    imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
+                    imgUrl = "//a.diaox2.com/cms/sites/default/files/" + imgUrl;
                 }
                 // 发布去除 http://www.diaox2.com/
                 // 优化。提高字符串拼接速度
-                stringBuffer.push('<li class="goodthing" data-pos=' + (dataPos++) + '><a href="', devprefix, url, '" target="_blank"><div class="img-container"><img src="', imgUrl, '" alt="', rendered_title, '" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>', rendered_title, '</div></h2><ul class="icon-list clearfix unknown" data-id=', Math.pow(2, 32) * attr + attr, '><li class="icon-item f-l"><span>', price, '</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span class="a-fav">...</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span class="a-up">...</span></li></ul></div></a></li>');
+                stringBuffer.push('<li class="goodthing" data-pos=' + (dataPos++) + '><a href="', devprefix, url, '" target="_blank"><div class="img-container"><img src="', removeProtocol(imgUrl), '" alt="', rendered_title, '" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>', rendered_title, '</div></h2><ul class="icon-list clearfix unknown" data-id=', Math.pow(2, 32) * attr + attr, '><li class="icon-item f-l"><span>', price, '</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span class="a-fav">...</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span class="a-up">...</span></li></ul></div></a></li>');
                 // stringBuffer.push('<li class="goodthing"><a href="http://www.diaox2.com/',url,'" target="_blank"><div class="img-container"><img src="',imgUrl,'" alt="',rendered_title,'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>',rendered_title,'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>',price,'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>',132,'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>',123,'</span></li></ul></div></a></li>')
                 // html += '<li class="goodthing"><a href="http://www.diaox2.com/'+url+'" target="_blank"><div class="img-container"><img src="'+imgUrl+'" alt="'+rendered_title+'" onload="adjust(this)"></div><div class="goodthing-highlight"><h2><div>'+rendered_title+'</div></h2><ul class="icon-list clearfix"><li class="icon-item f-l"><span>'+price+'</span></li><li class="icon-item f-r"><i class="icon icon-s"></i><span>'+132+'</span></li><li class="icon-item f-r"><i class="icon icon-z"></i><span>'+123+'</span></li></ul></div></a></li>';
                 delete meta_infos[attr]; // 插入之后就删除。
@@ -500,7 +500,7 @@ $(function() {
         jQuery.support.cors = true;
         //if IE89, then jsonp else json
         $.ajax({
-            url: "http://api.diaox2.com/v1/stat/all",
+            url: "//api.diaox2.com/v1/stat/all",
             data: {
                 data: JSON.stringify({
                     "aids": cids
@@ -651,7 +651,7 @@ $(function() {
                 authorSrc = keywords_str = "";
                 var hasPrice = everyMeta.price;
                 if (!hasPrice) {
-                    everyMeta.price = "<img width='15' height='15' style='margin-right:5px;' src='http://c.diaox2.com/cms/diaodiao/assets/links.png'>全网结果";
+                    everyMeta.price = "<img width='15' height='15' style='margin-right:5px;' src='//c.diaox2.com/cms/diaodiao/assets/links.png'>全网结果";
                 }
                 rendered_keywords = everyMeta.rendered_keywords;
                 $.each(rendered_keywords, function(index, item) {
@@ -664,7 +664,7 @@ $(function() {
                 rendered_title = everyMeta.rendered_title;
                 imgUrl = everyMeta.thumb_image_url;
                 if (imgUrl.indexOf("http") == -1) {
-                    imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
+                    imgUrl = "//a.diaox2.com/cms/sites/default/files/" + imgUrl;
                 }
 
                 authorSrc = everyMeta.author.src || everyMeta.author.url;
@@ -703,7 +703,7 @@ $(function() {
                 if (!hasPrice && /^\/?article\/\d+\.html/.test(url)) {
                     price = "&nbsp";
                 }
-                stringBuffer.push('<li class="result-item" data-pos=', index + 1, '><a target="_blank" href="', devprefix, url, '" class="imglink f-l"><div class="result-item-img-container loading"><img src="', imgUrl, '" alt="', alt_title, '" width="188" height="188"></div></a><div class="result-item-detail f-l"><h2 class="detail-title"><a target="_blank" href="', url, '">', rendered_title, '</a></h2><ul class="detail-keywords clearfix">', keywords_str, '</ul><div class="detail-author clearfix"><a class="detail f-l">', price, '</a><div class="author f-l clearfix"><ul class="clearfix"><li class="author-face f-l"><a target="_blank" href="', authorSrc, '"><span class="author-face-container"><img src="http://c.diaox2.com/cms/diaodiao/', everyMeta.author.pic, '" width="20" height="20"></span></a></li><li class="author-name f-l"><a target="_blank" href="', authorSrc, '">', everyMeta.author.name, '</a></li></ul></div></div></div></li>');
+                stringBuffer.push('<li class="result-item" data-pos=', index + 1, '><a target="_blank" href="', devprefix, url, '" class="imglink f-l"><div class="result-item-img-container loading"><img src="', removeProtocol(imgUrl), '" alt="', alt_title, '" width="188" height="188"></div></a><div class="result-item-detail f-l"><h2 class="detail-title"><a target="_blank" href="', url, '">', rendered_title, '</a></h2><ul class="detail-keywords clearfix">', keywords_str, '</ul><div class="detail-author clearfix"><a class="detail f-l">', price, '</a><div class="author f-l clearfix"><ul class="clearfix"><li class="author-face f-l"><a target="_blank" href="', authorSrc, '"><span class="author-face-container"><img src="//c.diaox2.com/cms/diaodiao/', everyMeta.author.pic, '" width="20" height="20"></span></a></li><li class="author-name f-l"><a target="_blank" href="', authorSrc, '">', everyMeta.author.name, '</a></li></ul></div></div></div></li>');
             })
             document.getElementById('result-list').innerHTML = stringBuffer.join('');
         } else {
@@ -756,7 +756,7 @@ $(function() {
     }
     // 获取热门专题
     $.ajax({
-        url: "http://c.diaox2.com/cms/diaodiao/pcsite/zk_feed_list.json",
+        url: "//c.diaox2.com/cms/diaodiao/pcsite/zk_feed_list.json",
         type: "GET",
         dataType: 'jsonp',
         jsonp: 'cb',
@@ -792,7 +792,7 @@ $(function() {
                     }
                     titleStr2 = title[len - 1];
                 }
-                stringBuffer.push('<li class="loading"><a target="_blank" href="', url, '"><img src="', item.cover_image_url, '" alt="', clearBRandQuot(titleStr), '" width="277" height="180"><p>', titleStr, '</p><span>', titleStr2, '</span><div class="black-musk"></div></a></li>');
+                stringBuffer.push('<li class="loading"><a target="_blank" href="', url, '"><img src="', removeProtocol(item.cover_image_url), '" alt="', clearBRandQuot(titleStr), '" width="277" height="180"><p>', titleStr, '</p><span>', titleStr2, '</span><div class="black-musk"></div></a></li>');
             });
             document.getElementById('special').innerHTML = stringBuffer.join('');
         }
@@ -828,7 +828,7 @@ $(function() {
         // 页面关闭或刷新往服务器推送数据！注意：一定要使用同步的方式发送，这样可以阻塞一会儿线程保证在关闭之前能推送出去
         if (postData) {
             $.ajax({
-                url: "http://api.diaox2.com/v2/ubs",
+                url: "//api.diaox2.com/v2/ubs",
                 type: "POST",
                 async: false,
                 contentType: 'application/json',
@@ -904,7 +904,7 @@ $(function() {
                     }
                 }
                 if (imgUrl && imgUrl.indexOf("http") == -1) {
-                    imgUrl = "http://a.diaox2.com/cms/sites/default/files/" + imgUrl;
+                    imgUrl = "//a.diaox2.com/cms/sites/default/files/" + imgUrl;
                 }
                 // 删除经过处理加上的属性，防止后续加载的图片变形
                 img.removeAttribute('width');
@@ -913,7 +913,7 @@ $(function() {
                 newNode.setAttribute('data-pos', dataPos++);
                 // 发布取出 www.diaox2.com
                 a.href = devprefix + url;
-                img.src = imgUrl;
+                img.src = removeProtocol(imgUrl);
                 img.alt = rendered_title;
                 iconList.className = 'icon-list clearfix unknown';
                 iconList.setAttribute('data-id', Math.pow(2, 32) * attr + (+attr));

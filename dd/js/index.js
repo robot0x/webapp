@@ -230,6 +230,8 @@ $(function() {
         return b.getElementsByTagName('i').length === 1;
     }
 
+
+
     if (isIE(6) || isIE(7) || isIE(8) || isIE(9)) {
 
         document.getElementById('wrapper').removeChild(document.getElementById('banner-area'));
@@ -270,7 +272,7 @@ $(function() {
                 var stringBuffer = [];
                 for (var i = 0, l = dataArray.length; i < l; i++) {
                     var paddingData = dataArray[i];
-                    stringBuffer.push('<li data-index="', i, '"><a href="', changeURL(paddingData.url), '" target="_blank"><img src="', paddingData.banner, '" alt="" width="490" height="317"><div><p>', handleTitle(paddingData.title, paddingData.ctype), '</p></div></a></li>')
+                    stringBuffer.push('<li data-index="', i, '"><a href="', changeURL(paddingData.url), '" target="_blank"><img src="', removeProtocol(paddingData.banner), '" alt="" width="490" height="317"><div><p>', handleTitle(paddingData.title, paddingData.ctype), '</p></div></a></li>')
                 }
                 bannerList.innerHTML = stringBuffer.join('');
 
@@ -782,7 +784,7 @@ $(function() {
                     // 字段，让我用cover_image_url保底
                     imageUrl = goodthing.coverv3 || imageUrl;
                 }
-                li.innerHTML = '<a href="' + url + '" target="_blank"><dl><dt class="loading"><div class="img-container"><img ' + imgAdjust + ' src="' + imageUrl + '" ' + size + '></div></dt><dd><h3><p>' + handleTitle(goodthing.title, goodthing.ctype) + '</p></h3><div class="icon-list clearfix"><img class="icon-author" width="30" height="30" src="//c.diaox2.com/cms/diaodiao/' + goodthing.author.pic + '"></div></dd></dl></a>';
+                li.innerHTML = '<a href="' + url + '" target="_blank"><dl><dt class="loading"><div class="img-container"><img ' + imgAdjust + ' src="' + removeProtocol(imageUrl) + '" ' + size + '></div></dt><dd><h3><p>' + handleTitle(goodthing.title, goodthing.ctype) + '</p></h3><div class="icon-list clearfix"><img class="icon-author" width="30" height="30" src="//c.diaox2.com/cms/diaodiao/' + goodthing.author.pic + '"></div></dd></dl></a>';
                 documentFrag.appendChild(li);
             }
             contentList.appendChild(documentFrag);
@@ -843,7 +845,7 @@ $(function() {
                             img.removeAttribute('style');
                         }
                         
-                        img.src = imageUrl;
+                        img.src = removeProtocol(imageUrl);
 
                         titleP.innerHTML = handleTitle(paddingData.title, paddingData.ctype);
                         iconAuthor.src = "//c.diaox2.com/cms/diaodiao/" + paddingData.author.pic;

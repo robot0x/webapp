@@ -143,3 +143,6 @@ function logpage(input) {
     console.log("Sent log request: " + postdata);
     return true;
 }
+ function removeProtocol(url){
+    return url && typeof url === 'string' ? url.replace(/^https?:\/\//, '//') : ''
+}

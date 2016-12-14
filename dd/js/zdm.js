@@ -50,6 +50,7 @@ $(function() {
         if (imgUrl.indexOf("http") == -1) {
           imgUrl = "//a.diaox2.com/cms/sites/default/files/" + imgUrl;
         }
+        imgUrl = removeProtocol(imgUrl)
         match = url.match(reg);
         if (match && match.length) {
           url = match[0].replace(reg, toReplaceStr);
@@ -59,7 +60,7 @@ $(function() {
             url = match[0].replace(reg2, toReplaceStr);
           }
         }
-        stringBuffer.push('<li class="f-l"><a href="article/', url, '"><img src="', item.thumb, '" alt="', item.title, '" width="144" height="144"><p>', item.title, '</p></a></li>');
+        stringBuffer.push('<li class="f-l"><a href="article/', url, '"><img src="', removeProtocol(item.thumb), '" alt="', item.title, '" width="144" height="144"><p>', item.title, '</p></a></li>');
       });
       document.getElementById('hot-list').innerHTML = stringBuffer.join('');
       $(".result-content").trigger("update");
@@ -219,7 +220,7 @@ $(function() {
             var codeHTML = extractCoupon(everyMeta);
             // stringBuffer.push('<li class="result-item clearfix ', item[1] === 1 ? 'outdate' : '', '"><a target="_blank" href="', url, '"><div class="img-container f-l loading"><img src="', imgUrl, '" alt="', title, '" height="188" width="188"><span class="outdate-tag disnone">已过期</span></div><div class="result-detail f-l"><p class="result-title">', title, '</p><p class="result-price">', price, '</p><p class="result-content">', isIE8 ? title : summary, '</p><ul class="result-footer clearfix"><li class="date f-l">', getDateStr(date), '</li><li class="source f-l">', source, '</li><li class="view-result f-r"><p>查看详情</p></li><li class="buylink_site f-r">', buylink_site, '</li></ul></div></a></div>');
             // stringBuffer.push('<li class="result-item', item[1] === 1 ? 'outdate' : '', '"><div class="img-container f-l loading"><img src="', imgUrl, '" alt="', title, '" height="188" width="188"><span class="outdate-tag disnone">已过期</span></div><div class="result-detail f-l"><p class="result-title">', title, '</p><p class="result-price">', price, '</p><p class="result-content">', isIE8 ? title : summary, '</p><ul class="result-footer clearfix"><li class="date f-l">', getDateStr(date), '</li><li class="source f-l">', source, '</li><li class="view-result f-r"><p>查看详情</p></li><li class="buylink_site f-r">', buylink_site, '</li></ul></div></div>');
-            stringBuffer.push('<li class="result-item clearfix', item[1] === 1 ? 'outdate' : '', '"><div class="img-container f-l loading"><a target="_blank" href="', url, '"><img src="', imgUrl, '" alt="', title, '" height="188" width="188"></a><span class="outdate-tag disnone">已过期</span></div><div class="result-detail f-l"><p class="result-title">', title, '</p><p class="result-price">', price, '</p><p class="result-content">', isIE8 ? title : summary, '</p>', codeHTML, '<ul class="result-footer clearfix"><li class="date f-l">', getDateStr(date), '</li><li class="source f-l">', source, '</li><li class="view-result f-r"><a target="_blank" href="', url, '"><p>查看详情</p></a></li><li class="buylink_site f-r">', buylink_site, '</li></ul></div></div>');
+            stringBuffer.push('<li class="result-item clearfix', item[1] === 1 ? 'outdate' : '', '"><div class="img-container f-l loading"><a target="_blank" href="', url, '"><img src="', removeProtocol(imgUrl), '" alt="', title, '" height="188" width="188"></a><span class="outdate-tag disnone">已过期</span></div><div class="result-detail f-l"><p class="result-title">', title, '</p><p class="result-price">', price, '</p><p class="result-content">', isIE8 ? title : summary, '</p>', codeHTML, '<ul class="result-footer clearfix"><li class="date f-l">', getDateStr(date), '</li><li class="source f-l">', source, '</li><li class="view-result f-r"><a target="_blank" href="', url, '"><p>查看详情</p></a></li><li class="buylink_site f-r">', buylink_site, '</li></ul></div></div>');
             feed_list.splice(i--, 1); // 插入之后就删除。供后续分页使用
           }
           feed_list_from_server = feed_list;
@@ -512,7 +513,7 @@ $(function() {
          a[j].href = url;
       }
       newNode.querySelector('.result-title').innerHTML = everyMeta.title[0];
-      newNode.querySelector('img').src = everyMeta.thumb_image_url;
+      newNode.querySelector('img').src = removeProtocol(everyMeta.thumb_image_url);
       newNode.querySelector('.result-price').innerHTML = everyMeta.price == null ? '&nbsp;' : everyMeta.price;
       // 防止IE8下出现问题
       newNode.querySelector('.result-content').innerHTML = isIE8 ? everyMeta.title[0] : extractText(everyMeta.summary);
