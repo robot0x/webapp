@@ -9,7 +9,7 @@
   }
 *
 *  改为：
-* 
+*
 * if( authorSrc == null ){
       authorSrc = '#';
   }else if(authorSrc.indexOf("http") == -1){
@@ -186,7 +186,7 @@ $(function() {
             tagList = {};
         // 礼物筛选器的点击处理
         function handler() {
-            // 告白 老公男友 小清新 Geek 潮人 礼物 文艺范 200-500 500-800 
+            // 告白 老公男友 小清新 Geek 潮人 礼物 文艺范 200-500 500-800
             // 区分4种
             $this = $(this);
             var dataGroup = this.getAttribute('data-group');
@@ -274,15 +274,15 @@ $(function() {
             characterArr = [], // 同一组的关键字
             notCharacterArr = [], // 不同组的关键字
             characterArrList = [], // 属于一个data-group的关键字的二维数组。类似于aidsArray。求并集。
-            aidsArray = [], // 二维数组，用来放置关键字对应的文章id数组。求交集。
-            newArray = []; // 临时数组
+            aidsArray = [];// 二维数组，用来放置关键字对应的文章id数组。求交集。
+            // newArray = []; // 临时数组
         curSelect.each(function(index, item) {
-                if (item.getAttribute('data-group') === 'character') {
-                    characterArr.push(item.getAttribute('data-title'));
-                } else {
-                    notCharacterArr.push(item.getAttribute('data-title'));
-                }
-            })
+            if (item.getAttribute('data-group') === 'character') {
+                characterArr.push(item.getAttribute('data-title'));
+            } else {
+                notCharacterArr.push(item.getAttribute('data-title'));
+            }
+        })
             // 求并集。先连接数组，再去重
         if (characterArr.length) {
             characterArrList = [];
@@ -312,22 +312,21 @@ $(function() {
         }
         // 把选定的keywords对应的文章id放入数组中，和上面2个并集求交集
         notCharacterArr.forEach(function(item) {
-                aidsArray.push(tagList[item]);
-            })
-            // 求交集
+           aidsArray.push(tagList[item]);
+        })
+        // 求交集
         if (aidsArray.length) {
             metaResult = aidsArray.reduce(function(prev, next) {
+                var newArray = []
                 prev.forEach(function(item) {
-                    next.forEach(function(item2) {
-                        if (item === item2) {
-                            newArray.push(item);
-                        }
-                    })
+                  if(next.indexOf(item) !== -1) {
+                    newArray.push(item)
+                  }
                 })
                 return newArray;
             })
         }
-        return metaResult;
+        return metaResult.unique();
     }
 
     function isNullObject(obj) {
@@ -385,7 +384,7 @@ $(function() {
         })
         return result;
     }
-    /* 
+    /*
        needUpdateMeta 该对象用于分页。每次增加几条，就delete几条的属性，保证下次更新从这个对象中取的数据不重复
        在renderDOM中赋值，在updateDOM中使用
        调用时机：
@@ -402,7 +401,7 @@ $(function() {
         gift_tag_index = data.gift_tag_index,
             count = 0,
             dataPos = 1;
-        goodthingList.innerHTML = ''; // 清空 
+        goodthingList.innerHTML = ''; // 清空
         for (attr in meta_infos) {
             attr = +attr;
             /*
@@ -668,7 +667,7 @@ $(function() {
                 }
 
                 authorSrc = everyMeta.author.src || everyMeta.author.url;
-         
+
                 if( authorSrc == null ){
                     authorSrc = '#';
                 }else if(authorSrc.indexOf("http") == -1){
