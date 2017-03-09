@@ -160,7 +160,7 @@ $(function() {
   // 获取值得买ajax
   $.ajax({
       // 「精选」「超市」「女神专区」三个数据是一次性下发的
-      // url: "//api.diaox2.com/v3/zdm", 
+      // url: "//api.diaox2.com/v3/zdm",
       url: "//api.diaox2.com/v4/zdm",
       type: "GET",
       cache: true,
@@ -206,7 +206,7 @@ $(function() {
               price = '&nbsp;';
             }
             date = everyMeta.pub_time * 1000;
-            
+
             // 2016-11-17日，值得买挂了，问题在于有一条值得买没有
             // author字段，所以线上报错
             // Uncaught TypeError: Cannot read property 'name' of undefined(…)
@@ -357,7 +357,7 @@ $(function() {
   /**
   获取时间格式串
   1、传入的时间戳不是今年的，返回 2014-10-13 (yy-MM-dd)
-  2、传入的时间戳是今年的 
+  2、传入的时间戳是今年的
       若是今天的 返回 21:30 (hh:mm)
       不是今天的 返回 10-13 (MM-dd)
   */
@@ -469,7 +469,7 @@ $(function() {
     if (feed_list_from_server.length === 0) {
       // 已经加载完毕
       toggleLoading('none');
-      // TODO提示用户已经加载完毕 
+      // TODO提示用户已经加载完毕
       return;
     }
     var everyMeta, url, item,
@@ -554,7 +554,7 @@ $(function() {
       if (Math.abs(plus - pageHeight) <= 150) {
         throttle(updateDOM, window, 700);
       }
-    } else if (plus === pageHeight) {
+    } else if (Math.abs(plus - pageHeight) <= 2) {
       throttle(updateDOM, window, 700);
       toggleLoading('block');
     }

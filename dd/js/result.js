@@ -971,7 +971,7 @@ $(function() {
                 if (Math.abs(plus - pageHeight) <= 150) {
                     throttle(updateDOM, window, 700);
                 }
-            } else if (plus === pageHeight) {
+            } else if (Math.abs(plus - pageHeight) <= 2) {
                 throttle(updateDOM, window, 700);
                 toggleLoading('block');
             }
