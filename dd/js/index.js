@@ -128,7 +128,7 @@ $(function() {
             context.__throttle_count__++;
         }
     }
-    
+
     BannerPlay.prototype = {
             constructor: BannerPlay,
             bindEvent: function() {
@@ -188,7 +188,7 @@ $(function() {
                     }, this, 700);
 
                 });
-                
+
                 if (this.hoverPausePlay) {
                     // 整个banner区的hover事件
                     $('.banner-container,.prev,.next').hover(function() {
@@ -230,6 +230,12 @@ $(function() {
         return b.getElementsByTagName('i').length === 1;
     }
 
+    function getShortId(longId){
+      var cons = 0xffffff
+      if(!longId || longId <  Math.pow(2, 32) + 1) return longId
+      return longId & cons
+    }
+
 
 
     if (isIE(6) || isIE(7) || isIE(8) || isIE(9)) {
@@ -268,10 +274,21 @@ $(function() {
                 })
             }).done(function(result) {
                 var dataArray = result.res.specified_meta_data.meta_infos;
+                var len = dataArray.length
+                // 2017-03-21 发现PC的banner顺序跟APP内不一致，在PC端内强制按照carousel的顺序插入dom
+                function findByLongId(id){
+                  var i = 0, id = id & 0xffffff, data;
+                  while( i < len ){
+                    data = dataArray[i++]
+                    if(data.nid == id){
+                      return data
+                    }
+                  }
+                }
                 var bannerList = document.getElementById('banner-list');
                 var stringBuffer = [];
-                for (var i = 0, l = dataArray.length; i < l; i++) {
-                    var paddingData = dataArray[i];
+                for (var i = 0; i < len; i++) {
+                    var paddingData = findByLongId(cids[i]);
                     stringBuffer.push('<li data-index="', i, '"><a href="', changeURL(paddingData.url), '" target="_blank"><img src="', removeProtocol(paddingData.banner), '" alt="" width="490" height="317"><div><p>', handleTitle(paddingData.title, paddingData.ctype), '</p></div></a></li>')
                 }
                 bannerList.innerHTML = stringBuffer.join('');
@@ -658,7 +675,7 @@ $(function() {
             有如下关系，设X为页码，N为页数
             a、当  4 >= X 时，为状态1
             b、当  4 < X < N-4+1 时，为状态2
-            c、当  N-4+1 <= X <= N 时，为状态3 
+            c、当  N-4+1 <= X <= N 时，为状态3
 
             下面要做的有两件事儿：
             1、根据不同页码，更新到对应的状态
@@ -838,13 +855,13 @@ $(function() {
                          // 如果含有img.onload属性，说明原先这个img元素为ctype为1的
                          // 故移除之
                          else if (img.onload)
-                        {  
+                        {
                             img.width = imgContainer.offsetWidth;
                             img.height = imgContainer.offsetHeight;
                             img.removeAttribute('onload');
                             img.removeAttribute('style');
                         }
-                        
+
                         img.src = removeProtocol(imageUrl);
 
                         titleP.innerHTML = handleTitle(paddingData.title, paddingData.ctype);
