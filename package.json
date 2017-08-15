@@ -1,7 +1,7 @@
 {
-  "name":"diaodiao",
-  "author":"李彦峰",
-  "email":"liyanfengbar@hotmail.com",
+  "name": "diaodiao",
+  "author": "李彦峰",
+  "email": "liyanfengbar@hotmail.com",
   "private": true,
   "devDependencies": {
     "autoprefixer": "^6.0.2",
@@ -23,11 +23,12 @@
     "grunt-mocha": "^0.4.12",
     "grunt-newer": "^1.1.0",
     "grunt-postcss": "^0.6.0",
-    "grunt-sass": "^1.0.0",
+    "grunt-sass": "^2.0.0",
     "grunt-svgmin": "^2.0.1",
     "grunt-usemin": "^3.0.0",
     "grunt-wiredep": "^2.0.0",
     "jit-grunt": "^0.9.1",
+    "sass": "^1.0.0-beta.1",
     "time-grunt": "^1.1.0"
   },
   "engines": {

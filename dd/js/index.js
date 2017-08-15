@@ -148,7 +148,7 @@ $(function() {
                                 var removedDOM = self.list.shift();
                                 self.list.push(removedDOM);
                                 /*
-                                    更新到页面上
+                                  更新到页面上
                                 */
                                 $(removedDOM).remove(); // 删除数组中第一个
                                 bannerList.append(removedDOM); // 把删除的第一个元素append到数组的尾部

@@ -61,16 +61,16 @@ module.exports = function (grunt) {
       },
       sass: {
         files: ['<%= config.app %>/sass/{,*/}*.{scss,sass}'],
-        tasks: ['sass', 'postcss','cssmin']
+        tasks: ['sass', 'postcss', 'cssmin']
       },
       jsmin: {
         files:['<%= config.dist %>/js/{,*}*.js'],
         tasks:['uglify']
+      },
+      styles: {
+        files: ['<%= config.app %>/css/{,*/}*.css'],
+        tasks: ['newer:copy:styles', 'postcss']
       }
-      // styles: {
-      //   files: ['<%= config.app %>/css/{,*/}*.css'],
-      //   tasks: ['newer:copy:styles', 'postcss']
-      // }
     },
 
     browserSync: {
@@ -220,6 +220,15 @@ module.exports = function (grunt) {
     border-radius: 10px; 
   }
    */
+   /**
+    * https://zhidao.baidu.com/question/1991133663151546027.html
+      postcss是一种工具，解析css，生成可供javascript使用的数据，其本身并不会改变css文件
+      它只是一个插件，为执行任何转换铺平道路
+      https://segmentfault.com/a/1190000003909268
+      PostCSS 可以直观的理解为：它就是一个平台、平台、平台，重要的事情来三遍比较爽，哈哈！
+      为什么说它是一个平台呢？因为我们直接用它，感觉不能干什么事情，但是如果让一些插件在它上面跑，那么将会很强大。
+      PostCSS 提供了一个解析器，它能够将 CSS 解析成抽象语法树（AST）
+    */
     postcss: {
       options: {
         map: false,

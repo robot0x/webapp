@@ -31,7 +31,7 @@ $(function() {
   }
   /***预处理区end****/
   /***ajax请求区****/
-  // 获取大家都再看
+  // 获取大家都再看ƒ
   $.ajax({
     url: "//c.diaox2.com/view/app/?m=recommend",
     type: "GET",

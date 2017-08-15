@@ -791,7 +791,12 @@ $(function() {
                     }
                     titleStr2 = title[len - 1];
                 }
-                stringBuffer.push('<li class="loading"><a target="_blank" href="', url, '"><img src="', removeProtocol(item.cover_image_url), '" alt="', clearBRandQuot(titleStr), '" width="277" height="180"><p>', titleStr, '</p><span>', titleStr2, '</span><div class="black-musk"></div></a></li>');
+                // 如果类似于 “七个好物” 之类的titleex没有值，则不显示这个dom，否则在页面上就会出现一个空的红快
+                if (titleStr2) {
+                   stringBuffer.push('<li class="loading"><a target="_blank" href="', url, '"><img src="', removeProtocol(item.cover_image_url), '" alt="', clearBRandQuot(titleStr), '" width="277" height="180"><p>', titleStr, '</p><span>', titleStr2, '</span><div class="black-musk"></div></a></li>');
+                } else {
+                   stringBuffer.push('<li class="loading"><a target="_blank" href="', url, '"><img src="', removeProtocol(item.cover_image_url), '" alt="', clearBRandQuot(titleStr), '" width="277" height="180"><p>', titleStr, '</p>', '<div class="black-musk"></div></a></li>');
+                }
             });
             document.getElementById('special').innerHTML = stringBuffer.join('');
         }

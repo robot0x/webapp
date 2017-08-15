@@ -42,7 +42,7 @@ $(function() {
                 effect: {
                 slide: {
                 speed: 1800
-                }            
+                }
                 }
                 });
     }
@@ -98,7 +98,7 @@ $.ajax({
         jsonpCallback: 'mycb', //override the &callback='jQuery123457676_253954801'
         jsonp: 'cb', //override the &'callback'=
         success: mycb,
-        // timeout:8000, 
+        // timeout:8000,
         error: function(data) {
             console.log("recmmend error!");
             console.log(data)
@@ -236,8 +236,8 @@ function doupdate(cids) {
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        data: jsonstr,
         dataType: "json",
+        data: jsonstr,
         url: "//api.diaox2.com/v1/stat/all",
         success: update_success,
         timeout: 8000,
@@ -260,15 +260,15 @@ function pinchImg(w,container){
     }
 
     var imgs;
-    
+
     if(container.tagName.toLowerCase() === "img"){
-    
+
         imgs = [ container ];
-    
+
     }else{
-    
+
         imgs = container.getElementsByTagName('img');
-    
+
     }
 
     // 取出 container 中所有img
@@ -308,7 +308,7 @@ function pinchImg(w,container){
         img.width = w;
         img.height = w/ratio;
     }
-    
+
 }
 
 pinchImg(596,document.querySelector('.article'));
@@ -317,7 +317,7 @@ pinchImg(596,document.querySelector('.article'));
 //     var uid = $.cookie('DDuid');
 //     if(uid == undefined)
 //     uid = -1;
-//     logpage({"user": uid}); 
+//     logpage({"user": uid});
 //     $("img.lazy").each(function(){
 //         var tmp = $(this).attr('data-src');
 //         $(this).attr('src', tmp);
